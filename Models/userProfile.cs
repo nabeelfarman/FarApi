@@ -14,6 +14,8 @@
     public string Name { get; set; }
     public long PostID { get; set; }
 
+    public string Pincode {get; set;}
+
 
 
 }

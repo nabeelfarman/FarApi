@@ -337,7 +337,9 @@ namespace FarApi.Controllers
                     parameters.Add("@Email", obj.Email);
                     parameters.Add("@Address", obj.Address);
                     parameters.Add("@LoginID", obj.LoginID);
-                    parameters.Add("@SPType", obj.SPType);                  //'INSERT', 'UPDATE, 'DELETE'
+                    parameters.Add("@SPType", obj.SPType); 
+                    parameters.Add("@Pincode", obj.Pincode); 
+                                     //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_UserS", parameters, commandType: CommandType.StoredProcedure);
