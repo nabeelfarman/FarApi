@@ -45,6 +45,8 @@ namespace FarApi.Controllers
                     parameters.Add("@UserName", obj.UserName);
                     parameters.Add("@HashPassword", obj.HashPassword);
                     parameters.Add("@UpdatedBY", obj.UpdatedBY);
+                    parameters.Add("@SPtype", obj.SPType);
+
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_resetpassword", parameters, commandType: CommandType.StoredProcedure);
