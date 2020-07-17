@@ -787,7 +787,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SubLocID", obj.SubLocID);
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@AssetCatID", obj.AssetCatID);
-                    parameters.Add("@AssetCatID", obj.OfficeSecID);
+                    parameters.Add("@OfficeSecID", obj.OfficeSecID);
                     parameters.Add("@AssetNo", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_GetAssetNo", parameters, commandType: CommandType.StoredProcedure);
