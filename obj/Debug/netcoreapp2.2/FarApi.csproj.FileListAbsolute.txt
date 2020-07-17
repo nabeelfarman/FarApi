@@ -26,3 +26,17 @@ D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfo.cs
 D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.dll
 D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.pdb
+D:\Flutter App\FarApi\bin\Debug\netcoreapp2.2\FarApi.deps.json
+D:\Flutter App\FarApi\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.json
+D:\Flutter App\FarApi\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.dev.json
+D:\Flutter App\FarApi\bin\Debug\netcoreapp2.2\FarApi.dll
+D:\Flutter App\FarApi\bin\Debug\netcoreapp2.2\FarApi.pdb
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.csprojAssemblyReference.cache
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.csproj.CoreCompileInputs.cache
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cache
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cs
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfo.cs
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.dll
+D:\Flutter App\FarApi\obj\Debug\netcoreapp2.2\FarApi.pdb
