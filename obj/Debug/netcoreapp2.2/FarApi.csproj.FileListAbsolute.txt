@@ -12,3 +12,17 @@ I:\VU Projects\ERP_APIs\FAR_API\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyIn
 I:\VU Projects\ERP_APIs\FAR_API\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 I:\VU Projects\ERP_APIs\FAR_API\FarApi\obj\Debug\netcoreapp2.2\FarApi.dll
 I:\VU Projects\ERP_APIs\FAR_API\FarApi\obj\Debug\netcoreapp2.2\FarApi.pdb
+D:\apis\FAR\FARAPI\FarApi-1\bin\Debug\netcoreapp2.2\FarApi.deps.json
+D:\apis\FAR\FARAPI\FarApi-1\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.json
+D:\apis\FAR\FARAPI\FarApi-1\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.dev.json
+D:\apis\FAR\FARAPI\FarApi-1\bin\Debug\netcoreapp2.2\FarApi.dll
+D:\apis\FAR\FARAPI\FarApi-1\bin\Debug\netcoreapp2.2\FarApi.pdb
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.csprojAssemblyReference.cache
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.csproj.CoreCompileInputs.cache
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cache
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cs
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfo.cs
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.dll
+D:\apis\FAR\FARAPI\FarApi-1\obj\Debug\netcoreapp2.2\FarApi.pdb
