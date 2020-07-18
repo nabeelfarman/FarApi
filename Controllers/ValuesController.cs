@@ -1758,5 +1758,153 @@ namespace FarApi.Controllers
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        [Route("api/sudipcref")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult IpcReference([FromBody] ipcreference obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@ProjectPackage", obj.ProjectPackage);
+                    parameters.Add("@IPCNo", obj.IPCNo);
+                    parameters.Add("@IPCRefDescription", obj.IPCRefDescription);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SPType", obj.SPType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_IPCReferences", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+        
+
+
+
+
+
+
+        [Route("api/getipc")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<tagsUserWise> getIPCReferences(int ProjectId)
+        {
+            List<tagsUserWise> rows = new List<tagsUserWise>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (ProjectId == 0)
+                {
+                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences").ToList();
+                }
+                else
+                {
+                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
+                }
+
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/pincode")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult Pincode([FromBody] pincode obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@UserName", obj.UserName);
+                    parameters.Add("@Pincode", obj.Pincode);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_VerifyPINCODE", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+        
+
+
+
+
+
+
+
+
+
     }
 }
