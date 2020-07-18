@@ -20,7 +20,7 @@ namespace FarApi.Controllers
 
 
 
-        
+
 
         [Route("api/resetpw")]
         [HttpPost]
@@ -339,9 +339,9 @@ namespace FarApi.Controllers
                     parameters.Add("@Email", obj.Email);
                     parameters.Add("@Address", obj.Address);
                     parameters.Add("@LoginID", obj.LoginID);
-                    parameters.Add("@SPType", obj.SPType); 
-                    parameters.Add("@Pincode", obj.Pincode); 
-                                     //'INSERT', 'UPDATE, 'DELETE'
+                    parameters.Add("@SPType", obj.SPType);
+                    parameters.Add("@Pincode", obj.Pincode);
+                    //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_UserS", parameters, commandType: CommandType.StoredProcedure);
@@ -424,7 +424,7 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if(OfficeTypeID == 0)
+                if (OfficeTypeID == 0)
                 {
                     rows = con.Query<wingSection>("select * from view_OfficeSections Order By OfficeDescription ").ToList();
                 }
@@ -432,11 +432,35 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " Order By OfficeDescription").ToList();
                 }
-                
+
             }
 
             return rows;
         }
+
+
+
+
+        /***** Getting sections *****/
+        [Route("api/getwing")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<wingSection> getWing()
+        {
+            List<wingSection> rows = new List<wingSection>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<wingSection>("select * from View_Wings").ToList();
+
+            }
+
+            return rows;
+        }
+
 
 
 
@@ -508,6 +532,48 @@ namespace FarApi.Controllers
         }
 
 
+
+
+        /***** Getting Main Locations *****/
+        [Route("api/getmainLoc")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<location> getMainLoc()
+        {
+            List<location> rows = new List<location>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<location>("select * from View_MainLocations").ToList();
+            }
+
+            return rows;
+        }
+
+
+
+
+        /***** Getting Main Locations *****/
+        [Route("api/getmonthlytottags")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<monthlyTags> getMonthlyTotTags(int month, int year)
+        {
+            List<monthlyTags> rows = new List<monthlyTags>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<monthlyTags>("select * from View_NoofTags_Monthly_UNPIVOTDASHBOARD where Month1 = " + month + " and year1 = " + year).ToList();
+            }
+
+            return rows;
+        }
 
 
 
@@ -736,7 +802,7 @@ namespace FarApi.Controllers
                     parameters.Add("@UpdatedDate", obj.UpdatedDate);
                     parameters.Add("@Updatedby", obj.Updatedby);
                     parameters.Add("@AssetID", obj.AssetID);
-                    
+
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
@@ -831,7 +897,7 @@ namespace FarApi.Controllers
                 }
                 else
                 {
-                    if(SubLocID == 0 && OfficeTypeID == 0)
+                    if (SubLocID == 0 && OfficeTypeID == 0)
                     {
                         rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm Order By SubLocationDescription").ToList();
                     }
@@ -891,7 +957,7 @@ namespace FarApi.Controllers
                     con.Open();
 
                 rows = con.Query<tags>("select * from VIEW_tagsforprints WHERE Userid= " + UserId + " Order By tag").ToList();
-                
+
             }
 
             return rows;
@@ -1140,7 +1206,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' Order By SubLocationDescription").ToList();              
+                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' Order By SubLocationDescription").ToList();
 
             }
 
@@ -1248,7 +1314,7 @@ namespace FarApi.Controllers
                     con.Open();
 
                 rows = con.Query<assetCatDetailDashboard>("select * from View_NoofTagsALL_AssetCatagory_DASHBOARD Order By AssetCatDescription").ToList();
-                
+
             }
 
             return rows;
@@ -1272,7 +1338,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(AccCatID != 0)
+                if (AccCatID != 0)
                 {
                     rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD WHERE AccountsCatID=" + AccCatID).ToList();
                 }
@@ -1280,7 +1346,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD").ToList();
                 }
-                
+
 
             }
 
@@ -1311,7 +1377,7 @@ namespace FarApi.Controllers
 
             return rows;
         }
-        
+
 
 
 
@@ -1552,13 +1618,13 @@ namespace FarApi.Controllers
 
                 //if (OfficeSecID == 0)
                 //{
-                    rows = con.Query<tagsSection>("select * FROM View_NoofTagsALL_SectionWise").ToList();
+                rows = con.Query<tagsSection>("select * FROM View_NoofTagsALL_SectionWise").ToList();
                 //}
                 //else
                 //{
                 //    rows = con.Query<tagsSection>("select * FROM View_NoofTagsALL_SectionWise WHERE OfficeSecID=" + OfficeSecID + " ").ToList();
                 //}
-                
+
             }
 
             return rows;
@@ -1664,7 +1730,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(UserId == 0)
+                if (UserId == 0)
                 {
                     rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where CreatedDate = '" + reqDate + "' ").ToList();
                 }
@@ -1672,7 +1738,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where UserId = " + UserId + " AND CreatedDate = '" + reqDate + "' ").ToList();
                 }
-                
+
 
             }
 

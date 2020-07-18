@@ -7,6 +7,5 @@
     public string AccountCode { get; set; }
     public long UserId { get; set; }
     public string SpType { get; set; }
-
-    public string OfficeDescription {get; set;}
+    public string OfficeDescription { get; set; }
 }
