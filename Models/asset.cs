@@ -16,7 +16,7 @@
     public float costAmount { get; set; }
     public float NetBookAmount { get; set; }
     public string PurchaseDate { get; set; }
-    public string IPCRef { get; set; }
+    public long IPCRef { get; set; }
     public string AssetCondition { get; set; }
     public bool IsUseable { get; set; }
     public bool IsSurplus { get; set; }

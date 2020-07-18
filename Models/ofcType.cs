@@ -6,4 +6,6 @@
     public string SPType { get; set; }
 
     public string OfficeTypeDescription { get; set; }
+
+    public long Userid {get; set;}
 }

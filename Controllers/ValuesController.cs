@@ -286,6 +286,7 @@ namespace FarApi.Controllers
                     parameters.Add("@OfficeTypeCode", obj.OfficeTypeCode);
                     parameters.Add("@OfficeType", obj.OfficeType);
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
+                    parameters.Add("@Userid", obj.Userid);
                     parameters.Add("@SPType", obj.SPType);                  //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
@@ -853,6 +854,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SubLocID", obj.SubLocID);
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@AssetCatID", obj.AssetCatID);
+                    parameters.Add("@OfficeSecID", obj.OfficeSecID);
                     parameters.Add("@AssetNo", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_GetAssetNo", parameters, commandType: CommandType.StoredProcedure);
