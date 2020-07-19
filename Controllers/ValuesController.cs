@@ -1820,13 +1820,39 @@ namespace FarApi.Controllers
                     parameters.Add("@IPCNo", obj.IPCNo);
                     parameters.Add("@IPCRefDescription", obj.IPCRefDescription);
                     parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_IPCReferences", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse == "Success")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1961,7 +1987,10 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+
                 }
+
+                    
 
                 response = Ok(new { msg = sqlResponse });
 
