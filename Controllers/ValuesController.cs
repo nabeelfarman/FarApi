@@ -1876,9 +1876,9 @@ namespace FarApi.Controllers
         [Route("api/getipc")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsUserWise> getIPCReferences(int ProjectId)
+        public IEnumerable<ipc> getIPCReferences(int ProjectId)
         {
-            List<tagsUserWise> rows = new List<tagsUserWise>();
+            List<ipc> rows = new List<ipc>();
 
 
             using (IDbConnection con = new SqlConnection(dbCon))
@@ -1888,11 +1888,11 @@ namespace FarApi.Controllers
 
                 if (ProjectId == 0)
                 {
-                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences").ToList();
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences").ToList();
                 }
                 else
                 {
-                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
                 }
 
 
