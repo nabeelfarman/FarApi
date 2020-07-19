@@ -14,7 +14,10 @@
     public string DepreciationRule { get; set; }
     public long isActivated { get; set; }
 
+
+    public string imgFile { get; set; }
     public string Edoc { get; set; }
+    public string EDocExtension { get; set; }
     public string SpType { get; set; }
     public long UserId { get; set; }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -1409,14 +1410,38 @@ namespace FarApi.Controllers
                     parameters.Add("@AssetCatCode", obj.AssetCatCode);
                     parameters.Add("@AssetCatDescription", obj.AssetCatDescription);
                     parameters.Add("@Edoc", obj.Edoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@AssetCatID", obj.AssetCatID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_AssetCatagories", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse == "Success")
+                    {
+                        String path = obj.Edoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + ".jpg";
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1950,6 +1975,57 @@ namespace FarApi.Controllers
             }
         }
 
+
+
+
+
+
+
+        [Route("api/sudipcrefdetail")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult IPCReferancedetail([FromBody] ipcrefdetail obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
+                    parameters.Add("@AssetCatID", obj.AssetCatID);
+                    parameters.Add("@Qty", obj.Qty);
+                    parameters.Add("@Description", obj.Description);
+                    parameters.Add("@IPCRefDetailID", obj.IPCRefDetailID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
 
