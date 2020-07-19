@@ -189,6 +189,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SubLocation", obj.SubLocation);
                     parameters.Add("@subLocationCode", obj.subLocationCode);
                     parameters.Add("@SubLocationID", obj.SubLocationID);
+                    parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
@@ -1422,7 +1423,7 @@ namespace FarApi.Controllers
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
                     int SeqId = parameters.Get<int>("@SeqId");
 
-                    if (obj.imgFile != null && sqlResponse == "Success")
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
                         String path = obj.Edoc; //Path
 
@@ -1832,7 +1833,7 @@ namespace FarApi.Controllers
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
                     int SeqId = parameters.Get<int>("@SeqId");
 
-                    if (obj.imgFile != null && sqlResponse == "Success")
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
                         String path = obj.EDoc; //Path
 
