@@ -8,4 +8,6 @@
     public int MainLocID { get; set; }
     public int SeqNo { get; set; }
     public int TagsCreated { get; set; }
+    public int isActivated { get; set; }
+    public int isCompleted { get; set; }
 }

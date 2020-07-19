@@ -1896,7 +1896,61 @@ namespace FarApi.Controllers
             }
         }
 
-        
+
+
+
+
+
+        [Route("api/sudassettransfer")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult AssetTransfer([FromBody] assetTransfer obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@TPostID", obj.TPostID);
+                    parameters.Add("@RPostID", obj.RPostID);
+                    parameters.Add("@DateofTransfer", obj.DateofTransfer);
+                    parameters.Add("@TransferType", obj.TransferType);
+                    parameters.Add("@TransferDescription", obj.TransferDescription);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
 
 
 

@@ -12,6 +12,7 @@
     public long BaseRate { get; set; }
     public long FATypeID { get; set; }
     public string DepreciationRule { get; set; }
+    public long isActivated { get; set; }
 
     public string Edoc { get; set; }
     public string SpType { get; set; }
