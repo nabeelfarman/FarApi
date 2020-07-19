@@ -33,4 +33,9 @@
     public long AssetID { get; set; }    
     public long UserId { get; set; }
     public string SpType { get; set; }
+
+    public string EDoc { get; set; }
+    public string EDocExtension { get; set; }
+    public string imgFile { get; set; }
+    public int Qty { get; set; }
 }
