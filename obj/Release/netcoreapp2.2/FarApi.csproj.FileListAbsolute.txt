@@ -12,3 +12,17 @@ I:\VU Projects\ERP_APIs\FAR_API\farapi\obj\Release\netcoreapp2.2\FarApi.Assembly
 I:\VU Projects\ERP_APIs\FAR_API\farapi\obj\Release\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 I:\VU Projects\ERP_APIs\FAR_API\farapi\obj\Release\netcoreapp2.2\FarApi.dll
 I:\VU Projects\ERP_APIs\FAR_API\farapi\obj\Release\netcoreapp2.2\FarApi.pdb
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\bin\Release\netcoreapp2.2\FarApi.deps.json
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.json
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.dev.json
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\bin\Release\netcoreapp2.2\FarApi.dll
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\bin\Release\netcoreapp2.2\FarApi.pdb
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.csprojAssemblyReference.cache
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.csproj.CoreCompileInputs.cache
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorAssemblyInfo.cache
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorAssemblyInfo.cs
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.AssemblyInfo.cs
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.dll
+I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Release\netcoreapp2.2\FarApi.pdb

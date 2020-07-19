@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -16,7 +17,7 @@ namespace FarApi.Controllers
     {
 
         /*** DB Connection ***/
-        static string dbCon = "Server=tcp:95.217.147.105,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -188,6 +189,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SubLocation", obj.SubLocation);
                     parameters.Add("@subLocationCode", obj.subLocationCode);
                     parameters.Add("@SubLocationID", obj.SubLocationID);
+                    parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
@@ -379,7 +381,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_SubLocations Order By SubLocationDescription ").ToList();
+                rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
             }
 
             return rows;
@@ -402,7 +404,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<ofcType>("select * from View_OfficeTypes Order By OfficeTypeDescription ").ToList();
+                rows = con.Query<ofcType>("select * from View_OfficeTypes ").ToList();
             }
 
             return rows;
@@ -427,11 +429,11 @@ namespace FarApi.Controllers
                     con.Open();
                 if (OfficeTypeID == 0)
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections Order By OfficeDescription ").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections ").ToList();
                 }
                 else
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " Order By OfficeDescription").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " ").ToList();
                 }
 
             }
@@ -480,7 +482,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetCategory>("select * from View_AssetCatagories Order By AssetCatDescription").ToList();
+                rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
             }
 
             return rows;
@@ -503,7 +505,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<custody>("select * from view_Posts Order By PostName").ToList();
+                rows = con.Query<custody>("select * from view_Posts ").ToList();
             }
 
             return rows;
@@ -526,7 +528,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<project>("select * from View_Projects Order By ProjectShortName").ToList();
+                rows = con.Query<project>("select * from View_Projects ").ToList();
             }
 
             return rows;
@@ -591,7 +593,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<condition>("select * from View_AssetConditions Order By Condition").ToList();
+                rows = con.Query<condition>("select * from View_AssetConditions ").ToList();
             }
 
             return rows;
@@ -615,7 +617,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicle>("select * from View_Vehicles Order By Make").ToList();
+                rows = con.Query<vehicle>("select * from View_Vehicles ").ToList();
             }
 
             return rows;
@@ -638,7 +640,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicleMake>("select * from View_VehiclesMake Order By Make").ToList();
+                rows = con.Query<vehicleMake>("select * from View_VehiclesMake ").ToList();
             }
 
             return rows;
@@ -662,7 +664,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicleModel>("select * from View_VehiclesModel Order By Model").ToList();
+                rows = con.Query<vehicleModel>("select * from View_VehiclesModel ").ToList();
             }
 
             return rows;
@@ -686,7 +688,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicleType>("select * from View_VehiclesType Order By Type").ToList();
+                rows = con.Query<vehicleType>("select * from View_VehiclesType ").ToList();
             }
 
             return rows;
@@ -895,21 +897,21 @@ namespace FarApi.Controllers
 
                 if (UserId != 0)
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " Order By SubLocationDescription").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + "").ToList();
                 }
                 else
                 {
                     if (SubLocID == 0 && OfficeTypeID == 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm Order By SubLocationDescription").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm").ToList();
                     }
                     else if (SubLocID != 0 && OfficeTypeID == 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " Order By SubLocationDescription").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + "").ToList();
                     }
                     else if (SubLocID != 0 && OfficeTypeID != 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " Order By SubLocationDescription").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + "").ToList();
                     }
                 }
             }
@@ -935,7 +937,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " Order By SubLocationDescription").ToList();
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " ").ToList();
             }
 
             return rows;
@@ -958,7 +960,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tags>("select * from VIEW_tagsforprints WHERE Userid= " + UserId + " Order By tag").ToList();
+                rows = con.Query<tags>("select * from VIEW_tagsforprints WHERE Userid= " + UserId + "").ToList();
 
             }
 
@@ -1084,7 +1086,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail Order By ProvinceName, MainLocationDescription, SubLocationDescription").ToList();
+                rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail ").ToList();
 
             }
 
@@ -1109,7 +1111,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail Order By ProvinceName, MainLocationDescription, SubLocationDescription").ToList();
+                rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail ").ToList();
 
             }
 
@@ -1134,7 +1136,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail Order By ProvinceName, MainLocationDescription, SubLocationDescription").ToList();
+                rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail ").ToList();
 
             }
 
@@ -1159,7 +1161,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD Order By MainLocationDescription, SubLocationDescription").ToList();
+                rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD ").ToList();
 
             }
 
@@ -1208,7 +1210,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' Order By SubLocationDescription").ToList();
+                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' ").ToList();
 
             }
 
@@ -1236,11 +1238,11 @@ namespace FarApi.Controllers
 
                 if (LocationID == 0)
                 {
-                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + " ' Order By SubLocationDescription").ToList();
+                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + " ' ").ToList();
                 }
                 else
                 {
-                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_OffTypeWise_DASHBOARD WHERE CreatedDate = '" + reqDate + "' AND SubLocID= " + LocationID + " Order By SubLocationDescription, OfficeTypeDescription").ToList();
+                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_OffTypeWise_DASHBOARD WHERE CreatedDate = '" + reqDate + "' AND SubLocID= " + LocationID + " ").ToList();
                 }
             }
 
@@ -1315,7 +1317,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetCatDetailDashboard>("select * from View_NoofTagsALL_AssetCatagory_DASHBOARD Order By AssetCatDescription").ToList();
+                rows = con.Query<assetCatDetailDashboard>("select * from View_NoofTagsALL_AssetCatagory_DASHBOARD ").ToList();
 
             }
 
@@ -1409,14 +1411,38 @@ namespace FarApi.Controllers
                     parameters.Add("@AssetCatCode", obj.AssetCatCode);
                     parameters.Add("@AssetCatDescription", obj.AssetCatDescription);
                     parameters.Add("@Edoc", obj.Edoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@AssetCatID", obj.AssetCatID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_AssetCatagories", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.Edoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1753,6 +1779,316 @@ namespace FarApi.Controllers
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Route("api/sudipcref")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult IpcReference([FromBody] ipcreference obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@ProjectPackage", obj.ProjectPackage);
+                    parameters.Add("@IPCNo", obj.IPCNo);
+                    parameters.Add("@IPCRefDescription", obj.IPCRefDescription);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SPType", obj.SPType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_IPCReferences", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+        
+
+
+
+
+
+
+        [Route("api/getipc")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<ipc> getIPCReferences(int ProjectId)
+        {
+            List<ipc> rows = new List<ipc>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (ProjectId == 0)
+                {
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences").ToList();
+                }
+                else
+                {
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
+                }
+
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/pincode")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult Pincode([FromBody] pincode obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@UserName", obj.UserName);
+                    parameters.Add("@Pincode", obj.Pincode);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_VerifyPINCODE", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+        [Route("api/sudassettransfer")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult AssetTransfer([FromBody] assetTransfer obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@TPostID", obj.TPostID);
+                    parameters.Add("@RPostID", obj.RPostID);
+                    parameters.Add("@DateofTransfer", obj.DateofTransfer);
+                    parameters.Add("@TransferType", obj.TransferType);
+                    parameters.Add("@TransferDescription", obj.TransferDescription);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                }
+
+                    
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+        [Route("api/sudipcrefdetail")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult IPCReferancedetail([FromBody] ipcrefdetail obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
+                    parameters.Add("@AssetCatID", obj.AssetCatID);
+                    parameters.Add("@Qty", obj.Qty);
+                    parameters.Add("@Description", obj.Description);
+                    parameters.Add("@IPCRefDetailID", obj.IPCRefDetailID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_IPCReferenceDetail", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+        [Route("api/getaccountcat")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<accCatagory> getAccountCatagory()
+        {
+            List<accCatagory> rows = new List<accCatagory>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<accCatagory>("select * FROM View_AccountsCatagories").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        
 
 
 
