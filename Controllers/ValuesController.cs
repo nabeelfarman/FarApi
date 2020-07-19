@@ -1432,7 +1432,7 @@ namespace FarApi.Controllers
                             System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                         }
 
-                        string imageName = SeqId + ".jpg";
+                        string imageName = SeqId + "." + obj.EDocExtension;
 
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
@@ -2010,7 +2010,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SpType", obj.SpType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
-                    rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = con.Execute("dbo.Sp_IPCReferenceDetail", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
                 }
@@ -2031,6 +2031,34 @@ namespace FarApi.Controllers
 
 
 
+
+
+        [Route("api/getaccountcat")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<accCatagory> getAccountCatagory()
+        {
+            List<accCatagory> rows = new List<accCatagory>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<accCatagory>("select * FROM View_AccountsCatagories").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        
 
 
 
