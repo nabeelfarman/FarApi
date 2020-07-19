@@ -1981,13 +1981,37 @@ namespace FarApi.Controllers
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@ProjectID", obj.ProjectID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SpType", obj.SpType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
 
                 }
 
@@ -2083,12 +2107,43 @@ namespace FarApi.Controllers
             return rows;
         }
 
-
-
-
-
-
         
+
+
+
+
+        [Route("api/getipcdetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<ipcrefdetail> getIpcRefDetail(int IPCRefID)
+        {
+            List<ipcrefdetail> rows = new List<ipcrefdetail>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if(IPCRefID == 0)
+                {
+                    rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail").ToList();
+                }
+                else
+                {
+                    rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail WHERE IPCRefID = " + IPCRefID + "").ToList();
+                }
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
 
 
 

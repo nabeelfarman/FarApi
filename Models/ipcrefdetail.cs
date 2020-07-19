@@ -7,4 +7,12 @@
     public long IPCRefDetailID { get; set; }    
     public long UserId { get; set; }
     public string SpType { get; set; }
+
+
+
+    public string ProjectShortName { get; set; }
+    public string IPCRefDescription { get; set; }
+    public string AssetCatDescription { get; set; }
+    public long ProjectID { get; set; }
+    public string CreatedDate { get; set; }
 }

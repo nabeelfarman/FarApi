@@ -9,5 +9,7 @@
     public string EDocExtension { get; set; }
     public long UserId { get; set; }
     public long TransferID { get; set; }
+    public long ProjectID { get; set; }
     public string SpType { get; set; }
+    public string imgFile { get; set; }
 }
