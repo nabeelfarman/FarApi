@@ -8,5 +8,6 @@
     public string OfficeTypeDescription { get; set; }
     public string OfficeTypeCode { get; set; }
     public string OfficeTypeID { get; set; }
+    public int isActivated { get; set; }
 
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -16,7 +17,7 @@ namespace FarApi.Controllers
     {
 
         /*** DB Connection ***/
-        static string dbCon = "Server=tcp:95.217.147.105,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -188,6 +189,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SubLocation", obj.SubLocation);
                     parameters.Add("@subLocationCode", obj.subLocationCode);
                     parameters.Add("@SubLocationID", obj.SubLocationID);
+                    parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
@@ -1409,14 +1411,38 @@ namespace FarApi.Controllers
                     parameters.Add("@AssetCatCode", obj.AssetCatCode);
                     parameters.Add("@AssetCatDescription", obj.AssetCatDescription);
                     parameters.Add("@Edoc", obj.Edoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@AssetCatID", obj.AssetCatID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_AssetCatagories", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.Edoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1795,13 +1821,39 @@ namespace FarApi.Controllers
                     parameters.Add("@IPCNo", obj.IPCNo);
                     parameters.Add("@IPCRefDescription", obj.IPCRefDescription);
                     parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_IPCReferences", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1825,9 +1877,9 @@ namespace FarApi.Controllers
         [Route("api/getipc")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsUserWise> getIPCReferences(int ProjectId)
+        public IEnumerable<ipc> getIPCReferences(int ProjectId)
         {
-            List<tagsUserWise> rows = new List<tagsUserWise>();
+            List<ipc> rows = new List<ipc>();
 
 
             using (IDbConnection con = new SqlConnection(dbCon))
@@ -1837,11 +1889,11 @@ namespace FarApi.Controllers
 
                 if (ProjectId == 0)
                 {
-                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences").ToList();
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences").ToList();
                 }
                 else
                 {
-                    rows = con.Query<tagsUserWise>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
+                    rows = con.Query<ipc>("select * FROM View_IPCReferences Where projectid = " + ProjectId + " ").ToList();
                 }
 
 
@@ -1896,11 +1948,147 @@ namespace FarApi.Controllers
             }
         }
 
+
+
+
+
+
+        [Route("api/sudassettransfer")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult AssetTransfer([FromBody] assetTransfer obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@TPostID", obj.TPostID);
+                    parameters.Add("@RPostID", obj.RPostID);
+                    parameters.Add("@DateofTransfer", obj.DateofTransfer);
+                    parameters.Add("@TransferType", obj.TransferType);
+                    parameters.Add("@TransferDescription", obj.TransferDescription);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                }
+
+                    
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+        [Route("api/sudipcrefdetail")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult IPCReferancedetail([FromBody] ipcrefdetail obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@IPCRefID", obj.IPCRefID);
+                    parameters.Add("@AssetCatID", obj.AssetCatID);
+                    parameters.Add("@Qty", obj.Qty);
+                    parameters.Add("@Description", obj.Description);
+                    parameters.Add("@IPCRefDetailID", obj.IPCRefDetailID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_IPCReferenceDetail", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+        [Route("api/getaccountcat")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<accCatagory> getAccountCatagory()
+        {
+            List<accCatagory> rows = new List<accCatagory>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<accCatagory>("select * FROM View_AccountsCatagories").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
         
-
-
-
-
 
 
 

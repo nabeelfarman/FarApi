@@ -5,6 +5,8 @@
     public long IPCNo { get; set; }
     public string IPCRefDescription { get; set; }
     public string EDoc { get; set; }
+    public string EDocExtension { get; set; }
+    public string imgFile { get; set; }
     public long IPCRefID { get; set; }
     public long UserId { get; set; }
     public string SPType { get; set; }
