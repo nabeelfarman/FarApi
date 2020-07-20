@@ -842,6 +842,8 @@ namespace FarApi.Controllers
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EdocExtension", obj.EDocExtension);
                     parameters.Add("@QTY", obj.Qty);
+                    parameters.Add("@isTransfer", obj.isTransfer);
+                    parameters.Add("@TransferID", obj.TransferID);
 
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
@@ -2196,6 +2198,32 @@ namespace FarApi.Controllers
 
             return rows;
         }
+
+
+
+
+
+
+        [Route("api/getassettransferdetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetTransfer> getAssetTransferDetail()
+        {
+            List<assetTransfer> rows = new List<assetTransfer>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<assetTransfer>("select * FROM View_AssetTransfer").ToList();
+
+            }
+
+            return rows;
+        }
+
 
 
 

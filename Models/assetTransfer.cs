@@ -12,4 +12,8 @@
     public long ProjectID { get; set; }
     public string SpType { get; set; }
     public string imgFile { get; set; }
+
+    public long IsDeleted { get; set; }
+    public long IsUpdated { get; set; }
+    public long TransferId { get; set; }
 }
