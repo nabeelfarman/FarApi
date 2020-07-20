@@ -372,7 +372,7 @@ namespace FarApi.Controllers
         [Route("api/getsubloc")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getSubLocations()
+        public IEnumerable<subLocationsDetail> getSubLocations(int IsActivated)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -381,7 +381,15 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
+                if (IsActivated == 0)
+                {
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + "").ToList();
+                }
+                
             }
 
             return rows;
@@ -419,7 +427,7 @@ namespace FarApi.Controllers
         [Route("api/getwingsec")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<wingSection> getWingSection(int OfficeTypeID)
+        public IEnumerable<wingSection> getWingSection(int OfficeTypeID, int IsActivated)
         {
             List<wingSection> rows = new List<wingSection>();
 
@@ -427,13 +435,14 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if (OfficeTypeID == 0)
+
+                if (IsActivated == 0)
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections ").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections").ToList();
                 }
                 else
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " ").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " AND IsActivated = " + IsActivated + "").ToList();
                 }
 
             }
@@ -473,7 +482,7 @@ namespace FarApi.Controllers
         [Route("api/getassetcat")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetCategory> getAssetCatagory()
+        public IEnumerable<assetCategory> getAssetCatagory(int IsActivated)
         {
             List<assetCategory> rows = new List<assetCategory>();
 
@@ -482,7 +491,16 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " ").ToList();
+
+                }
+                
             }
 
             return rows;
@@ -496,7 +514,7 @@ namespace FarApi.Controllers
         [Route("api/getposts")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<custody> getPosts()
+        public IEnumerable<custody> getPosts(int IsActivated)
         {
             List<custody> rows = new List<custody>();
 
@@ -504,8 +522,15 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-
-                rows = con.Query<custody>("select * from view_Posts ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<custody>("select * from view_Posts ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<custody>("select * from view_Posts WHERE IsActivated = " + IsActivated + "").ToList();
+                }
+                
             }
 
             return rows;
@@ -519,7 +544,7 @@ namespace FarApi.Controllers
         [Route("api/getprojects")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<project> getProjects()
+        public IEnumerable<project> getProjects(int IsActivated)
         {
             List<project> rows = new List<project>();
 
@@ -528,7 +553,15 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<project>("select * from View_Projects ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<project>("select * from View_Projects ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<project>("select * from View_Projects Where IsActivated = " + IsActivated + " ").ToList();
+                }
+                
             }
 
             return rows;
