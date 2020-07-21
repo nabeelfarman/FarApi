@@ -389,7 +389,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + "").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -491,7 +491,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
                 }
@@ -500,7 +500,7 @@ namespace FarApi.Controllers
                     rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " ").ToList();
 
                 }
-                
+
             }
 
             return rows;
@@ -522,7 +522,7 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<custody>("select * from view_Posts ").ToList();
                 }
@@ -530,7 +530,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<custody>("select * from view_Posts WHERE IsActivated = " + IsActivated + "").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -553,7 +553,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<project>("select * from View_Projects ").ToList();
                 }
@@ -561,7 +561,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<project>("select * from View_Projects Where IsActivated = " + IsActivated + " ").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -1928,7 +1928,7 @@ namespace FarApi.Controllers
                 return Ok(new { msg = ex.Message });
             }
         }
-        
+
 
 
 
@@ -2076,7 +2076,7 @@ namespace FarApi.Controllers
 
                 }
 
-                    
+
 
                 response = Ok(new { msg = sqlResponse });
 
@@ -2168,7 +2168,7 @@ namespace FarApi.Controllers
             return rows;
         }
 
-        
+
 
 
 
@@ -2186,7 +2186,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IPCRefID == 0)
+                if (IPCRefID == 0)
                 {
                     rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail").ToList();
                 }
@@ -2244,7 +2244,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<transferDetail>("select * FROM AssetsTransferDetail").ToList();
+                rows = con.Query<transferDetail>("select * FROM View_AssetTransferDetail").ToList();
 
             }
 
