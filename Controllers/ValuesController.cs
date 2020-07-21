@@ -848,6 +848,7 @@ namespace FarApi.Controllers
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_Assets", parameters, commandType: CommandType.StoredProcedure);
 
