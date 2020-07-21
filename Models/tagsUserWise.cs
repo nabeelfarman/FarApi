@@ -6,4 +6,5 @@
     public string CreatedDate { get; set; }
     public string SubLocationDescription { get; set; }
     public long SubLocID { get; set; }
+    public string OfficeTypeDescription { get; set; }
 }

@@ -372,7 +372,7 @@ namespace FarApi.Controllers
         [Route("api/getsubloc")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getSubLocations()
+        public IEnumerable<subLocationsDetail> getSubLocations(int IsActivated)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -381,7 +381,15 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
+                if (IsActivated == 0)
+                {
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + "").ToList();
+                }
+                
             }
 
             return rows;
@@ -419,7 +427,7 @@ namespace FarApi.Controllers
         [Route("api/getwingsec")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<wingSection> getWingSection(int OfficeTypeID)
+        public IEnumerable<wingSection> getWingSection(int OfficeTypeID, int IsActivated)
         {
             List<wingSection> rows = new List<wingSection>();
 
@@ -427,13 +435,14 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if (OfficeTypeID == 0)
+
+                if (IsActivated == 0)
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections ").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections").ToList();
                 }
                 else
                 {
-                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " ").ToList();
+                    rows = con.Query<wingSection>("select * from view_OfficeSections WHERE OfficeTypeID= " + OfficeTypeID + " AND IsActivated = " + IsActivated + "").ToList();
                 }
 
             }
@@ -473,7 +482,7 @@ namespace FarApi.Controllers
         [Route("api/getassetcat")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetCategory> getAssetCatagory()
+        public IEnumerable<assetCategory> getAssetCatagory(int IsActivated)
         {
             List<assetCategory> rows = new List<assetCategory>();
 
@@ -482,7 +491,16 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " ").ToList();
+
+                }
+                
             }
 
             return rows;
@@ -496,7 +514,7 @@ namespace FarApi.Controllers
         [Route("api/getposts")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<custody> getPosts()
+        public IEnumerable<custody> getPosts(int IsActivated)
         {
             List<custody> rows = new List<custody>();
 
@@ -504,8 +522,15 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-
-                rows = con.Query<custody>("select * from view_Posts ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<custody>("select * from view_Posts ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<custody>("select * from view_Posts WHERE IsActivated = " + IsActivated + "").ToList();
+                }
+                
             }
 
             return rows;
@@ -519,7 +544,7 @@ namespace FarApi.Controllers
         [Route("api/getprojects")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<project> getProjects()
+        public IEnumerable<project> getProjects(int IsActivated)
         {
             List<project> rows = new List<project>();
 
@@ -528,7 +553,15 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<project>("select * from View_Projects ").ToList();
+                if(IsActivated == 0)
+                {
+                    rows = con.Query<project>("select * from View_Projects ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<project>("select * from View_Projects Where IsActivated = " + IsActivated + " ").ToList();
+                }
+                
             }
 
             return rows;
@@ -806,13 +839,41 @@ namespace FarApi.Controllers
                     parameters.Add("@Updatedby", obj.Updatedby);
                     parameters.Add("@AssetID", obj.AssetID);
 
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EdocExtension", obj.EDocExtension);
+                    parameters.Add("@QTY", obj.Qty);
+                    parameters.Add("@isTransfer", obj.isTransfer);
+                    parameters.Add("@TransferID", obj.TransferID);
+
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.SP_Assets", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -1981,13 +2042,37 @@ namespace FarApi.Controllers
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@ProjectID", obj.ProjectID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SpType", obj.SpType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+                    int SeqId = parameters.Get<int>("@SeqId");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
 
                 }
 
@@ -2083,12 +2168,144 @@ namespace FarApi.Controllers
             return rows;
         }
 
-
-
-
-
-
         
+
+
+
+
+        [Route("api/getipcdetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<ipcrefdetail> getIpcRefDetail(int IPCRefID)
+        {
+            List<ipcrefdetail> rows = new List<ipcrefdetail>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if(IPCRefID == 0)
+                {
+                    rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail").ToList();
+                }
+                else
+                {
+                    rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail WHERE IPCRefID = " + IPCRefID + "").ToList();
+                }
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/getassettransfer")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetTransfer> getAssetTransfer()
+        {
+            List<assetTransfer> rows = new List<assetTransfer>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<assetTransfer>("select * FROM View_AssetTransfer").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+
+        [Route("api/getassettransferdetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<transferDetail> getAssetTransferDetail()
+        {
+            List<transferDetail> rows = new List<transferDetail>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<transferDetail>("select * FROM AssetsTransferDetail").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+
+        [Route("api/deltransferdetail")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult DelTransferDetail([FromBody] deleteTransfer obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@AssetID", obj.AssetID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_DeleteTransferDetail", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
 
 
 

@@ -9,5 +9,17 @@
     public string EDocExtension { get; set; }
     public long UserId { get; set; }
     public long TransferID { get; set; }
+    public long ProjectID { get; set; }
     public string SpType { get; set; }
+    public string imgFile { get; set; }
+
+    public long IsDeleted { get; set; }
+    public long IsUpdated { get; set; }
+
+    public string Transfee { get; set; }
+    public string TransfeeCompany { get; set; }
+    public string ReceiveBy { get; set; }
+    public string ReceiveCompany { get; set; }
+    public string ProjectShortName { get; set; }
+    public string ProjectName { get; set; }
 }
