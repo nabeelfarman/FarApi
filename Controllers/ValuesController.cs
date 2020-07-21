@@ -2204,10 +2204,10 @@ namespace FarApi.Controllers
 
 
 
-        [Route("api/getassettransferdetail")]
+        [Route("api/getassettransfer")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetTransfer> getAssetTransferDetail()
+        public IEnumerable<assetTransfer> getAssetTransfer()
         {
             List<assetTransfer> rows = new List<assetTransfer>();
 
@@ -2223,6 +2223,81 @@ namespace FarApi.Controllers
 
             return rows;
         }
+
+
+
+
+
+
+
+        [Route("api/getassettransferdetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<transferDetail> getAssetTransferDetail()
+        {
+            List<transferDetail> rows = new List<transferDetail>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<transferDetail>("select * FROM AssetsTransferDetail").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+
+        [Route("api/deltransferdetail")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult DelTransferDetail([FromBody] deleteTransfer obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@AssetID", obj.AssetID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_DeleteTransferDetail", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
 
 
 

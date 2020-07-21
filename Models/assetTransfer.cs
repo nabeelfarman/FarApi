@@ -15,5 +15,11 @@
 
     public long IsDeleted { get; set; }
     public long IsUpdated { get; set; }
-    public long TransferId { get; set; }
+
+    public string Transfee { get; set; }
+    public string TransfeeCompany { get; set; }
+    public string ReceiveBy { get; set; }
+    public string ReceiveCompany { get; set; }
+    public string ProjectShortName { get; set; }
+    public string ProjectName { get; set; }
 }
