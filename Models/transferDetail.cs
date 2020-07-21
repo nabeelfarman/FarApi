@@ -14,7 +14,7 @@
     public string tag { get; set; }
     public long transferByID { get; set; }
     public long postID { get; set; }
-    public long TransferDetailID { get; set; }
+    public long transferID { get; set; }
     public long AssetID { get; set; }
     public bool IsTransfered { get; set; }
 }
