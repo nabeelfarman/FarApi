@@ -6,6 +6,8 @@
     public string AccountsCatagoryDisplay { get; set; }
     public int ChartofAccount { get; set; }
     public int FaTypeID { get; set; }
+    public int accountsCatID { get; set; }
     public int DepreciationRuleId { get; set; }
+    public string DepreciationRule { get; set; }
     public int BaseRate { get; set; }
 }
