@@ -18,7 +18,8 @@ namespace FarApi.Controllers
 
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -2025,6 +2026,7 @@ namespace FarApi.Controllers
             try
             {
                 //****** Declaration
+                int SeqId = 0;
                 int rowAffected = 0;
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
@@ -2052,7 +2054,7 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    int SeqId = parameters.Get<int>("@SeqId");
+                    SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
@@ -2079,7 +2081,7 @@ namespace FarApi.Controllers
 
 
 
-                response = Ok(new { msg = sqlResponse });
+                response = Ok(new { msg = sqlResponse, transID = SeqId });
 
                 return response;
 
