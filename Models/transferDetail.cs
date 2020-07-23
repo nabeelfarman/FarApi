@@ -1,12 +1,20 @@
 ﻿public class transferDetail
 {
-    public long TransferDetailID { get; set; }
-    public long TransferID { get; set; }
+
+    public string subLocationDescription { get; set; }
+    public string officeTypeDescription { get; set; }
+    public string officeDescription { get; set; }
+    public string assetCatDescription { get; set; }
+    public string assetDescription { get; set; }
+    public string transferType { get; set; }
+    public string postName { get; set; }
+    public string transferby { get; set; }
+    public string transferCompanyName { get; set; }
+    public string transferDescription { get; set; }
+    public string tag { get; set; }
+    public long transferByID { get; set; }
+    public long postID { get; set; }
+    public long transferID { get; set; }
     public long AssetID { get; set; }
-    public long IsUpdated { get; set; }
-    public long UpdatedBy { get; set; }
-    public string UpdatedDate { get; set; }
-    public long IsDeleted { get; set; }
-    public long DeletedBy { get; set; }
-    public string DeletedDate { get; set; }
+    public bool IsTransfered { get; set; }
 }

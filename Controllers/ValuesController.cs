@@ -17,7 +17,9 @@ namespace FarApi.Controllers
     {
 
         /*** DB Connection ***/
-        static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -389,7 +391,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + "").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -491,7 +493,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
                 }
@@ -500,7 +502,7 @@ namespace FarApi.Controllers
                     rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " ").ToList();
 
                 }
-                
+
             }
 
             return rows;
@@ -522,7 +524,7 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<custody>("select * from view_Posts ").ToList();
                 }
@@ -530,7 +532,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<custody>("select * from view_Posts WHERE IsActivated = " + IsActivated + "").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -553,7 +555,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IsActivated == 0)
+                if (IsActivated == 0)
                 {
                     rows = con.Query<project>("select * from View_Projects ").ToList();
                 }
@@ -561,7 +563,7 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<project>("select * from View_Projects Where IsActivated = " + IsActivated + " ").ToList();
                 }
-                
+
             }
 
             return rows;
@@ -1928,7 +1930,7 @@ namespace FarApi.Controllers
                 return Ok(new { msg = ex.Message });
             }
         }
-        
+
 
 
 
@@ -2024,6 +2026,7 @@ namespace FarApi.Controllers
             try
             {
                 //****** Declaration
+                int SeqId = 0;
                 int rowAffected = 0;
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
@@ -2051,7 +2054,7 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    int SeqId = parameters.Get<int>("@SeqId");
+                    SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
@@ -2076,9 +2079,9 @@ namespace FarApi.Controllers
 
                 }
 
-                    
 
-                response = Ok(new { msg = sqlResponse });
+
+                response = Ok(new { msg = sqlResponse, transID = SeqId });
 
                 return response;
 
@@ -2168,7 +2171,7 @@ namespace FarApi.Controllers
             return rows;
         }
 
-        
+
 
 
 
@@ -2186,7 +2189,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if(IPCRefID == 0)
+                if (IPCRefID == 0)
                 {
                     rows = con.Query<ipcrefdetail>("select * FROM View_IPCReferenceDetail").ToList();
                 }
@@ -2244,7 +2247,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<transferDetail>("select * FROM AssetsTransferDetail").ToList();
+                rows = con.Query<transferDetail>("select * FROM View_AssetTransferDetail").ToList();
 
             }
 

@@ -41,4 +41,6 @@
     public string EDoc { get; set; }
     public int TransferID { get; set; }
     public int IsTransfered { get; set; }
+    public int BaseRate { get; set; }
+    public string DepreciationRule { get; set; }
 }
