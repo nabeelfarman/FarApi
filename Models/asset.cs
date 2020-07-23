@@ -5,13 +5,13 @@
     public long AssetCatID { get; set; }
     public long AssetNo { get; set; }
     public long OfficeSecID { get; set; }
-    public long PostID { get; set; }
+    public long? PostID { get; set; }
     public string AssetLocation { get; set; }
     public string AssetDescription { get; set; }
     public string otherIdentification { get; set; }
     public string SerialNo { get; set; }
     public long? VehicleID { get; set; }
-    public long ProjectID { get; set; }
+    public long? ProjectID { get; set; }
     public string PreviousTag { get; set; }
     public float costAmount { get; set; }
     public float NetBookAmount { get; set; }
