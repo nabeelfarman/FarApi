@@ -385,11 +385,11 @@ namespace FarApi.Controllers
 
                 if (IsActivated == 0)
                 {
-                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations ").ToList();
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations order by provinceName, MainLocationDescription, SubLocationDescription, OfficeTypeDescription").ToList();
                 }
                 else
                 {
-                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + "").ToList();
+                    rows = con.Query<subLocationsDetail>("select * from View_SubLocations Where ISActivated = " + IsActivated + " order by provinceName, MainLocationDescription, SubLocationDescription, OfficeTypeDescription").ToList();
                 }
 
             }
@@ -414,7 +414,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<ofcType>("select * from View_OfficeTypes ").ToList();
+                rows = con.Query<ofcType>("select * from View_OfficeTypes order by OfficeTypeDescription ").ToList();
             }
 
             return rows;
@@ -495,11 +495,11 @@ namespace FarApi.Controllers
 
                 if (IsActivated == 0)
                 {
-                    rows = con.Query<assetCategory>("select * from View_AssetCatagories ").ToList();
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories order by AssetCatID desc").ToList();
                 }
                 else
                 {
-                    rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " ").ToList();
+                    rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " order by AssetCatID desc ").ToList();
 
                 }
 
@@ -699,7 +699,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicleModel>("select * from View_VehiclesModel ").ToList();
+                rows = con.Query<vehicleModel>("select * from View_VehiclesModel order by model desc").ToList();
             }
 
             return rows;
@@ -960,21 +960,21 @@ namespace FarApi.Controllers
 
                 if (UserId != 0)
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + "").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " order by assetid desc").ToList();
                 }
                 else
                 {
                     if (SubLocID == 0 && OfficeTypeID == 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm order by assetid desc").ToList();
                     }
                     else if (SubLocID != 0 && OfficeTypeID == 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + "").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " order by assetid desc").ToList();
                     }
                     else if (SubLocID != 0 && OfficeTypeID != 0)
                     {
-                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + "").ToList();
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " order by assetid desc").ToList();
                     }
                 }
             }
@@ -1000,7 +1000,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " ").ToList();
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " order by AssetID desc ").ToList();
             }
 
             return rows;
@@ -1149,7 +1149,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail ").ToList();
+                rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
 
             }
 
@@ -1174,7 +1174,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail ").ToList();
+                rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
 
             }
 
@@ -1199,7 +1199,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail ").ToList();
+                rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
 
             }
 
@@ -1224,7 +1224,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD ").ToList();
+                rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
 
             }
 
@@ -1249,7 +1249,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetail>("select * from View_NoofTagsALL_DateWise_DASHBOARD").ToList();
+                rows = con.Query<tagsDetail>("select * from View_NoofTagsALL_DateWise_DASHBOARD order by createdDate desc").ToList();
 
             }
 
@@ -1273,7 +1273,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' ").ToList();
+                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' order by createdDate desc ").ToList();
 
             }
 
@@ -1407,11 +1407,11 @@ namespace FarApi.Controllers
 
                 if (AccCatID != 0)
                 {
-                    rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD WHERE AccountsCatID=" + AccCatID).ToList();
+                    rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD WHERE AccountsCatID=" + AccCatID + " order by SubLocationDescription, AccountsCatagoryDisplay, AssetCatDescription").ToList();
                 }
                 else
                 {
-                    rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD").ToList();
+                    rows = con.Query<assetCatLocDetailDashboard>("select * from View_NoofTags_AssetCatagory_Location_DASHBOARD order by SubLocationDescription, AccountsCatagoryDisplay, AssetCatDescription").ToList();
                 }
 
 
@@ -1709,7 +1709,7 @@ namespace FarApi.Controllers
 
                 //if (OfficeSecID == 0)
                 //{
-                rows = con.Query<tagsSection>("select * FROM View_NoofTagsALL_SectionWise").ToList();
+                rows = con.Query<tagsSection>("select * FROM View_NoofTagsALL_SectionWise order by OfficeDescription").ToList();
                 //}
                 //else
                 //{
@@ -1741,11 +1741,11 @@ namespace FarApi.Controllers
 
                 if (OfficeSecID == 0)
                 {
-                    rows = con.Query<tagsLocation>("select * FROM View_NoofTags_SectionWise_LocationWise").ToList();
+                    rows = con.Query<tagsLocation>("select * FROM View_NoofTags_SectionWise_LocationWise order by SubLocationDescription, OfficeDescription").ToList();
                 }
                 else
                 {
-                    rows = con.Query<tagsLocation>("select * FROM View_NoofTags_SectionWise_LocationWise WHERE OfficeSecID=" + OfficeSecID + " ").ToList();
+                    rows = con.Query<tagsLocation>("select * FROM View_NoofTags_SectionWise_LocationWise WHERE OfficeSecID=" + OfficeSecID + " order by SubLocationDescription, OfficeDescription").ToList();
                 }
 
             }
@@ -1771,7 +1771,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsbyLoginName").ToList();
+                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsbyLoginName order by Name").ToList();
 
             }
 
@@ -1795,7 +1795,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise Where UserId = " + UserId + "").ToList();
+                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise Where UserId = " + UserId + " order by createdDate desc").ToList();
 
             }
 
@@ -2164,7 +2164,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<accCatagory>("select * FROM View_AccountsCatagories").ToList();
+                rows = con.Query<accCatagory>("select * FROM View_AccountsCatagories order by AccountsCatagory").ToList();
 
             }
 
@@ -2221,7 +2221,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetTransfer>("select * FROM View_AssetTransfer").ToList();
+                rows = con.Query<assetTransfer>("select * FROM View_AssetTransfer order by transferID desc").ToList();
 
             }
 
