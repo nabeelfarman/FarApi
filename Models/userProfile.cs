@@ -13,9 +13,12 @@
     public int LoginID { get; set; }
     public string Name { get; set; }
     public long PostID { get; set; }
+    public long RoleID { get; set; }
+    public bool Ispincode { get; set; }
 
     public string Pincode {get; set;}
-
+    public string FName { get; set; }
+    public string CNIC { get; set; }
 
 
 }

@@ -338,6 +338,8 @@ namespace FarApi.Controllers
                     parameters.Add("@LoginName", obj.LoginName);
                     parameters.Add("@HashPassword", obj.HashPassword);
                     parameters.Add("@Name", obj.Name);
+                    parameters.Add("@FName", obj.FName);
+                    parameters.Add("@CNIC", obj.CNIC);
                     parameters.Add("@PostID", obj.PostID);
                     parameters.Add("@PhoneNo", obj.PhoneNo);
                     parameters.Add("@CellNo", obj.CellNo);
@@ -346,6 +348,9 @@ namespace FarApi.Controllers
                     parameters.Add("@LoginID", obj.LoginID);
                     parameters.Add("@SPType", obj.SPType);
                     parameters.Add("@Pincode", obj.Pincode);
+                    parameters.Add("@Ispincode", obj.Ispincode);
+                    parameters.Add("@RoleID", obj.RoleID);
+
                     //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
@@ -2304,8 +2309,131 @@ namespace FarApi.Controllers
 
 
 
+        
+        
+        
+        
+        /***** Getting Posts *****/
+        [Route("api/getroles")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<userRoles> getRoles(int IsActivated)
+        {
+            List<userRoles> rows = new List<userRoles>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+                if (IsActivated == 0)
+                {
+                    rows = con.Query<userRoles>("select * from view_roles").ToList();
+                }
+                else
+                {
+                    rows = con.Query<userRoles>("select * from view_roles WHERE IsActivated = " + IsActivated + "").ToList();
+                }
+
+            }
+
+            return rows;
+        }
 
 
+
+
+
+
+        [Route("api/getusers")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<users> getUsers(int IsActivated)
+        {
+            List<users> rows = new List<users>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+                
+                rows = con.Query<users>("select * from View_users").ToList();
+                
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/getuserlocation")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<userLocation> getUserLocation(int UserId)
+        {
+            List<userLocation> rows = new List<userLocation>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<userLocation>("select * from View_UserLocations Where UserID = " + UserId + "").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/sduserloc")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult sdUserLocation([FromBody] sUserLoc obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SubLocID", obj.SubLocId);
+                    parameters.Add("@LoginID", obj.LoginID);
+                    parameters.Add("@SpType", obj.SPType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_UserLocations", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
 
