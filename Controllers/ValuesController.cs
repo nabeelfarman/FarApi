@@ -18,8 +18,8 @@ namespace FarApi.Controllers
 
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        //static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -860,10 +860,11 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.SP_Assets", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    int SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
                         String path = obj.EDoc; //Path
 
                         //Check if directory exist
@@ -1489,10 +1490,11 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.Sp_AssetCatagories", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    int SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
                         String path = obj.Edoc; //Path
 
                         //Check if directory exist
@@ -1899,10 +1901,11 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.SP_IPCReferences", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    int SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
                         String path = obj.EDoc; //Path
 
                         //Check if directory exist
@@ -2059,10 +2062,11 @@ namespace FarApi.Controllers
                     rowAffected = con.Execute("dbo.Sp_AssetTransfer", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-                    SeqId = parameters.Get<int>("@SeqId");
 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
+                        SeqId = parameters.Get<int>("@SeqId");
+
                         String path = obj.EDoc; //Path
 
                         //Check if directory exist
@@ -2085,8 +2089,16 @@ namespace FarApi.Controllers
                 }
 
 
+                if (sqlResponse.ToUpper() == "SUCCESS")
+                {
+                    response = Ok(new { msg = sqlResponse, transID = SeqId });
 
-                response = Ok(new { msg = sqlResponse, transID = SeqId });
+                }
+                else
+                {
+                    response = Ok(new { msg = sqlResponse });
+
+                }
 
                 return response;
 
@@ -2309,10 +2321,10 @@ namespace FarApi.Controllers
 
 
 
-        
-        
-        
-        
+
+
+
+
         /***** Getting Posts *****/
         [Route("api/getroles")]
         [HttpGet]
@@ -2355,9 +2367,9 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                
+
                 rows = con.Query<users>("select * from View_users").ToList();
-                
+
             }
 
             return rows;
