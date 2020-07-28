@@ -72,6 +72,50 @@ namespace FarApi.Controllers
 
 
 
+        [Route("api/resetpw")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult resetPassword([FromBody] userProfile obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@UserName", obj.UserName);
+                    parameters.Add("@HashPassword", obj.HashPassword);
+                    parameters.Add("@UpdatedBY", obj.UpdatedBY);
+                    parameters.Add("@SPtype", obj.SPType);
+
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_resetpassword", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
 
 
         [Route("api/activatelogin")]
