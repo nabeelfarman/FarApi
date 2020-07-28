@@ -25,10 +25,10 @@ namespace FarApi.Controllers
 
 
 
-        [Route("api/resetpw")]
+        [Route("api/changepw")]
         [HttpPost]
         [EnableCors("CorePolicy")]
-        public IActionResult resetPassword([FromBody] userProfile obj)
+        public IActionResult changePassword([FromBody] userProfile obj)
         {
 
             //***** Try Block
@@ -48,11 +48,12 @@ namespace FarApi.Controllers
                     parameters.Add("@UserName", obj.UserName);
                     parameters.Add("@HashPassword", obj.HashPassword);
                     parameters.Add("@UpdatedBY", obj.UpdatedBY);
+                    parameters.Add("@OldHashPassword", obj.OldHashPassword);
                     parameters.Add("@SPtype", obj.SPType);
 
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
-                    rowAffected = con.Execute("dbo.SP_resetpassword", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = con.Execute("dbo.SP_Changepassword", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
                 }
@@ -315,7 +316,7 @@ namespace FarApi.Controllers
 
 
 
-        [Route("api/reguser")]
+        [Route("api/ ")]
         [HttpPost]
         [EnableCors("CorePolicy")]
         public IActionResult regUser([FromBody] userProfile obj)
