@@ -360,7 +360,7 @@ namespace FarApi.Controllers
 
 
 
-        [Route("api/ ")]
+        [Route("api/reguser")]
         [HttpPost]
         [EnableCors("CorePolicy")]
         public IActionResult regUser([FromBody] userProfile obj)
@@ -2092,6 +2092,9 @@ namespace FarApi.Controllers
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("@TPostID", obj.TPostID);
                     parameters.Add("@RPostID", obj.RPostID);
+                    parameters.Add("@RSubLocID", obj.RSubLocID);
+                    parameters.Add("@ROfficeTypeID", obj.OfficeTypeID);
+                    parameters.Add("@ROfficeSecID", obj.ROfficeSecID);
                     parameters.Add("@DateofTransfer", obj.DateofTransfer);
                     parameters.Add("@TransferType", obj.TransferType);
                     parameters.Add("@TransferDescription", obj.TransferDescription);

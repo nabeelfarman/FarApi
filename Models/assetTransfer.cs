@@ -22,4 +22,11 @@
     public string ReceiveCompany { get; set; }
     public string ProjectShortName { get; set; }
     public string ProjectName { get; set; }
+
+    public int RSubLocID { get; set; }
+    public int ROfficeSecID { get; set; }
+    public int OfficeTypeID { get; set; }
+    public string SubLocationDescription { get; set; }
+    public string OfficeTypeDescription { get; set; }
+
 }
