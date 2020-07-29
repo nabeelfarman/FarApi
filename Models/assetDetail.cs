@@ -39,6 +39,8 @@
 
     public string OfficeDescription { get; set; }
     public string EDoc { get; set; }
+    public string EDoc2 { get; set; }
+    public string EDoc3 { get; set; }
     public int TransferID { get; set; }
     public int IsTransfered { get; set; }
     public int BaseRate { get; set; }

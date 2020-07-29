@@ -35,8 +35,12 @@
     public string SpType { get; set; }
 
     public string EDoc { get; set; }
+    public string EDoc2 { get; set; }
+    public string EDoc3 { get; set; }
     public string EDocExtension { get; set; }
     public string imgFile { get; set; }
+    public string imgFile2 { get; set; }
+    public string imgFile3 { get; set; }
     public int Qty { get; set; }
     public bool isTransfer { get; set; }
     public long? TransferID { get; set; }
