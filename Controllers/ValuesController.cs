@@ -892,6 +892,8 @@ namespace FarApi.Controllers
                     parameters.Add("@AssetID", obj.AssetID);
 
                     parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDoc2", obj.EDoc2);
+                    parameters.Add("@EDoc3", obj.EDoc3);
                     parameters.Add("@EdocExtension", obj.EDocExtension);
                     parameters.Add("@QTY", obj.Qty);
                     parameters.Add("@isTransfer", obj.isTransfer);
@@ -906,6 +908,8 @@ namespace FarApi.Controllers
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
 
+
+                    //first image 
                     if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
                         int SeqId = parameters.Get<int>("@SeqId");
@@ -918,7 +922,7 @@ namespace FarApi.Controllers
                             System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                         }
 
-                        string imageName = SeqId + "." + obj.EDocExtension;
+                        string imageName = SeqId + "_1." + obj.EDocExtension;
 
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
@@ -927,6 +931,53 @@ namespace FarApi.Controllers
 
                         System.IO.File.WriteAllBytes(imgPath, imageBytes);
                     }
+
+                    //2nd image 
+                    if (obj.imgFile2 != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.EDoc2; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "_2." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile2);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+                    //3rd image 
+                    if (obj.imgFile3 != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.EDoc3; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "_3." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile3);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
