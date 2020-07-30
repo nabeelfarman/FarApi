@@ -927,6 +927,13 @@ namespace FarApi.Controllers
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
 
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        { 
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
                         byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
 
                         System.IO.File.WriteAllBytes(imgPath, imageBytes);
