@@ -785,6 +785,7 @@ namespace FarApi.Controllers
         {
             List<assetLocClass> rows = new List<assetLocClass>();
 
+
             using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
