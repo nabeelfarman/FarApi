@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
@@ -105,6 +106,39 @@ namespace FarApi.Controllers
                 }
 
                 response = Ok(new { msg = sqlResponse });
+
+                if (obj.SPType == "PINCODE")
+                {
+                    if (obj.UserName != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.UserName);
+                            mail.Subject = "New Pincode for Fixed Asset Register Module";
+                            mail.Body = "Pincode: " + obj.HashPassword;
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                smtp.Send(mail);
+                            }
+                        }
+                        sqlResponse = "Mail Sent!";
+
+                    }
+                    else
+                    {
+                        sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    }
+                }
 
                 return response;
 
@@ -381,7 +415,7 @@ namespace FarApi.Controllers
 
                     DynamicParameters parameters = new DynamicParameters();
                     parameters.Add("@LoginName", obj.LoginName);
-                    parameters.Add("@HashPassword", obj.HashPassword);
+                    parameters.Add("@HashPassword", "1234");
                     parameters.Add("@Name", obj.Name);
                     parameters.Add("@FName", obj.FName);
                     parameters.Add("@CNIC", obj.CNIC);
@@ -405,6 +439,39 @@ namespace FarApi.Controllers
                 }
 
                 response = Ok(new { msg = sqlResponse });
+                if (obj.SPType == "Insert")
+                {
+                    if (obj.Email != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.Email);
+                            mail.Subject = "New Registration for Fixed Asset Register Module";
+                            mail.Body = "Login Name: " + obj.Email + " Default password 1234 \n url:  http://95.217.206.195:2008/";
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                // smtp.UseDefaultCredentials = false;
+                                smtp.Send(mail);
+                            }
+                        }
+                        // sqlResponse = "Mail Sent!";
+
+                    }
+                    // else
+                    // {
+                    //     sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    // }
+                }
 
                 return response;
 
@@ -710,6 +777,47 @@ namespace FarApi.Controllers
 
 
 
+        /***** Getting Vehicles *****/
+        [Route("api/getAssetLocationClass")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetLocClass> getAssetLocationClass(int assetID)
+        {
+            List<assetLocClass> rows = new List<assetLocClass>();
+
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<assetLocClass>("select * from View_AssetsLocationClass where AssetID=" + assetID + "").ToList();
+            }
+
+            return rows;
+        }
+
+
+
+        /***** Getting Vehicles *****/
+        [Route("api/getMoveableAssetsListTag")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<moveAssetListTag> getMoveableAssetsListTag(int assetID)
+        {
+            List<moveAssetListTag> rows = new List<moveAssetListTag>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<moveAssetListTag>("select * from View_MoveableAssetsListforTagForm where AssetID=" + assetID + "").ToList();
+            }
+
+            return rows;
+        }
+
 
 
         /***** Getting vehicle makes *****/
@@ -929,7 +1037,7 @@ namespace FarApi.Controllers
 
                         //delete image portion start
                         if (System.IO.File.Exists(Path.Combine(path, imageName)))
-                        { 
+                        {
                             System.IO.File.Delete(Path.Combine(path, imageName));
                         }
                         //delete image portion end
@@ -957,6 +1065,13 @@ namespace FarApi.Controllers
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
 
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
                         byte[] imageBytes = Convert.FromBase64String(obj.imgFile2);
 
                         System.IO.File.WriteAllBytes(imgPath, imageBytes);
@@ -979,6 +1094,13 @@ namespace FarApi.Controllers
 
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
 
                         byte[] imageBytes = Convert.FromBase64String(obj.imgFile3);
 
