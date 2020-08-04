@@ -1,6 +1,7 @@
 ﻿public class vehicle
 {
     public long ID { get; set; }
+    public long assetCatID { get; set; }
     public string ChasisNum { get; set; }
     public string EngineNum { get; set; }
     public string Model { get; set; }
