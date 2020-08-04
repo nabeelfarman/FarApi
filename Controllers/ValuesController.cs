@@ -2680,6 +2680,391 @@ namespace FarApi.Controllers
 
 
 
+        
+
+
+
+
+
+
+
+
+
+        [Route("api/getaccsec")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<wingSection> getAccountSection()
+        {
+            List<wingSection> rows = new List<wingSection>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<wingSection>("select * from view_OfficeSections WHERE officedescription LIKE '%accounts%'").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/getlandmeasurement")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<landmeasurement> getLandMeasurement()
+        {
+            List<landmeasurement> rows = new List<landmeasurement>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<landmeasurement>("select * from view_landmeasuretypes").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/getroads")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<roads> getRoads()
+        {
+            List<roads> rows = new List<roads>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<roads>("select * from view_roads").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/getlanddata")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<sudLand> getLandData()
+        {
+            List<sudLand> rows = new List<sudLand>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<sudLand>("select * from View_FHLData").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+
+        [Route("api/sudland")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult sudLand([FromBody] sudLand obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    
+                    parameters.Add("@AccountsCatID", obj.AccountsCatID);
+                    parameters.Add("@OfficeSecID", obj.OfficeSecID);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@RoadId", obj.RoadId);
+                    parameters.Add("@BuildingID", null);
+                    parameters.Add("@DateofNationalization", obj.DateofNationalization);
+                    parameters.Add("@PurposeofPurchase", obj.PurposeofPurchase);
+                    parameters.Add("@PresentUse", obj.PresentUse);
+                    parameters.Add("@ConstructionFrom", obj.ConstructionFrom);
+                    parameters.Add("@ConstructionTo", obj.ConstructionTo);
+                    parameters.Add("@ConstructionCost", obj.ConstructionCost);
+                    parameters.Add("@LandMeasureTypeID", obj.LandMeasureTypeID);
+                    parameters.Add("@AreaAcquiredKanal", obj.AreaAcquiredKanal);
+                    parameters.Add("@AreaAcquiredMarla", obj.AreaAcquiredMarla);
+                    parameters.Add("@AreaTransferedKanal", obj.AreaTransferedKanal);
+                    parameters.Add("@AreaTransferedMarla", obj.AreaTransferedMarla);
+                    parameters.Add("@CostOfLand", obj.CostOfLand);
+                    parameters.Add("@Remarks", obj.Remarks);
+                    parameters.Add("@FixedAssetID", obj.FixedAssetID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_FixedAssets", parameters, commandType: CommandType.StoredProcedure);
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+        [Route("api/getfadetail")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<faDetail> getFADetail()
+        {
+            List<faDetail> rows = new List<faDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<faDetail>("select * from View_FADetail").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/getfasummary")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<faDetail> getFASummary()
+        {
+            List<faDetail> rows = new List<faDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<faDetail>("select * from View_FaDetailSummary").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/gettransaction")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<transactions> getTransaction()
+        {
+            List<transactions> rows = new List<transactions>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<transactions>("select * from View_PostTransactions").ToList();
+
+            }
+
+            return rows;
+        }
+
+
+
+
+
+        [Route("api/sudoc")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult sudOC([FromBody] faDetail obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@FixedAssetID", obj.FixedAssetID);
+                    parameters.Add("@TypeofEntry", obj.TypeofEntry);
+                    parameters.Add("@Year", obj.Year);
+                    parameters.Add("@OpeningCost", obj.OpeningCost);
+                    parameters.Add("@AdditionInCost", obj.AdditioninCost);
+                    parameters.Add("@DisposalinCost", obj.DisposalinCost);
+                    parameters.Add("@OpeningDepreciation", obj.OpeningDepreciation);
+                    parameters.Add("@DepreciationforYear", obj.DepreciationforYear);
+                    parameters.Add("@DisposalinDepreciation", obj.DisposalinDepreciation);
+                    parameters.Add("@OpeningRevaluationAmount", obj.OpeningRevaluationAmount);
+                    parameters.Add("@openingRevaluationSurplus", obj.OpeningRevaluationSurplus);
+                    parameters.Add("@RevaluationAmount", obj.RevaluationAmount);
+                    parameters.Add("@RevaluationSurplus", obj.RevalutionSurplus);
+                    parameters.Add("@FAdetailID", obj.FaDetailID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_FADetail", parameters, commandType: CommandType.StoredProcedure);
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+        /***** Save Asset *****/
+        [Route("api/uploadfile")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult uploadFile([FromBody] uploadFile obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                IActionResult response = Unauthorized();
+
+                //award file 
+                if (obj.FileNo == 1 )
+                {
+                    String path = obj.FilePath; //Path
+
+                    //Check if directory exist
+                    if (!System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                    }
+
+                    string imageName =  "awards." + obj.ext;
+
+                    //set the image path
+                    string imgPath = Path.Combine(path, imageName);
+
+                    //delete image portion start
+                    if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                    {
+                        System.IO.File.Delete(Path.Combine(path, imageName));
+                    }
+                    //delete image portion end
+
+                    byte[] imageBytes = Convert.FromBase64String(obj.File);
+
+                    System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                }
+
+                //mutations image 
+                if (obj.FileNo == 2)
+                {
+                    String path = obj.FilePath; //Path
+
+                    //Check if directory exist
+                    if (!System.IO.Directory.Exists(path))
+                    {
+                        System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                    }
+
+                    string imageName = "mutations." + obj.ext;
+
+                    //set the image path
+                    string imgPath = Path.Combine(path, imageName);
+
+                    //delete image portion start
+                    if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                    {
+                        System.IO.File.Delete(Path.Combine(path, imageName));
+                    }
+                    //delete image portion end
+
+                    byte[] imageBytes = Convert.FromBase64String(obj.File);
+
+                    System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                }
+
+                response = Ok(new { msg = "File Uploaded Successfully" });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+
+
+
+
 
 
     }
