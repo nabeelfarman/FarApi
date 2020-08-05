@@ -8,4 +8,6 @@ public class subLocationCheckList
     public int status { get; set; }
     public int subLocID { get; set; }
     public int OfficeTypeID { get; set; }
+    public string description { get; set; }
+    public int subLocCompletionID { get; set; }
 }
