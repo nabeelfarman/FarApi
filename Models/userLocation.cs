@@ -9,4 +9,5 @@
     public int UserID { get; set; }
     public int OfficeTypeID { get; set; }
     public int Isactivated { get; set; }
+    public int IsCompleted { get; set; }
 }

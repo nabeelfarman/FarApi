@@ -2680,7 +2680,7 @@ namespace FarApi.Controllers
 
 
 
-        
+
 
 
 
@@ -2803,7 +2803,7 @@ namespace FarApi.Controllers
                         con.Open();
 
                     DynamicParameters parameters = new DynamicParameters();
-                    
+
                     parameters.Add("@AccountsCatID", obj.AccountsCatID);
                     parameters.Add("@OfficeSecID", obj.OfficeSecID);
                     parameters.Add("@ProjectID", obj.ProjectID);
@@ -3025,7 +3025,7 @@ namespace FarApi.Controllers
                 IActionResult response = Unauthorized();
 
                 //award file 
-                if (obj.FileNo == 1 )
+                if (obj.FileNo == 1)
                 {
                     String path = obj.FilePath; //Path
 
@@ -3035,7 +3035,7 @@ namespace FarApi.Controllers
                         System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                     }
 
-                    string imageName =  "awards." + obj.ext;
+                    string imageName = "awards." + obj.ext;
 
                     //set the image path
                     string imgPath = Path.Combine(path, imageName);
