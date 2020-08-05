@@ -6,7 +6,7 @@
     public long RoadId { get; set; }
     public long BuildingID { get; set; }
     public string DateofNationalization { get; set; }
-    public string ConstructionFrom { get; set; }
+    public string ConstructionFom { get; set; }
     public string ConstructionTo { get; set; }
     public double ConstructionCost { get; set; }
     public int LandMeasureTypeID { get; set; }
@@ -18,6 +18,9 @@
     public string Remarks { get; set; }
     public string PurposeofPurchase { get; set; }
     public string PresentUse { get; set; }
+    public string PackageName { get; set; }
+    public string BridgeName { get; set; }
+    public float BridgeLength { get; set; }
     public long FixedAssetID { get; set; }
     public long UserId { get; set; }
     public string SpType { get; set; }
@@ -49,4 +52,7 @@
     public double historicalCost { get; set; }
     public double Revaluation { get; set; }
     public double AdditioninRevaluation { get; set; }
+
+
+    public string RoadName { get; set; }
 }
