@@ -4,5 +4,6 @@
     public string tag { get; set; }
     public long userid { get; set; }
     public string AssetLocation { get; set; }
-    public string Custody { get; set; } 
+    public string Custody { get; set; }
+    public string assetId { get; set; }
 }

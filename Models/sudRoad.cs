@@ -5,6 +5,8 @@ public class sudRoad
     public long ProjectID { get; set; }
     public long RoadId { get; set; }
     public long BuildingID { get; set; }
+
+    public string PackageName { get; set; }
     public string DateofNationalization { get; set; }
     public string ConstructionFrom { get; set; }
     public string ConstructionTo { get; set; }

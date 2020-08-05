@@ -4,6 +4,7 @@ public class comLocation
     public int SubLocID { get; set; }
     public int OfficeTypeID { get; set; }
     public string CheckListDescription { get; set; }
+    public string Description { get; set; }
     public string EDoc { get; set; }
     public string EDocExtension { get; set; }
     public int status { get; set; }
