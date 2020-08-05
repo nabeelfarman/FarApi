@@ -8,13 +8,13 @@
     public string DateofNationalization { get; set; }
     public string ConstructionFrom { get; set; }
     public string ConstructionTo { get; set; }
-    public float ConstructionCost { get; set; }
+    public double ConstructionCost { get; set; }
     public int LandMeasureTypeID { get; set; }
     public float AreaAcquiredKanal { get; set; }
     public float AreaAcquiredMarla { get; set; }
     public float AreaTransferedKanal { get; set; }
     public float AreaTransferedMarla { get; set; }
-    public float CostOfLand { get; set; }
+    public double CostOfLand { get; set; }
     public string Remarks { get; set; }
     public string PurposeofPurchase { get; set; }
     public string PresentUse { get; set; }
@@ -32,21 +32,21 @@
     public string ProjectName { get; set; }
     public string OfficeDescription { get; set; }
     public string LandMeasureType { get; set; }
-    public float Openingcost { get; set; }
-    public float TotalCost { get; set; }
-    public float OpeningRevaluationAmount { get; set; }
-    public float OpeningRevaluationSurplus { get; set; }
-    public float TotalRevaluationAmount { get; set; }
-    public float RevaluationSurplus { get; set; }
-    public float WDV { get; set; }
-    public float ProporationforCosttoWDV { get; set; }
-    public float AdditionINRevaluationAmount { get; set; }
-    public float AdditionINRevaluationSurplus { get; set; }
-    public float OpeningAccDepreciation { get; set; }
-    public float AccDepreciation { get; set; }
-    public float OWDV { get; set; }
-    public float OProporationforCosttoWDV { get; set; }
-    public float historicalCost { get; set; }
-    public float Revaluation { get; set; }
-    public float AdditioninRevaluation { get; set; }
+    public double Openingcost { get; set; }
+    public double TotalCost { get; set; }
+    public double OpeningRevaluationAmount { get; set; }
+    public double OpeningRevaluationSurplus { get; set; }
+    public double TotalRevaluationAmount { get; set; }
+    public double RevaluationSurplus { get; set; }
+    public double WDV { get; set; }
+    public double ProporationforCosttoWDV { get; set; }
+    public double AdditionINRevaluationAmount { get; set; }
+    public double AdditionINRevaluationSurplus { get; set; }
+    public double OpeningAccDepreciation { get; set; }
+    public double AccDepreciation { get; set; }
+    public double OWDV { get; set; }
+    public double OProporationforCosttoWDV { get; set; }
+    public double historicalCost { get; set; }
+    public double Revaluation { get; set; }
+    public double AdditioninRevaluation { get; set; }
 }
