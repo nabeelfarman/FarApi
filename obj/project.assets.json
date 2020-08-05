@@ -4470,23 +4470,7 @@
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
-<<<<<<< HEAD
-      "sha512": "owAlEIUZXWSnkK8Z1c+zR47A0X6ykF4XjbPok4lQKNuciUfHLGPd6QnI+rt/8KlQ17PmF+I4S3f+m+Qe4IvViw==",
-=======
-<<<<<<< HEAD
-      "sha512": "91JMnE9zdIDphG00qgRvl8ZwKEjqAbNlJdfXUoMiIWPfpYyH7fyCsTSj6/aynRdw/Qr/K70xC7QC6MOJ1vFBJQ==",
-=======
-<<<<<<< HEAD
       "sha512": "AIgEc1up4pvH8kXy+eG1x4Qfqd6piAq3yk11pveCQXWNkkYoiKdflSmcJZuWcerdMcAaoF0xC/mWGoTW4vF4Dg==",
-=======
-<<<<<<< HEAD
-      "sha512": "owAlEIUZXWSnkK8Z1c+zR47A0X6ykF4XjbPok4lQKNuciUfHLGPd6QnI+rt/8KlQ17PmF+I4S3f+m+Qe4IvViw==",
-=======
-      "sha512": "91JMnE9zdIDphG00qgRvl8ZwKEjqAbNlJdfXUoMiIWPfpYyH7fyCsTSj6/aynRdw/Qr/K70xC7QC6MOJ1vFBJQ==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "microsoft.aspnet.webapi.client/5.2.6",
       "files": [
@@ -7445,23 +7429,7 @@
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "c4Qe25yb9/96zSVuTy30Rcre3B3mTBgRxALAsXS6gEfxmFQ2nQQu2TNoyceHryzP2FZ18qHFwGbRuHmbVSwnnA==",
-=======
-<<<<<<< HEAD
-      "sha512": "HdSSp5MnJSsg08KMfZThpuLPJpPwE5hBXvHwoKWosyHHfe8Mh5WKT0ylEOf6yNzX6Ngjxe4Whkafh5q7Ymac4Q==",
-=======
-<<<<<<< HEAD
       "sha512": "ZJbyxj5gWzOfnJTXGn9LH8ZK9t/PGFUVlsgv/dZUFy/ruE+eScVrAkaBTwf58FJ3F84cBMBOIm4QscRTtfxgqg==",
-=======
-<<<<<<< HEAD
-      "sha512": "c4Qe25yb9/96zSVuTy30Rcre3B3mTBgRxALAsXS6gEfxmFQ2nQQu2TNoyceHryzP2FZ18qHFwGbRuHmbVSwnnA==",
-=======
-      "sha512": "HdSSp5MnJSsg08KMfZThpuLPJpPwE5hBXvHwoKWosyHHfe8Mh5WKT0ylEOf6yNzX6Ngjxe4Whkafh5q7Ymac4Q==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -7474,23 +7442,7 @@
       ]
     },
     "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "PvpRnX6mVNqPS6R3IV1jxWzSf/GzJAwF5l9Tjw+qph2Q+os4miNFAmJ+fTBrmejrCi1+9o5a8F2pQngZDhLrDw==",
-=======
-<<<<<<< HEAD
-      "sha512": "+yH1a49wJMy8Zt4yx5RhJrxO/DBDByAiCzNwiETI+1S4mPdCu0OY4djdciC7Vssk0l22wQaDLrXxXkp+3+7bVA==",
-=======
-<<<<<<< HEAD
       "sha512": "NCGzArSeAPBQJrBY2TUzb/19o3E3TgDFYyl+r+8zWuExcqJDBz5aGkEW8SwwqdscRc37IdtwTr2D2duW47CmHg==",
-=======
-<<<<<<< HEAD
-      "sha512": "PvpRnX6mVNqPS6R3IV1jxWzSf/GzJAwF5l9Tjw+qph2Q+os4miNFAmJ+fTBrmejrCi1+9o5a8F2pQngZDhLrDw==",
-=======
-      "sha512": "+yH1a49wJMy8Zt4yx5RhJrxO/DBDByAiCzNwiETI+1S4mPdCu0OY4djdciC7Vssk0l22wQaDLrXxXkp+3+7bVA==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -7557,23 +7509,7 @@
       ]
     },
     "runtime.native.System.Net.Http/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "4E1AMFARHA7nhFKzmvQo8TsN7ZQwMd+QEJTmdFO+xyCYl2ShHarXJUtPj9Ujs58IFOyuL0G2jODreSv0TubcUg==",
-=======
-<<<<<<< HEAD
-      "sha512": "guqHgQOK2eUgtJae2VKjNawBn1xjC0hfOt5wASHa60XHbIdCsQlqtvMsFG+3hy7yp88V+gi9fZCjubuDkeakcQ==",
-=======
-<<<<<<< HEAD
       "sha512": "ZVuZJqnnegJhd2k/PtAbbIcZ3aZeITq3sj06oKfMBSfphW3HDmk/t4ObvbOk/JA/swGR0LNqMksAh/f7gpTROg==",
-=======
-<<<<<<< HEAD
-      "sha512": "4E1AMFARHA7nhFKzmvQo8TsN7ZQwMd+QEJTmdFO+xyCYl2ShHarXJUtPj9Ujs58IFOyuL0G2jODreSv0TubcUg==",
-=======
-      "sha512": "guqHgQOK2eUgtJae2VKjNawBn1xjC0hfOt5wASHa60XHbIdCsQlqtvMsFG+3hy7yp88V+gi9fZCjubuDkeakcQ==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.native.system.net.http/4.3.0",
       "files": [
@@ -7586,23 +7522,7 @@
       ]
     },
     "runtime.native.System.Security.Cryptography.Apple/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "6jA+jOLy6MJ7Qv1sT9RQt0ZrJhHI2kDO67PMM9rgsNkhV/b5rw32Ug13euuIxzlKdwCSb4hrrsdr3X4poWh27w==",
-=======
-<<<<<<< HEAD
-      "sha512": "DloMk88juo0OuOWr56QG7MNchmafTLYWvABy36izkrLI5VledI0rq28KGs1i9wbpeT9NPQrx/wTf8U2vazqQ3Q==",
-=======
-<<<<<<< HEAD
       "sha512": "jwjwlEL0Elv6gwoyaokRn12nv/JE+UW/DXJEbzhjCPvGbef36StnHKc9XaZD/rGWqYicrphZ7eumR/jdmNcjRg==",
-=======
-<<<<<<< HEAD
-      "sha512": "6jA+jOLy6MJ7Qv1sT9RQt0ZrJhHI2kDO67PMM9rgsNkhV/b5rw32Ug13euuIxzlKdwCSb4hrrsdr3X4poWh27w==",
-=======
-      "sha512": "DloMk88juo0OuOWr56QG7MNchmafTLYWvABy36izkrLI5VledI0rq28KGs1i9wbpeT9NPQrx/wTf8U2vazqQ3Q==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.native.system.security.cryptography.apple/4.3.0",
       "files": [
@@ -7667,23 +7587,7 @@
       ]
     },
     "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "vyrKyQGN9UKiNAtbmC6uIiouYNQkDd8g/mJn5trx7vwaI/v0jOsZxYYBtvy2QmHXYZC67C//Z84QJgwQr8gFxQ==",
-=======
-<<<<<<< HEAD
-      "sha512": "/p8IQT2brFMDa7BHMH71LV+w5Tb3OxoLHxhn6+MGqN5xeqhM2HRHmj+7xQGJnaRn73d7ZTvp6yRCFMvolws4wA==",
-=======
-<<<<<<< HEAD
       "sha512": "X7IdhILzr4ROXd8mI1BUCQMSHSQwelUlBjF1JyTKCjXaOGn2fB4EKBxQbCK2VjO3WaWIdlXZL3W6TiIVnrhX4g==",
-=======
-<<<<<<< HEAD
-      "sha512": "vyrKyQGN9UKiNAtbmC6uIiouYNQkDd8g/mJn5trx7vwaI/v0jOsZxYYBtvy2QmHXYZC67C//Z84QJgwQr8gFxQ==",
-=======
-      "sha512": "/p8IQT2brFMDa7BHMH71LV+w5Tb3OxoLHxhn6+MGqN5xeqhM2HRHmj+7xQGJnaRn73d7ZTvp6yRCFMvolws4wA==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -7735,23 +7639,7 @@
       ]
     },
     "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "c3G2pQn7Q3FFuIXEQoUGTdGV1XtGa1F/Y0El/l+5+kolkGMwD77gaBSMHf6D7oE2a8Vbazeivu1IiLl5xRo6Kw==",
-=======
-<<<<<<< HEAD
-      "sha512": "VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg==",
-=======
-<<<<<<< HEAD
       "sha512": "1uVTITQP8/cI6YoO6FqfW1pzP0k2TnDZ3TFD88Bu/9H7ZuTsMY9xmadbGpwPu8w8swcd1ifZJsjD9hF9O6C/tg==",
-=======
-<<<<<<< HEAD
-      "sha512": "c3G2pQn7Q3FFuIXEQoUGTdGV1XtGa1F/Y0El/l+5+kolkGMwD77gaBSMHf6D7oE2a8Vbazeivu1IiLl5xRo6Kw==",
-=======
-      "sha512": "VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "files": [
@@ -8049,23 +7937,7 @@
       ]
     },
     "System.Collections.NonGeneric/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "z0hlu41a/cwLWMxda07+RswDli+ba43hVROiioN7cVwyDAURBRzMc2jSF+hX02h0a8b+lSYhjmv72eMK9RzX8A==",
-=======
-<<<<<<< HEAD
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
-=======
-<<<<<<< HEAD
       "sha512": "LE/oChpRvkSi3U25u0KnJcI44JeDZ1QJCyN4qFDx2uusEypdqR24w7lKYw21eYe5esuCBuc862wRmpF63Yy1KQ==",
-=======
-<<<<<<< HEAD
-      "sha512": "z0hlu41a/cwLWMxda07+RswDli+ba43hVROiioN7cVwyDAURBRzMc2jSF+hX02h0a8b+lSYhjmv72eMK9RzX8A==",
-=======
-      "sha512": "prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "system.collections.nongeneric/4.3.0",
       "files": [
@@ -8983,7 +8855,6 @@
       "path": "system.io/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9463,23 +9334,7 @@
       ]
     },
     "System.Net.Http/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
-=======
-<<<<<<< HEAD
-      "sha512": "6BBc6BUa7pWFL7KUI/c8wb18IobTZHTtcQKksxJI5F9DRDShdtOvBEJzg5jJbFdTll7gRE+5yXUlq72ciLE+QQ==",
-=======
-<<<<<<< HEAD
       "sha512": "Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
-=======
-<<<<<<< HEAD
-      "sha512": "sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
-=======
-      "sha512": "6BBc6BUa7pWFL7KUI/c8wb18IobTZHTtcQKksxJI5F9DRDShdtOvBEJzg5jJbFdTll7gRE+5yXUlq72ciLE+QQ==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "system.net.http/4.3.0",
       "files": [
@@ -9903,23 +9758,7 @@
       ]
     },
     "System.Reflection.Emit.ILGeneration/4.3.0": {
-<<<<<<< HEAD
-      "sha512": "9i2ioH1dAnkVTjeEqnIb2icytsw7tWYH4S8sthLtuAiSWMFzFFqAgfnKEZNSprjRKzp1VmRHgC0r0XOOwAEmIA==",
-=======
-<<<<<<< HEAD
-      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
-=======
-<<<<<<< HEAD
       "sha512": "+rD+UzHYxfXsT+YrMI0njdFaP/o1cnmSnRWy4os/NaWJC7FyCHrCOwiAKUwz+smQ3cPKZ8pAAv5zM5DDBG4K4w==",
-=======
-<<<<<<< HEAD
-      "sha512": "9i2ioH1dAnkVTjeEqnIb2icytsw7tWYH4S8sthLtuAiSWMFzFFqAgfnKEZNSprjRKzp1VmRHgC0r0XOOwAEmIA==",
-=======
-      "sha512": "59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "type": "package",
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "files": [
@@ -10266,7 +10105,6 @@
       "path": "system.runtime/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -10905,7 +10743,6 @@
       "path": "system.security.cryptography.algorithms/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11040,7 +10877,6 @@
       "path": "system.security.cryptography.encoding/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11129,7 +10965,6 @@
       "path": "system.security.cryptography.primitives/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11158,7 +10993,6 @@
       "path": "system.security.cryptography.x509certificates/4.3.0",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12278,82 +12112,23 @@
     ]
   },
   "packageFolders": {
-<<<<<<< HEAD
-    "C:\\Users\\hp\\.nuget\\packages\\": {},
-=======
-<<<<<<< HEAD
-    "C:\\Users\\Dani\\.nuget\\packages\\": {},
-=======
-<<<<<<< HEAD
     "C:\\Users\\PC1\\.nuget\\packages\\": {},
-=======
-<<<<<<< HEAD
-    "C:\\Users\\hp\\.nuget\\packages\\": {},
-=======
-    "C:\\Users\\Dani\\.nuget\\packages\\": {},
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
       "projectUniqueName": "D:\\Flutter App\\FarApi\\FarApi.csproj",
       "projectName": "FarApi",
       "projectPath": "D:\\Flutter App\\FarApi\\FarApi.csproj",
       "packagesPath": "C:\\Users\\PC1\\.nuget\\packages\\",
       "outputPath": "D:\\Flutter App\\FarApi\\obj\\",
-=======
-<<<<<<< HEAD
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
-      "projectUniqueName": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj",
-      "projectName": "FarApi",
-      "projectPath": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj",
-      "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-      "outputPath": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\obj\\",
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
-      "projectUniqueName": "I:\\VU Projects\\ERP_APIs\\FA_API_Github\\FarApi\\FarApi.csproj",
-      "projectName": "FarApi",
-      "projectPath": "I:\\VU Projects\\ERP_APIs\\FA_API_Github\\FarApi\\FarApi.csproj",
-      "packagesPath": "C:\\Users\\Dani\\.nuget\\packages\\",
-      "outputPath": "I:\\VU Projects\\ERP_APIs\\FA_API_Github\\FarApi\\obj\\",
-<<<<<<< HEAD
-=======
->>>>>>> e15ab92ce00abe57f136e8ea2bae9f17535f7e51
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-<<<<<<< HEAD
-        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
         "C:\\Users\\PC1\\AppData\\Roaming\\NuGet\\NuGet.Config"
-=======
-<<<<<<< HEAD
-        "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-=======
->>>>>>> 30ceadf153e6c2f5b9286a274dc546b1fb324c6a
-        "C:\\Users\\Dani\\AppData\\Roaming\\NuGet\\NuGet.Config",
->>>>>>> 1e619c7c0e5424ea9fea76eb22bcac660953e340
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
->>>>>>> 3638a776e3c8d814c4d13300315e1ec4173f0f02
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -12414,7 +12189,7 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Problem reading the cache file I:\\VU Projects\\ERP_APIs\\FA_API_Github\\FarApi\\obj\\FarApi.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+      "message": "Problem reading the cache file D:\\Flutter App\\FarApi\\obj\\FarApi.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     }
   ]
 }
