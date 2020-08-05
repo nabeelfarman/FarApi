@@ -38,5 +38,85 @@ namespace FarApi.Controllers
             }
             return rows;
         }
+
+        [Route("api/updatechecklist")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult updatechecklist([FromBody] comLocation obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@LocCheckListID", obj.LocCheckListID);
+                    parameters.Add("@SubLocID", obj.SubLocID);
+                    parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
+                    parameters.Add("@CheckListDescription", obj.CheckListDescription);
+                    parameters.Add("@Edoc", obj.EDoc);
+                    parameters.Add("@EDocExtension", obj.EDocExtension);
+                    parameters.Add("@Status", obj.status);
+                    parameters.Add("@Userid", obj.UserId);
+                    parameters.Add("@SubLocCompletionID", obj.SubLocCompletionID);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_SubLocationsCompletions", parameters, commandType: CommandType.StoredProcedure);
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                    //first image 
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = obj.LocCheckListID + "." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
     }
 }

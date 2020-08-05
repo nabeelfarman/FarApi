@@ -68,6 +68,7 @@ namespace FarApi.Controllers
                     parameters.Add("@ProjectID", obj.ProjectID);
                     parameters.Add("@RoadId", obj.RoadId);
                     parameters.Add("@BuildingID", null);
+                    parameters.Add("@PackageName", obj.PackageName);
                     parameters.Add("@DateofNationalization", obj.DateofNationalization);
                     parameters.Add("@PurposeofPurchase", null);
                     parameters.Add("@PresentUse", null);

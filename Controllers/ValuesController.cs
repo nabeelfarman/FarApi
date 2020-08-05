@@ -2812,7 +2812,7 @@ namespace FarApi.Controllers
                     parameters.Add("@DateofNationalization", obj.DateofNationalization);
                     parameters.Add("@PurposeofPurchase", obj.PurposeofPurchase);
                     parameters.Add("@PresentUse", obj.PresentUse);
-                    parameters.Add("@ConstructionFrom", obj.ConstructionFrom);
+                    parameters.Add("@ConstructionFrom", obj.ConstructionFom);
                     parameters.Add("@ConstructionTo", obj.ConstructionTo);
                     parameters.Add("@ConstructionCost", obj.ConstructionCost);
                     parameters.Add("@LandMeasureTypeID", obj.LandMeasureTypeID);
@@ -3090,6 +3090,97 @@ namespace FarApi.Controllers
             {
                 return Ok(new { msg = ex.Message });
             }
+        }
+
+
+
+
+
+        [Route("api/sudbridge")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult sudBridge([FromBody] sudLand obj)
+        {
+            //
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@PurposeofPurchase", null);
+                    parameters.Add("@PresentUse", null);
+                    parameters.Add("@AreaTransferedKanal", 0);
+                    parameters.Add("@AreaTransferedMarla", 0);
+
+                    parameters.Add("@AccountsCatID", obj.AccountsCatID);
+                    parameters.Add("@OfficeSecID", obj.OfficeSecID);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@RoadId", obj.RoadId);                    
+                    parameters.Add("@PackageName", obj.PackageName);
+                    parameters.Add("@BridgeName", obj.BridgeName);
+                    parameters.Add("@BridgeLength", obj.BridgeLength);
+                    parameters.Add("@DateofNationalization", obj.DateofNationalization);
+                    parameters.Add("@ConstructionFrom", obj.ConstructionFom);
+                    parameters.Add("@ConstructionTo", obj.ConstructionTo);
+                    parameters.Add("@ConstructionCost", obj.ConstructionCost);
+                    parameters.Add("@CostOfLand", obj.CostOfLand);
+                    parameters.Add("@LandMeasureTypeID", obj.LandMeasureTypeID);
+                    parameters.Add("@AreaAcquiredKanal", obj.AreaAcquiredKanal);
+                    parameters.Add("@AreaAcquiredMarla", obj.AreaAcquiredMarla);
+                    parameters.Add("@Remarks", obj.Remarks);
+                    parameters.Add("@FixedAssetID", obj.FixedAssetID);
+                    parameters.Add("@UserId", obj.UserId);
+                    parameters.Add("@SpType", obj.SpType);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_FixedAssets", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+        [Route("api/getbridgedata")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<sudLand> getBridgeData()
+        {
+            List<sudLand> rows = new List<sudLand>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<sudLand>("select * from View_BridgesData1").ToList();
+
+            }
+
+            return rows;
         }
 
 

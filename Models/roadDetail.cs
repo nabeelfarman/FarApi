@@ -17,6 +17,7 @@ public class roadDetail
     public string dateofNationalization { get; set; }
     public string constructionTo { get; set; }
     public string remarks { get; set; }
+    public string packageName { get; set; }
     public int areaAcquiredKanal { get; set; }
     public int areaAcquiredMarla { get; set; }
     public int areaTransferedKanal { get; set; }
