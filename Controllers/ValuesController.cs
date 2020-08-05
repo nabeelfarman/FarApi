@@ -2930,7 +2930,7 @@ namespace FarApi.Controllers
                 int rowAffected = 0;
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
-
+                Console.Write(obj.RevaluationAmount);
                 using (IDbConnection con = new SqlConnection(dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
@@ -2952,12 +2952,47 @@ namespace FarApi.Controllers
                     parameters.Add("@RevaluationAmount", obj.RevaluationAmount);
                     parameters.Add("@RevaluationSurplus", obj.RevalutionSurplus);
                     parameters.Add("@FAdetailID", obj.FaDetailID);
+                    parameters.Add("@Edoc", obj.FilePath);
+                    parameters.Add("@EDocExtension", "pdf");
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SpType", obj.SpType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_FADetail", parameters, commandType: CommandType.StoredProcedure);
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                    //PDF document for Re-Valuations  
+                    if (obj.FilePath != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.FilePath; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + ".pdf";
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.File);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+
 
                 }
 
