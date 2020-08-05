@@ -61,9 +61,7 @@ namespace FarApi.Controllers
                     DynamicParameters parameters = new DynamicParameters();
 
                     parameters.Add("@LocCheckListID", obj.LocCheckListID);
-                    parameters.Add("@SubLocID", obj.SubLocID);
-                    parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
-                    parameters.Add("@CheckListDescription", obj.CheckListDescription);
+                    parameters.Add("@Description", obj.Description);
                     parameters.Add("@Edoc", obj.EDoc);
                     parameters.Add("@EDocExtension", obj.EDocExtension);
                     parameters.Add("@Status", obj.status);
