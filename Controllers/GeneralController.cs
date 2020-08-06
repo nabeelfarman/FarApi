@@ -85,7 +85,7 @@ namespace FarApi.Controllers
                             System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                         }
 
-                        string imageName = obj.LocCheckListID + "." + obj.EDocExtension;
+                        string imageName = obj.SubLocCompletionID + "." + obj.EDocExtension;
 
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
