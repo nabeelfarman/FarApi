@@ -14,35 +14,38 @@ using Newtonsoft.Json;
 
 namespace FarApi.Controllers
 {
-    public class GeneralController : ControllerBase
+    public class BuildingController : ControllerBase
     {
+
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
-        /***** Getting Sub Locations *****/
-        [Route("api/getLocationCheckList")]
+
+        [Route("api/getBuildingDetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-
-        public IEnumerable<subLocationCheckList> getLocationCheckList(int subLocID, int officeTypeID)
+        public IEnumerable<buildDetail> getBuildingDetail()
         {
-            List<subLocationCheckList> rows = new List<subLocationCheckList>();
+            List<buildDetail> rows = new List<buildDetail>();
 
             using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                rows = con.Query<subLocationCheckList>("select * from View_SubLocationsCheckList where subLocID = " + subLocID + " and officeTypeID = " + officeTypeID + "").ToList();
+
+                rows = con.Query<buildDetail>("select * from View_BuildingData1").ToList();
+
             }
+
             return rows;
         }
 
-        [Route("api/updatechecklist")]
+        [Route("api/sudBuilding")]
         [HttpPost]
         [EnableCors("CorePolicy")]
-        public IActionResult updatechecklist([FromBody] comLocation obj)
+        public IActionResult sudBuilding([FromBody] sudRoad obj)
         {
             //
             //***** Try Block
@@ -60,47 +63,32 @@ namespace FarApi.Controllers
 
                     DynamicParameters parameters = new DynamicParameters();
 
-                    parameters.Add("@LocCheckListID", obj.LocCheckListID);
-                    parameters.Add("@Description", obj.Description);
-                    parameters.Add("@Edoc", obj.EDoc);
-                    parameters.Add("@EDocExtension", obj.EDocExtension);
-                    parameters.Add("@Status", obj.status);
-                    parameters.Add("@Userid", obj.UserId);
-                    parameters.Add("@SubLocCompletionID", obj.SubLocCompletionID);
+                    parameters.Add("@AccountsCatID", obj.AccountsCatID);
+                    parameters.Add("@OfficeSecID", obj.OfficeSecID);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@RoadId", null);
+                    parameters.Add("@BuildingID", obj.BuildingID);
+                    parameters.Add("@PackageName", null);
+                    parameters.Add("@DateofNationalization", obj.DateofNationalization);
+                    parameters.Add("@PurposeofPurchase", null);
+                    parameters.Add("@PresentUse", null);
+                    parameters.Add("@ConstructionFrom", obj.ConstructionFrom);
+                    parameters.Add("@ConstructionTo", obj.ConstructionTo);
+                    parameters.Add("@ConstructionCost", obj.ConstructionCost);
+                    parameters.Add("@LandMeasureTypeID", obj.LandMeasureTypeID);
+                    parameters.Add("@AreaAcquiredKanal", obj.AreaAcquiredKanal);
+                    parameters.Add("@AreaAcquiredMarla", obj.AreaAcquiredMarla);
+                    parameters.Add("@AreaTransferedKanal", obj.AreaTransferedKanal);
+                    parameters.Add("@AreaTransferedMarla", obj.AreaTransferedMarla);
+                    parameters.Add("@CostOfLand", obj.CostOfLand);
+                    parameters.Add("@Remarks", obj.Remarks);
+                    parameters.Add("@FixedAssetID", obj.FixedAssetID);
+                    parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SpType", obj.SpType);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
-                    rowAffected = con.Execute("dbo.SP_SubLocationsCompletions", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = con.Execute("dbo.Sp_FixedAssets", parameters, commandType: CommandType.StoredProcedure);
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
-
-                    //first image 
-                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
-                    {
-
-                        String path = obj.EDoc; //Path
-
-                        //Check if directory exist
-                        if (!System.IO.Directory.Exists(path))
-                        {
-                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
-                        }
-
-                        string imageName = obj.SubLocCompletionID + "." + obj.EDocExtension;
-
-                        //set the image path
-                        string imgPath = Path.Combine(path, imageName);
-
-                        //delete image portion start
-                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
-                        {
-                            System.IO.File.Delete(Path.Combine(path, imageName));
-                        }
-                        //delete image portion end
-
-                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
-
-                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
-                    }
 
                 }
 
