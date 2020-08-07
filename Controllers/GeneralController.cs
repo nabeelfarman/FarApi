@@ -18,8 +18,8 @@ namespace FarApi.Controllers
     {
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         /***** Getting Sub Locations *****/
         [Route("api/getLocationCheckList")]
@@ -85,7 +85,7 @@ namespace FarApi.Controllers
                             System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
                         }
 
-                        string imageName = obj.LocCheckListID + "." + obj.EDocExtension;
+                        string imageName = obj.SubLocCompletionID + "." + obj.EDocExtension;
 
                         //set the image path
                         string imgPath = Path.Combine(path, imageName);
