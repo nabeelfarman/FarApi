@@ -45,4 +45,5 @@
     public int IsTransfered { get; set; }
     public int BaseRate { get; set; }
     public string DepreciationRule { get; set; }
+    public int isCompleted { get; set; }
 }

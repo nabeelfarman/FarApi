@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "FilePath": "i:\\VU Projects\\ERP_APIs\\FA_API_Github\\FarApi\\FarApi.csproj",
+=======
+  "FilePath": "d:\\Flutter App\\FarApi\\FarApi.csproj",
+>>>>>>> c350c41d5ac3b160d5ffa7360ebe5c8d141164d2
   "Configuration": {
     "ConfigurationName": "MVC-2.1",
     "LanguageVersion": "2.1",
