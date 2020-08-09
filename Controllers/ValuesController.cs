@@ -1533,7 +1533,7 @@ namespace FarApi.Controllers
 
                 if (LocationID == 0)
                 {
-                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + " ' ").ToList();
+                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + "' ").ToList();
                 }
                 else
                 {
@@ -2392,7 +2392,34 @@ namespace FarApi.Controllers
         }
 
 
+        // transfers report
+        [Route("api/getAssetTransfersReport")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType)
+        {
+            List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                // if sender report required
+                if (rptMode == 1)
+                {
+                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                }
+
+            }
+
+            return rows;
+        }
 
 
 
