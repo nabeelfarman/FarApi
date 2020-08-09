@@ -770,7 +770,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicle>("select * from View_Vehicles ").ToList();
+                rows = con.Query<vehicle>("select * from View_Vehicles").ToList();
             }
 
             return rows;
@@ -918,16 +918,44 @@ namespace FarApi.Controllers
                     parameters.Add("@Model", obj.Model);
                     parameters.Add("@Type", obj.Type);
                     parameters.Add("@ChasisNum", obj.ChasisNum);
+                    parameters.Add("@AssetCatID", obj.assetCatID);
                     parameters.Add("@EngineNum", obj.EngineNum);
                     parameters.Add("@Remarks", obj.Remarks);
+                    parameters.Add("@DeployedWith", obj.deployedWith);
+                    parameters.Add("@EDoc", obj.eDoc);
+                    parameters.Add("@EDocExtension", obj.eDocExtension);
                     parameters.Add("@ID", obj.ID);
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_Vehicles", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.eDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.eDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -2271,11 +2299,15 @@ namespace FarApi.Controllers
                         con.Open();
 
                     DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@TSubLocID", obj.TSubLocID);
+                    parameters.Add("@TOfficeTypeID", obj.TOfficeTypeID);
+                    parameters.Add("@TOfficeSecID", obj.TOfficeSecID);
                     parameters.Add("@TPostID", obj.TPostID);
-                    parameters.Add("@RPostID", obj.RPostID);
                     parameters.Add("@RSubLocID", obj.RSubLocID);
                     parameters.Add("@ROfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@ROfficeSecID", obj.ROfficeSecID);
+                    parameters.Add("@RPostID", obj.RPostID);
                     parameters.Add("@DateofTransfer", obj.DateofTransfer);
                     parameters.Add("@TransferType", obj.TransferType);
                     parameters.Add("@TransferDescription", obj.TransferDescription);
