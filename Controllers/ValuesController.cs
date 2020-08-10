@@ -1253,10 +1253,44 @@ namespace FarApi.Controllers
             return rows;
         }
 
+        /***** get Asset Category Specification fields ***/
+        [Route("api/getAssetCategorySpecs")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCatSpecsList> getAssetCategorySpecs(long AssetCatID)
+        {
+            List<assetCatSpecsList> rows = new List<assetCatSpecsList>();
 
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
 
+                rows = con.Query<assetCatSpecsList>("select specID, assetCatID, specificationTitle, type, isDeleted, specificationNgModel, specDetailID, specificationListName from View_AssetCatagoriesSpecifications WHERE AssetCatID= " + AssetCatID + " order by specID ").ToList();
+            }
 
+            return rows;
+        }
 
+        /***** get Asset Category Specification fields Data ***/
+        [Route("api/getAssetCategorySpecsData")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCatSpecsDataList> getAssetCategorySpecsData(long assetCatID, int specID)
+        {
+            List<assetCatSpecsDataList> rows = new List<assetCatSpecsDataList>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<assetCatSpecsDataList>("select specID, assetCatID, makeTitle, makeID from View_AssetCatagoriesSpecificationDATA WHERE AssetCatID= " + assetCatID + " and specID = " + specID + " order by makeTitle ").ToList();
+            }
+
+            return rows;
+
+        }
 
         /***** Getting assets detail *****/
         [Route("api/getuserassetdetail")]
