@@ -1046,6 +1046,7 @@ namespace FarApi.Controllers
                     parameters.Add("@QTY", obj.Qty);
                     parameters.Add("@isTransfer", obj.isTransfer);
                     parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@NewTransfer", obj.newTransfer);
 
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'

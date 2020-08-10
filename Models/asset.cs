@@ -25,6 +25,7 @@
     public bool IsMissing { get; set; }
     public string Remarks { get; set; }
     public int IsDeleted { get; set; }
+    public int newTransfer { get; set; }
     public string DeletionDate { get; set; }
     public long DeleteBy { get; set; }
     public int IsUpdated { get; set; }
