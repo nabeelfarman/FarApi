@@ -9,6 +9,10 @@
     public string Make { get; set; }
     public string VehID { get; set; }
     public string Remarks { get; set; }
+    public string eDoc { get; set; }
+    public string eDocExtension { get; set; }
+    public string imgFile { get; set; }
+    public string deployedWith { get; set; }
 
     public long UserId { get; set; }
     public string SpType { get; set; }
