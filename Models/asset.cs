@@ -34,6 +34,17 @@
     public long UserId { get; set; }
     public string SpType { get; set; }
 
+    public string make { get; set; }
+    public string model { get; set; }
+    public string size { get; set; }
+    public string generation { get; set; }
+    public string processor { get; set; }
+    public string ram { get; set; }
+    public string driveType1 { get; set; }
+    public string hd1 { get; set; }
+    public string driveType2 { get; set; }
+    public string hd2 { get; set; }
+
     public string EDoc { get; set; }
     public string EDoc2 { get; set; }
     public string EDoc3 { get; set; }

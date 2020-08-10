@@ -1028,6 +1028,17 @@ namespace FarApi.Controllers
                     parameters.Add("@Updatedby", obj.Updatedby);
                     parameters.Add("@AssetID", obj.AssetID);
 
+                    parameters.Add("@Make", obj.make);
+                    parameters.Add("@Model", obj.model);
+                    parameters.Add("@Size", obj.size);
+                    parameters.Add("@Generation", obj.generation);
+                    parameters.Add("@Processor", obj.processor);
+                    parameters.Add("@RAM", obj.ram);
+                    parameters.Add("@DriveType1", obj.driveType1);
+                    parameters.Add("@HD1", obj.hd1);
+                    parameters.Add("@DriveType2", obj.driveType2);
+                    parameters.Add("@HD2", obj.hd2);
+
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EDoc2", obj.EDoc2);
                     parameters.Add("@EDoc3", obj.EDoc3);
