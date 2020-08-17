@@ -3305,15 +3305,7 @@
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-owAlEIUZXWSnkK8Z1c+zR47A0X6ykF4XjbPok4lQKNuciUfHLGPd6QnI+rt/8KlQ17PmF+I4S3f+m+Qe4IvViw==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-AIgEc1up4pvH8kXy+eG1x4Qfqd6piAq3yk11pveCQXWNkkYoiKdflSmcJZuWcerdMcAaoF0xC/mWGoTW4vF4Dg==",
-=======
-      "sha512": "sha512-91JMnE9zdIDphG00qgRvl8ZwKEjqAbNlJdfXUoMiIWPfpYyH7fyCsTSj6/aynRdw/Qr/K70xC7QC6MOJ1vFBJQ==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "microsoft.aspnet.webapi.client/5.2.6",
       "hashPath": "microsoft.aspnet.webapi.client.5.2.6.nupkg.sha512"
     },
@@ -4489,30 +4481,14 @@
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-c4Qe25yb9/96zSVuTy30Rcre3B3mTBgRxALAsXS6gEfxmFQ2nQQu2TNoyceHryzP2FZ18qHFwGbRuHmbVSwnnA==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-ZJbyxj5gWzOfnJTXGn9LH8ZK9t/PGFUVlsgv/dZUFy/ruE+eScVrAkaBTwf58FJ3F84cBMBOIm4QscRTtfxgqg==",
-=======
-      "sha512": "sha512-HdSSp5MnJSsg08KMfZThpuLPJpPwE5hBXvHwoKWosyHHfe8Mh5WKT0ylEOf6yNzX6Ngjxe4Whkafh5q7Ymac4Q==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
     "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-PvpRnX6mVNqPS6R3IV1jxWzSf/GzJAwF5l9Tjw+qph2Q+os4miNFAmJ+fTBrmejrCi1+9o5a8F2pQngZDhLrDw==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-NCGzArSeAPBQJrBY2TUzb/19o3E3TgDFYyl+r+8zWuExcqJDBz5aGkEW8SwwqdscRc37IdtwTr2D2duW47CmHg==",
-=======
-      "sha512": "sha512-+yH1a49wJMy8Zt4yx5RhJrxO/DBDByAiCzNwiETI+1S4mPdCu0OY4djdciC7Vssk0l22wQaDLrXxXkp+3+7bVA==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
@@ -4547,30 +4523,14 @@
     "runtime.native.System.Net.Http/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-4E1AMFARHA7nhFKzmvQo8TsN7ZQwMd+QEJTmdFO+xyCYl2ShHarXJUtPj9Ujs58IFOyuL0G2jODreSv0TubcUg==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-ZVuZJqnnegJhd2k/PtAbbIcZ3aZeITq3sj06oKfMBSfphW3HDmk/t4ObvbOk/JA/swGR0LNqMksAh/f7gpTROg==",
-=======
-      "sha512": "sha512-guqHgQOK2eUgtJae2VKjNawBn1xjC0hfOt5wASHa60XHbIdCsQlqtvMsFG+3hy7yp88V+gi9fZCjubuDkeakcQ==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.native.system.net.http/4.3.0",
       "hashPath": "runtime.native.system.net.http.4.3.0.nupkg.sha512"
     },
     "runtime.native.System.Security.Cryptography.Apple/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-6jA+jOLy6MJ7Qv1sT9RQt0ZrJhHI2kDO67PMM9rgsNkhV/b5rw32Ug13euuIxzlKdwCSb4hrrsdr3X4poWh27w==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-jwjwlEL0Elv6gwoyaokRn12nv/JE+UW/DXJEbzhjCPvGbef36StnHKc9XaZD/rGWqYicrphZ7eumR/jdmNcjRg==",
-=======
-      "sha512": "sha512-DloMk88juo0OuOWr56QG7MNchmafTLYWvABy36izkrLI5VledI0rq28KGs1i9wbpeT9NPQrx/wTf8U2vazqQ3Q==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.native.system.security.cryptography.apple/4.3.0",
       "hashPath": "runtime.native.system.security.cryptography.apple.4.3.0.nupkg.sha512"
     },
@@ -4605,15 +4565,7 @@
     "runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-vyrKyQGN9UKiNAtbmC6uIiouYNQkDd8g/mJn5trx7vwaI/v0jOsZxYYBtvy2QmHXYZC67C//Z84QJgwQr8gFxQ==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-X7IdhILzr4ROXd8mI1BUCQMSHSQwelUlBjF1JyTKCjXaOGn2fB4EKBxQbCK2VjO3WaWIdlXZL3W6TiIVnrhX4g==",
-=======
-      "sha512": "sha512-/p8IQT2brFMDa7BHMH71LV+w5Tb3OxoLHxhn6+MGqN5xeqhM2HRHmj+7xQGJnaRn73d7ZTvp6yRCFMvolws4wA==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.osx.10.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
@@ -4641,15 +4593,7 @@
     "runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-c3G2pQn7Q3FFuIXEQoUGTdGV1XtGa1F/Y0El/l+5+kolkGMwD77gaBSMHf6D7oE2a8Vbazeivu1IiLl5xRo6Kw==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-1uVTITQP8/cI6YoO6FqfW1pzP0k2TnDZ3TFD88Bu/9H7ZuTsMY9xmadbGpwPu8w8swcd1ifZJsjD9hF9O6C/tg==",
-=======
-      "sha512": "sha512-VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
     },
@@ -4712,15 +4656,7 @@
     "System.Collections.NonGeneric/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-z0hlu41a/cwLWMxda07+RswDli+ba43hVROiioN7cVwyDAURBRzMc2jSF+hX02h0a8b+lSYhjmv72eMK9RzX8A==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-LE/oChpRvkSi3U25u0KnJcI44JeDZ1QJCyN4qFDx2uusEypdqR24w7lKYw21eYe5esuCBuc862wRmpF63Yy1KQ==",
-=======
-      "sha512": "sha512-prtjIEMhGUnQq6RnPEYLpFt8AtLbp9yq2zxOSrY7KJJZrw25Fi97IzBqY7iqssbM61Ek5b8f3MG/sG1N2sN5KA==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "system.collections.nongeneric/4.3.0",
       "hashPath": "system.collections.nongeneric.4.3.0.nupkg.sha512"
     },
@@ -4909,15 +4845,7 @@
     "System.Net.Http/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-Z1UfSF6dlpCdZdxh6LeoGlYH+q6ptG/iiIWgUUeKhE3DbQACmZkU7Sz2nOX0qdHjz72MOdYRbkSJ5Qwl6sZgvg==",
-=======
-      "sha512": "sha512-6BBc6BUa7pWFL7KUI/c8wb18IobTZHTtcQKksxJI5F9DRDShdtOvBEJzg5jJbFdTll7gRE+5yXUlq72ciLE+QQ==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "system.net.http/4.3.0",
       "hashPath": "system.net.http.4.3.0.nupkg.sha512"
     },
@@ -4973,15 +4901,7 @@
     "System.Reflection.Emit.ILGeneration/4.3.0": {
       "type": "package",
       "serviceable": true,
-<<<<<<< HEAD
       "sha512": "sha512-9i2ioH1dAnkVTjeEqnIb2icytsw7tWYH4S8sthLtuAiSWMFzFFqAgfnKEZNSprjRKzp1VmRHgC0r0XOOwAEmIA==",
-=======
-<<<<<<< HEAD
-      "sha512": "sha512-+rD+UzHYxfXsT+YrMI0njdFaP/o1cnmSnRWy4os/NaWJC7FyCHrCOwiAKUwz+smQ3cPKZ8pAAv5zM5DDBG4K4w==",
-=======
-      "sha512": "sha512-59tBslAk9733NXLrUJrwNZEzbMAcu8k344OYo+wfSVygcgZ9lgBdGIzH/nrg3LYhXceynyvTc8t5/GD4Ri0/ng==",
->>>>>>> 2cd5dff09caa7cad07d18ee17a6f066e1fe47742
->>>>>>> e2d50d7b253c6642ef90025f479ce98393200536
       "path": "system.reflection.emit.ilgeneration/4.3.0",
       "hashPath": "system.reflection.emit.ilgeneration.4.3.0.nupkg.sha512"
     },
