@@ -61,6 +61,8 @@
     public string vehEngineNum { get; set; }
     public string vehModel { get; set; }
     public string vehChasisNum { get; set; }
+    public string mainLocationDescription { get; set; }
+    public long MainLocID { get; set; }
     public string author { get; set; }
     public string publisher { get; set; }
     public string volume { get; set; }
