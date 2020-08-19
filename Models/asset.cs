@@ -46,6 +46,11 @@
     public string driveType2 { get; set; }
     public string hd2 { get; set; }
 
+    public string author { get; set; }
+    public string publisher { get; set; }
+    public string volume { get; set; }
+    public string edition { get; set; }
+
     public string EDoc { get; set; }
     public string EDoc2 { get; set; }
     public string EDoc3 { get; set; }

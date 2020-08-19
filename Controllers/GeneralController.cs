@@ -19,8 +19,92 @@ namespace FarApi.Controllers
         /**/
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        // live server
         static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        // Production Database
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        /***** Getting assets detail *****/
+        [Route("api/getAssetDetailComputers")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetDetail> getAssetDetailComputers(long UserId, long SubLocID, long OfficeTypeID)
+        {
+            List<assetDetail> rows = new List<assetDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 1 order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 1 order by AssetID desc ").ToList();
+                }
+            }
+
+            return rows;
+        }
+
+        /********** Vehicle Register Report ***********/
+        [Route("api/getAssetDetailVehicles")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetDetail> getAssetDetailVehicles(long UserId, long SubLocID, long OfficeTypeID)
+        {
+            List<assetDetail> rows = new List<assetDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 9 order by AssetID desc ").ToList();
+                }
+            }
+
+            return rows;
+        }
+
+        /********** General Register Report ***********/
+        [Route("api/getAssetDetailGeneral")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetDetail> getAssetDetailGeneral(long UserId, long SubLocID, long OfficeTypeID)
+        {
+            List<assetDetail> rows = new List<assetDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID > 1 and accountsCatID < 9 )  order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and (accountsCatID > 1 and accountsCatID < 9 ) order by AssetID desc ").ToList();
+                }
+            }
+
+            return rows;
+        }
 
         /***** Getting Sub Locations *****/
         [Route("api/getLocationCheckList")]

@@ -56,5 +56,15 @@
     public string hd1 { get; set; }
     public string driveType2 { get; set; }
     public string hd2 { get; set; }
-
+    public string vehMake { get; set; }
+    public string vehType { get; set; }
+    public string vehEngineNum { get; set; }
+    public string vehModel { get; set; }
+    public string vehChasisNum { get; set; }
+    public string mainLocationDescription { get; set; }
+    public long MainLocID { get; set; }
+    public string author { get; set; }
+    public string publisher { get; set; }
+    public string volume { get; set; }
+    public string edition { get; set; }
 }

@@ -20,8 +20,14 @@ namespace FarApi.Controllers
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        // live server
         static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        // Production Database
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
@@ -1038,6 +1044,10 @@ namespace FarApi.Controllers
                     parameters.Add("@HD1", obj.hd1);
                     parameters.Add("@DriveType2", obj.driveType2);
                     parameters.Add("@HD2", obj.hd2);
+                    parameters.Add("@author", obj.author);
+                    parameters.Add("@publisher", obj.publisher);
+                    parameters.Add("@volume", obj.volume);
+                    parameters.Add("@edition", obj.edition);
 
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EDoc2", obj.EDoc2);
@@ -1297,7 +1307,7 @@ namespace FarApi.Controllers
         [Route("api/getuserassetdetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailUserWise(long UserId)
+        public IEnumerable<assetDetail> getAssetDetailUserWise(long UserId, long SubLocID, long OfficeTypeID)
         {
             List<assetDetail> rows = new List<assetDetail>();
 
@@ -1306,7 +1316,14 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " order by AssetID desc ").ToList();
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " order by AssetID desc ").ToList();
+                }
             }
 
             return rows;
