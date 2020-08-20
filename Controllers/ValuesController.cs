@@ -280,6 +280,7 @@ namespace FarApi.Controllers
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
+                    parameters.Add("@FinYear", obj.finYear);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_SubLocations", parameters, commandType: CommandType.StoredProcedure);

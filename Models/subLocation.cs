@@ -7,4 +7,5 @@
     public long OfficeTypeID { get; set; }
     public long UserId { get; set; }
     public string SPType { get; set; }
+    public string finYear { get; set; }
 }
