@@ -55,7 +55,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocReval>("select * from View_AccountsCatagoriesforRevaluator").ToList();
+                rows = con.Query<subLocReval>("select * from View_accountscatagories").ToList();
 
             }
 
