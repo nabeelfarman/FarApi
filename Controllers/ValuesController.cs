@@ -2525,7 +2525,7 @@ namespace FarApi.Controllers
         [Route("api/getAssetTransfersReport")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType)
+        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType, int projectID)
         {
             List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
@@ -2538,11 +2538,29 @@ namespace FarApi.Controllers
                 // if sender report required
                 if (rptMode == 1)
                 {
-                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
                 }
                 else
                 {
-                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
                 }
 
             }
