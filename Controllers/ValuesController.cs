@@ -22,11 +22,11 @@ namespace FarApi.Controllers
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // live server
-        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
@@ -67,6 +67,39 @@ namespace FarApi.Controllers
                 }
 
                 response = Ok(new { msg = sqlResponse });
+
+                if (obj.SPType == "PASSWORD")
+                {
+                    if (obj.UserName != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.UserName);
+                            mail.Subject = "New Paasword for Fixed Asset Register Module";
+                            mail.Body = "Password: " + obj.HashPassword;
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                smtp.Send(mail);
+                            }
+                        }
+                        sqlResponse = "Mail Sent!";
+
+                    }
+                    else
+                    {
+                        sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    }
+                }
 
                 return response;
 
@@ -3457,6 +3490,52 @@ namespace FarApi.Controllers
             }
         }
 
+
+
+
+
+        [Route("api/editIPC")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult editIPC([FromBody] asset obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@AssetID", obj.AssetID);
+                    parameters.Add("@IPCRef", obj.IPCRef);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_editIPCRefinAssets", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+
+                    response = Ok(new { msg = sqlResponse });
+
+                    return response;
+
+                }
+                //***** Exception Block
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
 
