@@ -24,6 +24,7 @@
     public bool IsMissing { get; set; }
     public string Remarks { get; set; }
     public string CreatedDate { get; set; }
+    public string CreatedBy { get; set; }
     public string VehID { get; set; }
     public long UserId { get; set; }
     public long SubLocID { get; set; }

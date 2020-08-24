@@ -13,4 +13,7 @@ public class assetTransfersReport
     public string rOfficeDescription { get; set; }
     public string rPostName { get; set; }
     public string tag { get; set; }
+    public int projectID { get; set; }
+    public string projectName { get; set; }
+    public int iPCRef { get; set; }
 }

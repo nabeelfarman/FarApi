@@ -68,6 +68,39 @@ namespace FarApi.Controllers
 
                 response = Ok(new { msg = sqlResponse });
 
+                if (obj.SPType == "PASSWORD")
+                {
+                    if (obj.UserName != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.UserName);
+                            mail.Subject = "New Paasword for Fixed Asset Register Module";
+                            mail.Body = "Password: " + obj.HashPassword;
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                smtp.Send(mail);
+                            }
+                        }
+                        sqlResponse = "Mail Sent!";
+
+                    }
+                    else
+                    {
+                        sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    }
+                }
+
                 return response;
 
             }
@@ -280,6 +313,7 @@ namespace FarApi.Controllers
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
+                    parameters.Add("@FinYear", obj.finYear);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_SubLocations", parameters, commandType: CommandType.StoredProcedure);
@@ -2491,7 +2525,7 @@ namespace FarApi.Controllers
         [Route("api/getAssetTransfersReport")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType)
+        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType, int projectID)
         {
             List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
@@ -2504,11 +2538,29 @@ namespace FarApi.Controllers
                 // if sender report required
                 if (rptMode == 1)
                 {
-                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
                 }
                 else
                 {
-                    rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' order by assetID").ToList();
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
                 }
 
             }
@@ -3456,6 +3508,52 @@ namespace FarApi.Controllers
             }
         }
 
+
+
+
+
+        [Route("api/editIPC")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult editIPC([FromBody] asset obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@AssetID", obj.AssetID);
+                    parameters.Add("@IPCRef", obj.IPCRef);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_editIPCRefinAssets", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+
+                    response = Ok(new { msg = sqlResponse });
+
+                    return response;
+
+                }
+                //***** Exception Block
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
 
