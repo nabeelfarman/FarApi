@@ -29,6 +29,32 @@ namespace FarApi.Controllers
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         /***** Getting assets detail *****/
+        [Route("api/getAssetDetailBooks")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetDetail> getAssetDetailBooks(long UserId, long SubLocID, long OfficeTypeID)
+        {
+            List<assetDetail> rows = new List<assetDetail>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 5 order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 5 order by AssetID desc ").ToList();
+                }
+            }
+
+            return rows;
+        }
+
+        /***** Getting assets detail *****/
         [Route("api/getAssetDetailComputers")]
         [HttpGet]
         [EnableCors("CorePolicy")]
@@ -95,11 +121,11 @@ namespace FarApi.Controllers
 
                 if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID > 1 and accountsCatID < 9 )  order by AssetID desc ").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  order by AssetID desc ").ToList();
                 }
                 else
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and (accountsCatID > 1 and accountsCatID < 9 ) order by AssetID desc ").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 ) order by AssetID desc ").ToList();
                 }
             }
 
