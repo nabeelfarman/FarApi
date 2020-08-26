@@ -22,8 +22,9 @@ namespace FarApi.Controllers
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // live server
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
@@ -179,6 +180,39 @@ namespace FarApi.Controllers
                         sqlResponse = "Sorry! Your Email doesn't Exists.";
                     }
                 }
+                else if (obj.SPType == "PASSWORD")
+                {
+                    if (obj.UserName != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.UserName);
+                            mail.Subject = "New Password for Fixed Asset Register Module";
+                            mail.Body = "Password: " + obj.HashPassword;
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                smtp.Send(mail);
+                            }
+                        }
+                        sqlResponse = "Mail Sent!";
+
+                    }
+                    else
+                    {
+                        sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    }
+                }
+
 
                 return response;
 
