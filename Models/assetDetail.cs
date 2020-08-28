@@ -37,7 +37,6 @@
     public long VehicleID { get; set; }
     public long ProjectID { get; set; }
     public long AssetID { get; set; }
-
     public string OfficeDescription { get; set; }
     public string EDoc { get; set; }
     public string EDoc2 { get; set; }
