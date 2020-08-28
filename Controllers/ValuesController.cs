@@ -24,13 +24,13 @@ namespace FarApi.Controllers
         // live server
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
-
+        dbConfig db = new dbConfig();
 
 
 
@@ -48,7 +48,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -128,7 +128,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -240,7 +240,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -286,7 +286,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -334,7 +334,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -385,7 +385,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -435,7 +435,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -483,7 +483,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -570,7 +570,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -601,7 +601,7 @@ namespace FarApi.Controllers
         {
             List<ofcType> rows = new List<ofcType>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -625,7 +625,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -655,7 +655,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -680,7 +680,7 @@ namespace FarApi.Controllers
         {
             List<assetCategory> rows = new List<assetCategory>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -712,7 +712,7 @@ namespace FarApi.Controllers
         {
             List<custody> rows = new List<custody>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -742,7 +742,7 @@ namespace FarApi.Controllers
         {
             List<project> rows = new List<project>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -772,7 +772,7 @@ namespace FarApi.Controllers
         {
             List<location> rows = new List<location>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -794,7 +794,7 @@ namespace FarApi.Controllers
         {
             List<monthlyTags> rows = new List<monthlyTags>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -815,7 +815,7 @@ namespace FarApi.Controllers
         {
             List<condition> rows = new List<condition>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -839,7 +839,7 @@ namespace FarApi.Controllers
         {
             List<vehicle> rows = new List<vehicle>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -861,7 +861,7 @@ namespace FarApi.Controllers
             List<assetLocClass> rows = new List<assetLocClass>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -882,7 +882,7 @@ namespace FarApi.Controllers
         {
             List<moveAssetListTag> rows = new List<moveAssetListTag>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -903,7 +903,7 @@ namespace FarApi.Controllers
         {
             List<vehicleMake> rows = new List<vehicleMake>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -927,7 +927,7 @@ namespace FarApi.Controllers
         {
             List<vehicleModel> rows = new List<vehicleModel>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -951,7 +951,7 @@ namespace FarApi.Controllers
         {
             List<vehicleType> rows = new List<vehicleType>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -981,7 +981,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1064,7 +1064,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1260,7 +1260,7 @@ namespace FarApi.Controllers
                 Int32 sqlResponse;
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1302,7 +1302,7 @@ namespace FarApi.Controllers
         {
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1340,7 +1340,7 @@ namespace FarApi.Controllers
         {
             List<assetCatSpecsList> rows = new List<assetCatSpecsList>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1359,7 +1359,7 @@ namespace FarApi.Controllers
         {
             List<assetCatSpecsDataList> rows = new List<assetCatSpecsDataList>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1379,7 +1379,7 @@ namespace FarApi.Controllers
         {
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1409,7 +1409,7 @@ namespace FarApi.Controllers
         {
             List<tags> rows = new List<tags>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1434,7 +1434,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1459,7 +1459,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1484,7 +1484,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1510,7 +1510,7 @@ namespace FarApi.Controllers
         {
             List<tagsSummary> rows = new List<tagsSummary>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1535,7 +1535,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1560,7 +1560,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1585,7 +1585,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1610,7 +1610,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1635,7 +1635,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetail> rows = new List<tagsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1659,7 +1659,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1684,7 +1684,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1716,7 +1716,7 @@ namespace FarApi.Controllers
         {
             List<assetCatDashboard> rows = new List<assetCatDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1741,7 +1741,7 @@ namespace FarApi.Controllers
         {
             List<assetCatLocDashboard> rows = new List<assetCatLocDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1766,7 +1766,7 @@ namespace FarApi.Controllers
         {
             List<assetCatDetailDashboard> rows = new List<assetCatDetailDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1791,7 +1791,7 @@ namespace FarApi.Controllers
         {
             List<assetCatLocDetailDashboard> rows = new List<assetCatLocDetailDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1824,7 +1824,7 @@ namespace FarApi.Controllers
         {
             List<oldTagData> rows = new List<oldTagData>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1855,7 +1855,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1931,7 +1931,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1981,7 +1981,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2031,7 +2031,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2070,7 +2070,7 @@ namespace FarApi.Controllers
         {
             List<tagsMonthWise> rows = new List<tagsMonthWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2094,7 +2094,7 @@ namespace FarApi.Controllers
         {
             List<tagsSection> rows = new List<tagsSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2126,7 +2126,7 @@ namespace FarApi.Controllers
         {
             List<tagsLocation> rows = new List<tagsLocation>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2158,7 +2158,7 @@ namespace FarApi.Controllers
         {
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2182,7 +2182,7 @@ namespace FarApi.Controllers
         {
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2208,7 +2208,7 @@ namespace FarApi.Controllers
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2265,7 +2265,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2338,7 +2338,7 @@ namespace FarApi.Controllers
             List<ipc> rows = new List<ipc>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2377,7 +2377,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2424,7 +2424,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2522,7 +2522,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2564,7 +2564,7 @@ namespace FarApi.Controllers
             List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2613,7 +2613,7 @@ namespace FarApi.Controllers
             List<accCatagory> rows = new List<accCatagory>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2638,7 +2638,7 @@ namespace FarApi.Controllers
             List<ipcrefdetail> rows = new List<ipcrefdetail>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2670,7 +2670,7 @@ namespace FarApi.Controllers
             List<assetTransfer> rows = new List<assetTransfer>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2696,7 +2696,7 @@ namespace FarApi.Controllers
             List<transferDetail> rows = new List<transferDetail>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2728,7 +2728,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2770,7 +2770,7 @@ namespace FarApi.Controllers
         {
             List<userRoles> rows = new List<userRoles>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2800,7 +2800,7 @@ namespace FarApi.Controllers
         {
             List<users> rows = new List<users>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2824,7 +2824,7 @@ namespace FarApi.Controllers
         {
             List<userLocation> rows = new List<userLocation>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2855,7 +2855,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2906,7 +2906,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2929,7 +2929,7 @@ namespace FarApi.Controllers
         {
             List<landmeasurement> rows = new List<landmeasurement>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2952,7 +2952,7 @@ namespace FarApi.Controllers
         {
             List<roads> rows = new List<roads>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2975,7 +2975,7 @@ namespace FarApi.Controllers
         {
             List<sudLand> rows = new List<sudLand>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3006,7 +3006,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3064,7 +3064,7 @@ namespace FarApi.Controllers
         {
             List<faDetail> rows = new List<faDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3087,7 +3087,7 @@ namespace FarApi.Controllers
         {
             List<faDetail> rows = new List<faDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3110,7 +3110,7 @@ namespace FarApi.Controllers
         {
             List<transactions> rows = new List<transactions>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3140,7 +3140,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
                 Console.Write(obj.RevaluationAmount);
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3319,7 +3319,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3380,7 +3380,7 @@ namespace FarApi.Controllers
         {
             List<sudLand> rows = new List<sudLand>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3416,7 +3416,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3560,7 +3560,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
