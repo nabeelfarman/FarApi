@@ -24,15 +24,15 @@ namespace FarApi.Controllers
         // live server
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
+        dbConfig db = new dbConfig();
 
-
-        /***** Save Asset *****/
+        /***** crud(Create Read Update Delete ) Purchase *****/
         [Route("api/crudPurchase")]
         [HttpPost]
         [EnableCors("CorePolicy")]
@@ -47,7 +47,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -58,6 +58,7 @@ namespace FarApi.Controllers
                     parameters.Add("@ProjectID", obj.projectID);
                     parameters.Add("@IPcRef", obj.iPcRef);
                     parameters.Add("@PurchaseDate", obj.purchaseDate);
+                    parameters.Add("@TotalAmount", obj.totalAmount);
                     parameters.Add("@Description", obj.description);
                     parameters.Add("@MemoNo", obj.memoNo);
                     parameters.Add("@MemoDate", obj.memoDate);
@@ -65,7 +66,7 @@ namespace FarApi.Controllers
                     parameters.Add("@MemoEDoc", obj.memoEDoc);
                     parameters.Add("@MemoEDocExtension", obj.memoEDocExtension);
                     parameters.Add("@Supplier", obj.supplier);
-                    parameters.Add("@SuppluerInvNo", obj.suppluerInvNo);
+                    parameters.Add("@SuppluerInvNo", obj.supplierInvNo);
                     parameters.Add("@SupplierInVDate", obj.supplierInVDate);
                     parameters.Add("@SupplierInvEDoc", obj.supplierInvEDoc);
                     parameters.Add("@SupplierEDocExtension", obj.supplierEDocExtension);
@@ -154,6 +155,66 @@ namespace FarApi.Controllers
             }
         }
 
+
+
+        /***** crud(Create Read Update Delete) Purchase Asset *****/
+        [Route("api/crudPurchaseAsset")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult crudPurchaseAsset([FromBody] purchaseAssetList obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(db.dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@SubLocID", obj.subLocID);
+                    parameters.Add("@OfficeTypeID", obj.officeTypeID);
+                    parameters.Add("@AssetCatID", obj.assetCatID);
+                    parameters.Add("@AssetNo", obj.assetNo);
+                    parameters.Add("@OfficeSecID", obj.officeSecID);
+                    parameters.Add("@PostID", obj.postID);
+                    parameters.Add("@AssetLocation", obj.assetLocation);
+                    parameters.Add("@AssetDescription", obj.assetDescription);
+                    parameters.Add("@VehicleID", obj.vehicleID);
+                    parameters.Add("@ProjectID", obj.projectID);
+                    parameters.Add("@costAmount", obj.costAmount);
+                    parameters.Add("@PurchaseID", obj.purchaseID);
+                    parameters.Add("@PurchaseDate", obj.purchaseDate);
+                    parameters.Add("@IPCRef", obj.iPCRef);
+                    parameters.Add("@SpType", obj.spType);
+                    parameters.Add("@Userid", obj.userid);
+                    parameters.Add("@AssetID", obj.assetID);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_Purchases", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+
+                    response = Ok(new { msg = sqlResponse });
+
+                    return response;
+
+                }
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
     }
