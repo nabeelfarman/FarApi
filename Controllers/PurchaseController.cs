@@ -32,6 +32,44 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
+        [Route("api/getPurchase")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<purchaseList> getPurchase()
+        {
+            List<purchaseList> rows = new List<purchaseList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<purchaseList>("select * from View_Purchases order by purchaseID desc").ToList();
+
+            }
+
+            return rows;
+        }
+
+        [Route("api/getPurchaseAsset")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<purchaseAssetList> getPurchaseAsset()
+        {
+            List<purchaseAssetList> rows = new List<purchaseAssetList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<purchaseAssetList>("select * from View_PurchaseAssetDetail order by assetID desc").ToList();
+
+            }
+
+            return rows;
+        }
+
         /***** crud(Create Read Update Delete ) Purchase *****/
         [Route("api/crudPurchase")]
         [HttpPost]
