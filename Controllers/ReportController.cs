@@ -14,48 +14,44 @@ using Newtonsoft.Json;
 
 namespace FarApi.Controllers
 {
-    public class GeneralController : ControllerBase
+
+    public class ReportController : ControllerBase
     {
-        /**/
         /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // live server
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        // static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
-        dbConfig db = new dbConfig();
-
         /***** Getting assets detail *****/
         [Route("api/getAssetDetailBooks")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<RegionsList> getRegions(int userId)
+        public IEnumerable<assetDetail> getAssetDetailBooks(long UserId, long SubLocID, long OfficeTypeID)
         {
-            List<RegionsList> rows = new List<RegionsList>();
+            List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-                if (userId == 0)
+
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
                 {
-                    rows = con.Query<RegionsList>("select mainLocID, mainLocationDescription from MainLocations").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 5 order by AssetID desc ").ToList();
                 }
                 else
                 {
-                    rows = con.Query<RegionsList>("select mainLocID, mainLocationDescription from MainLocations").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 5 order by AssetID desc ").ToList();
                 }
+            }
 
-
-<<<<<<< HEAD
-=======
             return rows;
         }
 
@@ -67,7 +63,7 @@ namespace FarApi.Controllers
         {
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -80,64 +76,81 @@ namespace FarApi.Controllers
                 {
                     rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 1 order by AssetID desc ").ToList();
                 }
->>>>>>> 7ab02ca3bf52f19578f6793a23ea5a86ab052c89
             }
+
             return rows;
         }
 
-        [Route("api/getLocations")]
+        /********** Vehicle Register Report ***********/
+        [Route("api/getAssetDetailVehicles")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<LocationsList> getLocations()
+        public IEnumerable<assetDetail> getAssetDetailVehicles(long UserId, long SubLocID, long OfficeTypeID)
         {
-            List<LocationsList> rows = new List<LocationsList>();
+            List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription from SubLocations").ToList();
-
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 9 order by AssetID desc ").ToList();
+                }
             }
+
             return rows;
         }
 
-        [Route("api/getOfficeTypes")]
+        /********** General Register Report ***********/
+        [Route("api/getAssetDetailGeneral")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<OfficeTypeList> getOfficeTypes()
+        public IEnumerable<assetDetail> getAssetDetailGeneral(long UserId, long SubLocID, long OfficeTypeID)
         {
-            List<OfficeTypeList> rows = new List<OfficeTypeList>();
+            List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<OfficeTypeList>("select officeTypeID, officeTypeDescription from OfficeTypes").ToList();
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 ) order by AssetID desc ").ToList();
+                }
+            }
 
-<<<<<<< HEAD
-=======
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            return rows;
+        }
+
+        /***** Getting Sub Locations *****/
+        [Route("api/getLocationCheckList")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+
+        public IEnumerable<subLocationCheckList> getLocationCheckList(int subLocID, int officeTypeID)
+        {
+            List<subLocationCheckList> rows = new List<subLocationCheckList>();
+
+            using (IDbConnection con = new SqlConnection(dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
                 rows = con.Query<subLocationCheckList>("select * from View_SubLocationsCheckList where subLocID = " + subLocID + " and officeTypeID = " + officeTypeID + "").ToList();
->>>>>>> 7ab02ca3bf52f19578f6793a23ea5a86ab052c89
             }
             return rows;
         }
-    }
-}
 
-<<<<<<< HEAD
-public class RegionsList
-{
-    public long mainLocID { get; set; }
-    public string mainLocationDescription { get; set; }
-}
-=======
         [Route("api/updatechecklist")]
         [HttpPost]
         [EnableCors("CorePolicy")]
@@ -152,7 +165,7 @@ public class RegionsList
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(db.dbCon))
+                using (IDbConnection con = new SqlConnection(dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -206,17 +219,14 @@ public class RegionsList
                 response = Ok(new { msg = sqlResponse });
 
                 return response;
->>>>>>> 7ab02ca3bf52f19578f6793a23ea5a86ab052c89
 
-public class LocationsList
-{
-    public long mainLocID { get; set; }
-    public long subLocID { get; set; }
-    public string subLocationDescription { get; set; }
-}
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
-public class OfficeTypeList
-{
-    public long officeTypeID { get; set; }
-    public string officeTypeDescription { get; set; }
+    }
 }
