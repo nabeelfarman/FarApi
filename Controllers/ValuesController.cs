@@ -524,7 +524,7 @@ namespace FarApi.Controllers
                             mail.From = new MailAddress("noreply@mysite.com");
                             mail.To.Add(obj.Email);
                             mail.Subject = "New Registration for Fixed Asset Register Module";
-                            mail.Body = "Login Name: " + obj.Email + " Default password 1234 \n url:  http://95.217.206.195:2008/";
+                            mail.Body = "Login Name: " + obj.Email + " Default password 1234 \n url:  http://58.27.164.137:7000/";
                             mail.IsBodyHtml = true;
 
                             //* for setting smtp mail name and port
