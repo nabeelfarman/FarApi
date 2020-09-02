@@ -28,5 +28,6 @@ public class purchaseList
     public string officeDescription { get; set; }
     public string projectShortName { get; set; }
     public string iPCRefDescription { get; set; }
+    public string modeofAcq { get; set; }
 
 }

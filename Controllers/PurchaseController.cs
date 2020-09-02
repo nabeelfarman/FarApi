@@ -108,6 +108,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SupplierInVDate", obj.supplierInVDate);
                     parameters.Add("@SupplierInvEDoc", obj.supplierInvEDoc);
                     parameters.Add("@SupplierEDocExtension", obj.supplierEDocExtension);
+                    parameters.Add("@ModeofAcq", obj.modeofAcq);
                     parameters.Add("@SpType", obj.spType);
                     parameters.Add("@Userid", obj.userid);
                     parameters.Add("@PurchaseID", obj.purchaseID);
