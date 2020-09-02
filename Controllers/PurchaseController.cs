@@ -118,11 +118,12 @@ namespace FarApi.Controllers
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
 
+                    int SeqId = 0;
 
                     //first image 
                     if (obj.memoImgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
-                        int SeqId = parameters.Get<int>("@PID");
+                        SeqId = parameters.Get<int>("@PID");
 
                         String path = obj.memoEDoc; //Path
 
@@ -152,7 +153,7 @@ namespace FarApi.Controllers
                     //2nd image 
                     if (obj.supplierImgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
-                        int SeqId = parameters.Get<int>("@PID");
+                        SeqId = parameters.Get<int>("@PID");
 
                         String path = obj.supplierInvEDoc; //Path
 
@@ -179,9 +180,10 @@ namespace FarApi.Controllers
                         System.IO.File.WriteAllBytes(imgPath, imageBytes);
                     }
 
+                    response = Ok(new { msg = sqlResponse, purID = SeqId });
+
                 }
 
-                response = Ok(new { msg = sqlResponse });
 
                 return response;
 
