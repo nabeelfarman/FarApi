@@ -32,6 +32,44 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
+        [Route("api/getPurchase")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<purchaseList> getPurchase()
+        {
+            List<purchaseList> rows = new List<purchaseList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<purchaseList>("select * from View_Purchases order by purchaseID desc").ToList();
+
+            }
+
+            return rows;
+        }
+
+        [Route("api/getPurchaseAsset")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<purchaseAssetList> getPurchaseAsset()
+        {
+            List<purchaseAssetList> rows = new List<purchaseAssetList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<purchaseAssetList>("select * from View_PurchaseAssetDetail order by assetID desc").ToList();
+
+            }
+
+            return rows;
+        }
+
         /***** crud(Create Read Update Delete ) Purchase *****/
         [Route("api/crudPurchase")]
         [HttpPost]
@@ -70,6 +108,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SupplierInVDate", obj.supplierInVDate);
                     parameters.Add("@SupplierInvEDoc", obj.supplierInvEDoc);
                     parameters.Add("@SupplierEDocExtension", obj.supplierEDocExtension);
+                    parameters.Add("@ModeofAcq", obj.modeofAcq);
                     parameters.Add("@SpType", obj.spType);
                     parameters.Add("@Userid", obj.userid);
                     parameters.Add("@PurchaseID", obj.purchaseID);
@@ -80,11 +119,12 @@ namespace FarApi.Controllers
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
 
+                    int SeqId = 0;
 
                     //first image 
                     if (obj.memoImgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
-                        int SeqId = parameters.Get<int>("@PID");
+                        SeqId = parameters.Get<int>("@PID");
 
                         String path = obj.memoEDoc; //Path
 
@@ -114,7 +154,7 @@ namespace FarApi.Controllers
                     //2nd image 
                     if (obj.supplierImgFile != null && sqlResponse.ToUpper() == "SUCCESS")
                     {
-                        int SeqId = parameters.Get<int>("@PID");
+                        SeqId = parameters.Get<int>("@PID");
 
                         String path = obj.supplierInvEDoc; //Path
 
@@ -141,9 +181,10 @@ namespace FarApi.Controllers
                         System.IO.File.WriteAllBytes(imgPath, imageBytes);
                     }
 
+                    response = Ok(new { msg = sqlResponse, purID = SeqId });
+
                 }
 
-                response = Ok(new { msg = sqlResponse });
 
                 return response;
 
@@ -192,6 +233,20 @@ namespace FarApi.Controllers
                     parameters.Add("@PurchaseID", obj.purchaseID);
                     parameters.Add("@PurchaseDate", obj.purchaseDate);
                     parameters.Add("@IPCRef", obj.iPCRef);
+                    parameters.Add("@Make", obj.make);
+                    parameters.Add("@Model", obj.model);
+                    parameters.Add("@Size", obj.size);
+                    parameters.Add("@Generation", obj.generation);
+                    parameters.Add("@Processor", obj.processor);
+                    parameters.Add("@RAM", obj.ram);
+                    parameters.Add("@DriveType1", obj.driveType1);
+                    parameters.Add("@HD1", obj.HD1);
+                    parameters.Add("@DriveType2", obj.driveType2);
+                    parameters.Add("@HD2", obj.HD2);
+                    parameters.Add("@Author", obj.Author);
+                    parameters.Add("@Publisher", obj.publisher);
+                    parameters.Add("@Edition", obj.edition);
+                    parameters.Add("@Volume", obj.volume);
                     parameters.Add("@SpType", obj.spType);
                     parameters.Add("@Userid", obj.userid);
                     parameters.Add("@AssetID", obj.assetID);

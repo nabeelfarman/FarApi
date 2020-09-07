@@ -22,4 +22,12 @@ public class purchaseList
     public string spType { get; set; }
     public int userid { get; set; }
     public int purchaseID { get; set; }
+
+    public string subLocationDescription { get; set; }
+    public string officeTypeDescription { get; set; }
+    public string officeDescription { get; set; }
+    public string projectShortName { get; set; }
+    public string iPCRefDescription { get; set; }
+    public string modeofAcq { get; set; }
+
 }
