@@ -23,32 +23,66 @@ namespace FarApi.Controllers
 
         // live server
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
         // Production Database
         // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FARProd;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
+        dbConfig db = new dbConfig();
+
         /***** Getting assets detail *****/
-        [Route("api/getAssetDetailBooks")]
+        [Route("api/getMoveableAssetDetailRpt")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailBooks(long UserId, long SubLocID, long OfficeTypeID)
+        public IEnumerable<assetDetail> getMoveableAssetDetailBooks(long UserId, long mainLocID, long subLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID, string type)
         {
+            // where clause for the query
+            string whereClause = "";
+
+            if (mainLocID != 0)
+            {
+                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+            }
+            else if (officeTypeID != 0)
+            {
+                whereClause = " officeTypeID= " + officeTypeID + " and subLocID = " + subLocID + " order by AssetID desc";
+            }
+            else if (projectID != 0)
+            {
+                whereClause = " projectID = " + projectID + " order by AssetID desc";
+            }
+            else if (accountsCatID != 0)
+            {
+                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+            }
+            else if (assetCatID != 0)
+            {
+                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+            }
+
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                if (type == "book")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 5 order by AssetID desc ").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 5 and " + whereClause).ToList();
                 }
-                else
+                else if (type == "computer")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 5 order by AssetID desc ").ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID = 1 and " + whereClause).ToList();
+                }
+                else if (type == "vehicle")
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 and " + whereClause).ToList();
+                }
+                else if (type == "general")
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  and " + whereClause).ToList();
                 }
             }
 
@@ -59,23 +93,43 @@ namespace FarApi.Controllers
         [Route("api/getAssetDetailComputers")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailComputers(long UserId, long SubLocID, long OfficeTypeID)
+        public IEnumerable<assetDetail> getAssetDetailComputers(long UserId, long mainLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID)
         {
+
+            // where clause for the query
+            string whereClause = "";
+
+            if (mainLocID != 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID != 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " officeTypeID= " + officeTypeID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID != 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " projectID = " + projectID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID != 0 && assetCatID == 0)
+            {
+                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID != 0)
+            {
+                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+            }
+
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 1 order by AssetID desc ").ToList();
-                }
-                else
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 1 order by AssetID desc ").ToList();
-                }
+
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID = 1 and " + whereClause).ToList();
+
             }
 
             return rows;
@@ -85,23 +139,43 @@ namespace FarApi.Controllers
         [Route("api/getAssetDetailVehicles")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailVehicles(long UserId, long SubLocID, long OfficeTypeID)
+        public IEnumerable<assetDetail> getAssetDetailVehicles(long UserId, long mainLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID)
         {
+
+            // where clause for the query
+            string whereClause = "";
+
+            if (mainLocID != 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID != 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " officeTypeID= " + officeTypeID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID != 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " projectID = " + projectID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID != 0 && assetCatID == 0)
+            {
+                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID != 0)
+            {
+                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+            }
+
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 order by AssetID desc ").ToList();
-                }
-                else
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and accountsCatID= 9 order by AssetID desc ").ToList();
-                }
+
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 and " + whereClause).ToList();
+
             }
 
             return rows;
@@ -111,23 +185,43 @@ namespace FarApi.Controllers
         [Route("api/getAssetDetailGeneral")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailGeneral(long UserId, long SubLocID, long OfficeTypeID)
+        public IEnumerable<assetDetail> getAssetDetailGeneral(long UserId, long mainLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID)
         {
+
+            // where clause for the query
+            string whereClause = "";
+
+            if (mainLocID != 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID != 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " officeTypeID= " + officeTypeID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID != 0 && accountsCatID == 0 && assetCatID == 0)
+            {
+                whereClause = " projectID = " + projectID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID != 0 && assetCatID == 0)
+            {
+                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+            }
+            else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID != 0)
+            {
+                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+            }
+
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  order by AssetID desc ").ToList();
-                }
-                else
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 ) order by AssetID desc ").ToList();
-                }
+
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  and " + whereClause).ToList();
+
             }
 
             return rows;
@@ -142,7 +236,7 @@ namespace FarApi.Controllers
         {
             List<subLocationCheckList> rows = new List<subLocationCheckList>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -165,7 +259,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();

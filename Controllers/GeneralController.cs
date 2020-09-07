@@ -44,8 +44,9 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
+<<<<<<< HEAD
 
-                rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + "").ToList();
+                rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + " order by mainLocationDescription").ToList();
 
             }
             return rows;
@@ -63,25 +64,56 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription from view_userLocationsH where userid = " + userId + "").ToList();
+                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription, officeTypeId, officeTypeDescription from view_userLocations where userid = " + userId + " order by subLocationDescription, officeTypeDescription").ToList();
 
+=======
+
+                rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + "").ToList();
+
+>>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
             }
             return rows;
         }
 
-        [Route("api/getOfficeTypes")]
+        [Route("api/getAccountCategories")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<OfficeTypeList> getOfficeTypes()
+<<<<<<< HEAD
+        public IEnumerable<AccountsCatList> getAccountCategories()
+=======
+        public IEnumerable<LocationsList> getLocations(int userId)
+>>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
         {
-            List<OfficeTypeList> rows = new List<OfficeTypeList>();
+            List<AccountsCatList> rows = new List<AccountsCatList>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<OfficeTypeList>("select officeTypeID, officeTypeDescription from OfficeTypes").ToList();
+<<<<<<< HEAD
+                rows = con.Query<AccountsCatList>("select distinct accountsCatID, accountsCatagory from view_AssetCatagories order by accountsCatagory").ToList();
+=======
+                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription from view_userLocationsH where userid = " + userId + "").ToList();
+>>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
+
+            }
+            return rows;
+        }
+
+        [Route("api/getAssetCategories")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<AssetCatList> getAssetCategories()
+        {
+            List<AssetCatList> rows = new List<AssetCatList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<AssetCatList>("select accountsCatID, assetCatID, assetCatDescription from view_AssetCatagories order by assetCatDescription").ToList();
 
             }
             return rows;
@@ -100,10 +132,25 @@ public class LocationsList
     public long mainLocID { get; set; }
     public long subLocID { get; set; }
     public string subLocationDescription { get; set; }
+    public long officeTypeId { get; set; }
+    public string officeTypeDescription { get; set; }
 }
 
 public class OfficeTypeList
 {
     public long officeTypeID { get; set; }
     public string officeTypeDescription { get; set; }
+}
+
+public class AccountsCatList
+{
+    public int accountsCatID { get; set; }
+    public string accountsCatagory { get; set; }
+}
+
+public class AssetCatList
+{
+    public long accountsCatID { get; set; }
+    public long assetCatID { get; set; }
+    public string assetCatDescription { get; set; }
 }

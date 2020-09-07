@@ -10,4 +10,5 @@
     public int OfficeTypeID { get; set; }
     public int Isactivated { get; set; }
     public int IsCompleted { get; set; }
+    public long mainLocId { get; set; }
 }
