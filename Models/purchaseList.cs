@@ -9,7 +9,7 @@ public class purchaseList
     public string description { get; set; }
     public string memoNo { get; set; }
     public string memoDate { get; set; }
-    public long memoIssuedBy { get; set; }
+    public long? memoIssuedBy { get; set; }
     public string memoImgFile { get; set; }
     public string memoEDoc { get; set; }
     public string memoEDocExtension { get; set; }

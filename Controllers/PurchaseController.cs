@@ -54,7 +54,7 @@ namespace FarApi.Controllers
         [Route("api/getPurchaseAsset")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<purchaseAssetList> getPurchaseAsset()
+        public IEnumerable<purchaseAssetList> getPurchaseAsset(int purchaseID)
         {
             List<purchaseAssetList> rows = new List<purchaseAssetList>();
 
@@ -63,7 +63,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<purchaseAssetList>("select * from View_PurchaseAssetDetail order by assetID desc").ToList();
+                rows = con.Query<purchaseAssetList>("select * from View_PurchaseAssetDetail where PurchaseID=" + purchaseID + " order by assetID desc").ToList();
 
             }
 
@@ -120,12 +120,12 @@ namespace FarApi.Controllers
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
 
                     int SeqId = 0;
-
-                    //first image 
-                    if (obj.memoImgFile != null && sqlResponse.ToUpper() == "SUCCESS")
-                    {
+                    if (sqlResponse.ToUpper() == "SUCCESS")
                         SeqId = parameters.Get<int>("@PID");
 
+                    //first image 
+                    if (obj.memoImgFile != null && SeqId != 0)
+                    {
                         String path = obj.memoEDoc; //Path
 
                         //Check if directory exist
@@ -253,7 +253,7 @@ namespace FarApi.Controllers
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
                     parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
-                    rowAffected = con.Execute("dbo.Sp_Purchases", parameters, commandType: CommandType.StoredProcedure);
+                    rowAffected = con.Execute("dbo.Sp_PurchaseAddAssets", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
 
