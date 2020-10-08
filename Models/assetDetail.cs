@@ -67,4 +67,5 @@
     public string publisher { get; set; }
     public string volume { get; set; }
     public string edition { get; set; }
+    public string pics { get; set; }
 }

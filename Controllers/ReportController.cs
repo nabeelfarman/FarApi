@@ -70,11 +70,11 @@ namespace FarApi.Controllers
 
                 if (type == "book")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 5 and " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5 AND " + whereClause).ToList();
                 }
                 else if (type == "computer")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID = 1 and " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1 AND " + whereClause).ToList();
                 }
                 else if (type == "vehicle")
                 {
