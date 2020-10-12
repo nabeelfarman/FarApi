@@ -17,7 +17,7 @@ namespace FarApi.Controllers
     public class GeneralController : ControllerBase
     {
         /**/
-        /*** DB Connection ***/
+        /** DB Connection **/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
@@ -32,7 +32,7 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
-        /***** Getting assets detail *****/
+        /**** Getting assets detail ****/
         [Route("api/getRegions")]
         [HttpGet]
         [EnableCors("CorePolicy")]
