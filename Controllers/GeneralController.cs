@@ -44,7 +44,6 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
-<<<<<<< HEAD
 
                 rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + " order by mainLocationDescription").ToList();
 
@@ -66,11 +65,6 @@ namespace FarApi.Controllers
 
                 rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription, officeTypeId, officeTypeDescription from view_userLocations where userid = " + userId + " order by subLocationDescription, officeTypeDescription").ToList();
 
-=======
-
-                rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + "").ToList();
-
->>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
             }
             return rows;
         }
@@ -78,11 +72,8 @@ namespace FarApi.Controllers
         [Route("api/getAccountCategories")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-<<<<<<< HEAD
+
         public IEnumerable<AccountsCatList> getAccountCategories()
-=======
-        public IEnumerable<LocationsList> getLocations(int userId)
->>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
         {
             List<AccountsCatList> rows = new List<AccountsCatList>();
 
@@ -91,12 +82,8 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-<<<<<<< HEAD
-                rows = con.Query<AccountsCatList>("select distinct accountsCatID, accountsCatagory from view_AssetCatagories order by accountsCatagory").ToList();
-=======
-                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription from view_userLocationsH where userid = " + userId + "").ToList();
->>>>>>> 8e461de5fd469ec3ebeea3364ccf78d9c1bf659b
 
+                rows = con.Query<AccountsCatList>("select distinct accountsCatID, accountsCatagory from view_AssetCatagories order by accountsCatagory").ToList();
             }
             return rows;
         }
