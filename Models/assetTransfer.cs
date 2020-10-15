@@ -23,6 +23,9 @@
     public string ProjectShortName { get; set; }
     public string ProjectName { get; set; }
 
+    public int TSubLocID { get; set; }
+    public int TOfficeSecID { get; set; }
+    public int TOfficeTypeID { get; set; }
     public int RSubLocID { get; set; }
     public int ROfficeSecID { get; set; }
     public int OfficeTypeID { get; set; }

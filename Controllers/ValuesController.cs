@@ -18,12 +18,32 @@ namespace FarApi.Controllers
     {
 
         /*** DB Connection ***/
+        // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
-        static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+        // live server
+        // static string dbCon = "Server=tcp:58.27.164.136,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+
+
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+
         // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
 
 
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+
+        // static string dbCon = "Server=tcp:125.1.1.244,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+        // static string dbCon = "Server=tcp:10.1.1.1,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=far;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
+
+
+
+        dbConfig db = new dbConfig();
 
 
         [Route("api/changepw")]
@@ -40,7 +60,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -60,6 +80,39 @@ namespace FarApi.Controllers
                 }
 
                 response = Ok(new { msg = sqlResponse });
+
+                if (obj.SPType == "PASSWORD")
+                {
+                    if (obj.UserName != null)
+                    {
+                        //* for setting email information details.
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress("noreply@mysite.com");
+                            mail.To.Add(obj.UserName);
+                            mail.Subject = "New Paasword for Fixed Asset Register Module";
+                            mail.Body = "Password: " + obj.HashPassword;
+                            mail.IsBodyHtml = true;
+
+                            //* for setting smtp mail name and port
+                            using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                            {
+
+                                //* for setting sender credentials(email and password) using smtp
+                                smtp.Credentials = new System.Net.NetworkCredential("logixsolutionz@gmail.com",
+                                                                                    "logixsolutionz@123");
+                                smtp.EnableSsl = true;
+                                smtp.Send(mail);
+                            }
+                        }
+                        sqlResponse = "Mail Sent!";
+
+                    }
+                    else
+                    {
+                        sqlResponse = "Sorry! Your Email doesn't Exists.";
+                    }
+                }
 
                 return response;
 
@@ -87,7 +140,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -166,7 +219,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -212,7 +265,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -260,7 +313,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -273,6 +326,7 @@ namespace FarApi.Controllers
                     parameters.Add("@OfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@UserId", obj.UserId);
                     parameters.Add("@SPType", obj.SPType);                      //'INSERT', 'UPDATE, 'DELETE'
+                    parameters.Add("@FinYear", obj.finYear);                      //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_SubLocations", parameters, commandType: CommandType.StoredProcedure);
@@ -310,7 +364,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -360,7 +414,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -408,7 +462,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -449,7 +503,7 @@ namespace FarApi.Controllers
                             mail.From = new MailAddress("noreply@mysite.com");
                             mail.To.Add(obj.Email);
                             mail.Subject = "New Registration for Fixed Asset Register Module";
-                            mail.Body = "Login Name: " + obj.Email + " Default password 1234 \n url:  http://95.217.206.195:2008/";
+                            mail.Body = "Login Name: " + obj.Email + " Default password 1234 \n url:  http://58.27.164.137:7000/";
                             mail.IsBodyHtml = true;
 
                             //* for setting smtp mail name and port
@@ -495,7 +549,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -526,7 +580,7 @@ namespace FarApi.Controllers
         {
             List<ofcType> rows = new List<ofcType>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -550,7 +604,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -580,7 +634,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -605,7 +659,7 @@ namespace FarApi.Controllers
         {
             List<assetCategory> rows = new List<assetCategory>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -619,7 +673,6 @@ namespace FarApi.Controllers
                     rows = con.Query<assetCategory>("select * from View_AssetCatagories Where IsActivated = " + IsActivated + " order by AssetCatID desc ").ToList();
 
                 }
-
             }
 
             return rows;
@@ -637,7 +690,7 @@ namespace FarApi.Controllers
         {
             List<custody> rows = new List<custody>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -667,7 +720,7 @@ namespace FarApi.Controllers
         {
             List<project> rows = new List<project>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -686,9 +739,6 @@ namespace FarApi.Controllers
             return rows;
         }
 
-
-
-
         /***** Getting Main Locations *****/
         [Route("api/getmainLoc")]
         [HttpGet]
@@ -697,7 +747,7 @@ namespace FarApi.Controllers
         {
             List<location> rows = new List<location>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -719,7 +769,7 @@ namespace FarApi.Controllers
         {
             List<monthlyTags> rows = new List<monthlyTags>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -740,7 +790,7 @@ namespace FarApi.Controllers
         {
             List<condition> rows = new List<condition>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -764,12 +814,12 @@ namespace FarApi.Controllers
         {
             List<vehicle> rows = new List<vehicle>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<vehicle>("select * from View_Vehicles ").ToList();
+                rows = con.Query<vehicle>("select * from View_Vehicles").ToList();
             }
 
             return rows;
@@ -786,7 +836,7 @@ namespace FarApi.Controllers
             List<assetLocClass> rows = new List<assetLocClass>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -807,7 +857,7 @@ namespace FarApi.Controllers
         {
             List<moveAssetListTag> rows = new List<moveAssetListTag>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -828,7 +878,7 @@ namespace FarApi.Controllers
         {
             List<vehicleMake> rows = new List<vehicleMake>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -852,7 +902,7 @@ namespace FarApi.Controllers
         {
             List<vehicleModel> rows = new List<vehicleModel>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -876,7 +926,7 @@ namespace FarApi.Controllers
         {
             List<vehicleType> rows = new List<vehicleType>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -906,7 +956,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -917,16 +967,44 @@ namespace FarApi.Controllers
                     parameters.Add("@Model", obj.Model);
                     parameters.Add("@Type", obj.Type);
                     parameters.Add("@ChasisNum", obj.ChasisNum);
+                    parameters.Add("@AssetCatID", obj.assetCatID);
                     parameters.Add("@EngineNum", obj.EngineNum);
                     parameters.Add("@Remarks", obj.Remarks);
+                    parameters.Add("@DeployedWith", obj.deployedWith);
+                    parameters.Add("@EDoc", obj.eDoc);
+                    parameters.Add("@EDocExtension", obj.eDocExtension);
                     parameters.Add("@ID", obj.ID);
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 
                     rowAffected = con.Execute("dbo.Sp_Vehicles", parameters, commandType: CommandType.StoredProcedure);
 
                     sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.eDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "." + obj.eDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
                 }
 
                 response = Ok(new { msg = sqlResponse });
@@ -961,7 +1039,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -999,6 +1077,21 @@ namespace FarApi.Controllers
                     parameters.Add("@Updatedby", obj.Updatedby);
                     parameters.Add("@AssetID", obj.AssetID);
 
+                    parameters.Add("@Make", obj.make);
+                    parameters.Add("@Model", obj.model);
+                    parameters.Add("@Size", obj.size);
+                    parameters.Add("@Generation", obj.generation);
+                    parameters.Add("@Processor", obj.processor);
+                    parameters.Add("@RAM", obj.ram);
+                    parameters.Add("@DriveType1", obj.driveType1);
+                    parameters.Add("@HD1", obj.hd1);
+                    parameters.Add("@DriveType2", obj.driveType2);
+                    parameters.Add("@HD2", obj.hd2);
+                    parameters.Add("@author", obj.author);
+                    parameters.Add("@publisher", obj.publisher);
+                    parameters.Add("@volume", obj.volume);
+                    parameters.Add("@edition", obj.edition);
+
                     parameters.Add("@EDoc", obj.EDoc);
                     parameters.Add("@EDoc2", obj.EDoc2);
                     parameters.Add("@EDoc3", obj.EDoc3);
@@ -1006,6 +1099,7 @@ namespace FarApi.Controllers
                     parameters.Add("@QTY", obj.Qty);
                     parameters.Add("@isTransfer", obj.isTransfer);
                     parameters.Add("@TransferID", obj.TransferID);
+                    parameters.Add("@NewTransfer", obj.newTransfer);
 
                     parameters.Add("@Userid", obj.UserId);
                     parameters.Add("@SPType", obj.SpType);                 //'INSERT', 'UPDATE, 'DELETE'
@@ -1141,7 +1235,7 @@ namespace FarApi.Controllers
                 Int32 sqlResponse;
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1183,7 +1277,7 @@ namespace FarApi.Controllers
         {
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1213,25 +1307,66 @@ namespace FarApi.Controllers
             return rows;
         }
 
+        /***** get Asset Category Specification fields ***/
+        [Route("api/getAssetCategorySpecs")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCatSpecsList> getAssetCategorySpecs(long AssetCatID)
+        {
+            List<assetCatSpecsList> rows = new List<assetCatSpecsList>();
 
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
 
+                rows = con.Query<assetCatSpecsList>("select specID, assetCatID, specificationTitle, type, isDeleted, specificationNgModel, specDetailID, specificationListName from View_AssetCatagoriesSpecifications WHERE AssetCatID= " + AssetCatID + " order by specID ").ToList();
+            }
 
+            return rows;
+        }
 
+        /***** get Asset Category Specification fields Data ***/
+        [Route("api/getAssetCategorySpecsData")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCatSpecsDataList> getAssetCategorySpecsData(long assetCatID, int specID)
+        {
+            List<assetCatSpecsDataList> rows = new List<assetCatSpecsDataList>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                rows = con.Query<assetCatSpecsDataList>("select specID, assetCatID, makeTitle, makeID from View_AssetCatagoriesSpecificationDATA WHERE AssetCatID= " + assetCatID + " and specID = " + specID + " order by makeTitle ").ToList();
+            }
+
+            return rows;
+
+        }
 
         /***** Getting assets detail *****/
         [Route("api/getuserassetdetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getAssetDetailUserWise(long UserId)
+        public IEnumerable<assetDetail> getAssetDetailUserWise(long UserId, long SubLocID, long OfficeTypeID)
         {
             List<assetDetail> rows = new List<assetDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " order by AssetID desc ").ToList();
+                if (UserId != 0 && SubLocID == 0 && OfficeTypeID == 0)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " order by AssetID desc ").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND SubLocID= " + SubLocID + " AND OfficeTypeID= " + OfficeTypeID + " order by AssetID desc ").ToList();
+                }
             }
 
             return rows;
@@ -1249,7 +1384,7 @@ namespace FarApi.Controllers
         {
             List<tags> rows = new List<tags>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1274,7 +1409,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1299,7 +1434,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1324,7 +1459,7 @@ namespace FarApi.Controllers
         {
             List<int> rows = new List<int>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1350,7 +1485,7 @@ namespace FarApi.Controllers
         {
             List<tagsSummary> rows = new List<tagsSummary>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1375,7 +1510,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1400,7 +1535,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1425,7 +1560,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1450,7 +1585,7 @@ namespace FarApi.Controllers
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1475,7 +1610,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetail> rows = new List<tagsDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1499,7 +1634,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1524,7 +1659,7 @@ namespace FarApi.Controllers
         {
             List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1532,7 +1667,7 @@ namespace FarApi.Controllers
 
                 if (LocationID == 0)
                 {
-                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + " ' ").ToList();
+                    rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE CreatedDate = '" + reqDate + "' ").ToList();
                 }
                 else
                 {
@@ -1556,7 +1691,7 @@ namespace FarApi.Controllers
         {
             List<assetCatDashboard> rows = new List<assetCatDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1581,7 +1716,7 @@ namespace FarApi.Controllers
         {
             List<assetCatLocDashboard> rows = new List<assetCatLocDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1606,7 +1741,7 @@ namespace FarApi.Controllers
         {
             List<assetCatDetailDashboard> rows = new List<assetCatDetailDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1631,7 +1766,7 @@ namespace FarApi.Controllers
         {
             List<assetCatLocDetailDashboard> rows = new List<assetCatLocDetailDashboard>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1664,7 +1799,7 @@ namespace FarApi.Controllers
         {
             List<oldTagData> rows = new List<oldTagData>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1695,7 +1830,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1771,7 +1906,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1821,7 +1956,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1871,7 +2006,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -1910,7 +2045,7 @@ namespace FarApi.Controllers
         {
             List<tagsMonthWise> rows = new List<tagsMonthWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1934,7 +2069,7 @@ namespace FarApi.Controllers
         {
             List<tagsSection> rows = new List<tagsSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1966,7 +2101,7 @@ namespace FarApi.Controllers
         {
             List<tagsLocation> rows = new List<tagsLocation>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -1998,7 +2133,7 @@ namespace FarApi.Controllers
         {
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2022,7 +2157,7 @@ namespace FarApi.Controllers
         {
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2048,7 +2183,7 @@ namespace FarApi.Controllers
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2105,7 +2240,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2178,7 +2313,7 @@ namespace FarApi.Controllers
             List<ipc> rows = new List<ipc>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2217,7 +2352,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2264,17 +2399,21 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
 
                     DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@TSubLocID", obj.TSubLocID);
+                    parameters.Add("@TOfficeTypeID", obj.TOfficeTypeID);
+                    parameters.Add("@TOfficeSecID", obj.TOfficeSecID);
                     parameters.Add("@TPostID", obj.TPostID);
-                    parameters.Add("@RPostID", obj.RPostID);
                     parameters.Add("@RSubLocID", obj.RSubLocID);
                     parameters.Add("@ROfficeTypeID", obj.OfficeTypeID);
                     parameters.Add("@ROfficeSecID", obj.ROfficeSecID);
+                    parameters.Add("@RPostID", obj.RPostID);
                     parameters.Add("@DateofTransfer", obj.DateofTransfer);
                     parameters.Add("@TransferType", obj.TransferType);
                     parameters.Add("@TransferDescription", obj.TransferDescription);
@@ -2358,7 +2497,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2391,7 +2530,52 @@ namespace FarApi.Controllers
         }
 
 
+        // transfers report
+        [Route("api/getAssetTransfersReport")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType, int projectID)
+        {
+            List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                // if sender report required
+                if (rptMode == 1)
+                {
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
+                }
+                else
+                {
+                    if (projectID == 0)
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+
+                    }
+                    else
+                    {
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+
+                    }
+                }
+
+            }
+
+            return rows;
+        }
 
 
 
@@ -2404,7 +2588,7 @@ namespace FarApi.Controllers
             List<accCatagory> rows = new List<accCatagory>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2429,7 +2613,7 @@ namespace FarApi.Controllers
             List<ipcrefdetail> rows = new List<ipcrefdetail>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2461,7 +2645,7 @@ namespace FarApi.Controllers
             List<assetTransfer> rows = new List<assetTransfer>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2487,7 +2671,7 @@ namespace FarApi.Controllers
             List<transferDetail> rows = new List<transferDetail>();
 
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2519,7 +2703,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2561,7 +2745,7 @@ namespace FarApi.Controllers
         {
             List<userRoles> rows = new List<userRoles>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2591,7 +2775,7 @@ namespace FarApi.Controllers
         {
             List<users> rows = new List<users>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2615,7 +2799,7 @@ namespace FarApi.Controllers
         {
             List<userLocation> rows = new List<userLocation>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2646,7 +2830,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2697,7 +2881,7 @@ namespace FarApi.Controllers
         {
             List<wingSection> rows = new List<wingSection>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2720,7 +2904,7 @@ namespace FarApi.Controllers
         {
             List<landmeasurement> rows = new List<landmeasurement>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2743,7 +2927,7 @@ namespace FarApi.Controllers
         {
             List<roads> rows = new List<roads>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2766,7 +2950,7 @@ namespace FarApi.Controllers
         {
             List<sudLand> rows = new List<sudLand>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2797,7 +2981,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -2855,7 +3039,7 @@ namespace FarApi.Controllers
         {
             List<faDetail> rows = new List<faDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2878,7 +3062,7 @@ namespace FarApi.Controllers
         {
             List<faDetail> rows = new List<faDetail>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2901,7 +3085,7 @@ namespace FarApi.Controllers
         {
             List<transactions> rows = new List<transactions>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -2931,7 +3115,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
                 Console.Write(obj.RevaluationAmount);
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3110,7 +3294,7 @@ namespace FarApi.Controllers
                 string sqlResponse = "";
                 IActionResult response = Unauthorized();
 
-                using (IDbConnection con = new SqlConnection(dbCon))
+                using (IDbConnection con = new SqlConnection(db.dbCon))
                 {
                     if (con.State == ConnectionState.Closed)
                         con.Open();
@@ -3125,7 +3309,7 @@ namespace FarApi.Controllers
                     parameters.Add("@AccountsCatID", obj.AccountsCatID);
                     parameters.Add("@OfficeSecID", obj.OfficeSecID);
                     parameters.Add("@ProjectID", obj.ProjectID);
-                    parameters.Add("@RoadId", obj.RoadId);                    
+                    parameters.Add("@RoadId", obj.RoadId);
                     parameters.Add("@PackageName", obj.PackageName);
                     parameters.Add("@BridgeName", obj.BridgeName);
                     parameters.Add("@BridgeLength", obj.BridgeLength);
@@ -3171,7 +3355,7 @@ namespace FarApi.Controllers
         {
             List<sudLand> rows = new List<sudLand>();
 
-            using (IDbConnection con = new SqlConnection(dbCon))
+            using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
@@ -3189,6 +3373,196 @@ namespace FarApi.Controllers
 
 
 
+
+
+
+        /***** Save Asset *****/
+        [Route("api/updateassetimgs")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult updateAssetImages([FromBody] asset obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(db.dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@Userid", obj.UserId);
+                    parameters.Add("@EDoc", obj.EDoc);
+                    parameters.Add("@EDoc2", obj.EDoc2);
+                    parameters.Add("@EDoc3", obj.EDoc3);
+                    parameters.Add("@EdocExtension", obj.EDocExtension);
+                    parameters.Add("@AssetID", obj.AssetID);
+
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+                    parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_UpdateAssetsPic", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+
+                    //first image 
+                    if (obj.imgFile != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.EDoc; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "_1." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+                    //2nd image 
+                    if (obj.imgFile2 != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.EDoc2; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "_2." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile2);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+                    //3rd image 
+                    if (obj.imgFile3 != null && sqlResponse.ToUpper() == "SUCCESS")
+                    {
+                        int SeqId = parameters.Get<int>("@SeqId");
+
+                        String path = obj.EDoc3; //Path
+
+                        //Check if directory exist
+                        if (!System.IO.Directory.Exists(path))
+                        {
+                            System.IO.Directory.CreateDirectory(path); //Create directory if it doesn't exist
+                        }
+
+                        string imageName = SeqId + "_3." + obj.EDocExtension;
+
+                        //set the image path
+                        string imgPath = Path.Combine(path, imageName);
+
+                        //delete image portion start
+                        if (System.IO.File.Exists(Path.Combine(path, imageName)))
+                        {
+                            System.IO.File.Delete(Path.Combine(path, imageName));
+                        }
+                        //delete image portion end
+
+                        byte[] imageBytes = Convert.FromBase64String(obj.imgFile3);
+
+                        System.IO.File.WriteAllBytes(imgPath, imageBytes);
+                    }
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
+
+            }
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
+
+
+
+
+
+        [Route("api/editIPC")]
+        [HttpPost]
+        [EnableCors("CorePolicy")]
+        public IActionResult editIPC([FromBody] asset obj)
+        {
+
+            //***** Try Block
+            try
+            {
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
+
+                using (IDbConnection con = new SqlConnection(db.dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+                    parameters.Add("@AssetID", obj.AssetID);
+                    parameters.Add("@IPCRef", obj.IPCRef);
+                    parameters.Add("@ProjectID", obj.ProjectID);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.SP_editIPCRefinAssets", parameters, commandType: CommandType.StoredProcedure);
+
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+
+                    response = Ok(new { msg = sqlResponse });
+
+                    return response;
+
+                }
+                //***** Exception Block
+            }
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
+        }
 
 
 

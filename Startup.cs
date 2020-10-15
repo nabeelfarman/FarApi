@@ -27,14 +27,16 @@ namespace FarApi
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddCors (o => o.AddPolicy ("CorePolicy", builder => {
-                builder.AllowAnyOrigin ()
-                    .AllowAnyMethod ()
-                    .AllowAnyHeader ();
+            services.AddCors(o => o.AddPolicy("CorePolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
             }));
 
-            services.Configure<MvcOptions> (options => {
-                options.Filters.Add (new CorsAuthorizationFilterFactory ("CorePolicy"));
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("CorePolicy"));
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

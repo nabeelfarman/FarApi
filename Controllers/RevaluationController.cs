@@ -14,10 +14,10 @@ using Newtonsoft.Json;
 
 namespace FarApi.Controllers
 {
-    public class GeneralController : ControllerBase
+    public class RevaluationController : ControllerBase
     {
-        /**/
-        /** DB Connection **/
+
+        /*** DB Connection ***/
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";        
         // static string dbCon = "Server=tcp:95.217.206.195,1433;Initial Catalog=FAR;Persist Security Info=False;User ID=sa;Password=telephone@123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;";
 
@@ -32,112 +32,109 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
-        /**** Getting assets detail ****/
-        [Route("api/getRegions")]
+        [Route("api/getSubLocationforRevaluator")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<RegionsList> getRegions(int userId)
+        public IEnumerable<subLocReval> getSubLocationforRevaluator()
         {
-            List<RegionsList> rows = new List<RegionsList>();
+            List<subLocReval> rows = new List<subLocReval>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<RegionsList>("select distinct mainLocID, mainLocationDescription from view_userRegions where userid = " + userId + " order by mainLocationDescription").ToList();
+                rows = con.Query<subLocReval>("select * from View_SubLocationforRevaluator").ToList();
 
             }
+
             return rows;
         }
 
-        [Route("api/getLocations")]
+        [Route("api/getAccountsCatagoriesforRevaluator")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<LocationsList> getLocations(int userId)
+        public IEnumerable<subLocReval> getAccountsCatagoriesforRevaluator()
         {
-            List<LocationsList> rows = new List<LocationsList>();
+            List<subLocReval> rows = new List<subLocReval>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<LocationsList>("select mainLocID, subLocID, subLocationDescription, officeTypeId, officeTypeDescription from view_userLocations where userid = " + userId + " order by subLocationDescription, officeTypeDescription").ToList();
+                rows = con.Query<subLocReval>("select * from View_accountscatagories").ToList();
 
             }
+
             return rows;
         }
 
-        [Route("api/getAccountCategories")]
+        [Route("api/getMoveableAssetListforRevaluation")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-
-        public IEnumerable<AccountsCatList> getAccountCategories()
+        public IEnumerable<movableAssetReval> getMoveableAssetListforRevaluation(int locID)
         {
-            List<AccountsCatList> rows = new List<AccountsCatList>();
+            List<movableAssetReval> rows = new List<movableAssetReval>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
+                rows = con.Query<movableAssetReval>("select * from View_MoveableAssetListforRevaluation where subLocID=" + locID).ToList();
 
-                rows = con.Query<AccountsCatList>("select distinct accountsCatID, accountsCatagory from view_AssetCatagories order by accountsCatagory").ToList();
             }
+
             return rows;
         }
 
-        [Route("api/getAssetCategories")]
-        [HttpGet]
+        [Route("api/sudAssetDetail")]
+        [HttpPost]
         [EnableCors("CorePolicy")]
-        public IEnumerable<AssetCatList> getAssetCategories()
+        public IActionResult sudAssetDetail([FromBody] movableAssetReval obj)
         {
-            List<AssetCatList> rows = new List<AssetCatList>();
-
-            using (IDbConnection con = new SqlConnection(db.dbCon))
+            //
+            //***** Try Block
+            try
             {
-                if (con.State == ConnectionState.Closed)
-                    con.Open();
+                //****** Declaration
+                int rowAffected = 0;
+                string sqlResponse = "";
+                IActionResult response = Unauthorized();
 
-                rows = con.Query<AssetCatList>("select accountsCatID, assetCatID, assetCatDescription from view_AssetCatagories order by assetCatDescription").ToList();
+                using (IDbConnection con = new SqlConnection(db.dbCon))
+                {
+                    if (con.State == ConnectionState.Closed)
+                        con.Open();
+
+                    DynamicParameters parameters = new DynamicParameters();
+
+                    parameters.Add("@AssetID", obj.assetID);
+                    parameters.Add("@RevaluationAmount", obj.revaluationAmount);
+                    parameters.Add("@Year", obj.year);
+                    parameters.Add("@FinYear", obj.finYear);
+                    parameters.Add("@UserID", obj.userID);
+                    parameters.Add("@SpType", obj.spType);
+                    parameters.Add("@AssetDetailid", obj.assetDetailID);
+                    parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
+
+                    rowAffected = con.Execute("dbo.Sp_AssetsDetail", parameters, commandType: CommandType.StoredProcedure);
+                    sqlResponse = parameters.Get<string>("@ResponseMessage");
+
+                }
+
+                response = Ok(new { msg = sqlResponse });
+
+                return response;
 
             }
-            return rows;
+            //***** Exception Block
+            catch (Exception ex)
+            {
+                return Ok(new { msg = ex.Message });
+            }
         }
+
     }
-}
-
-
-public class RegionsList
-{
-    public long mainLocID { get; set; }
-    public string mainLocationDescription { get; set; }
-}
-public class LocationsList
-{
-    public long mainLocID { get; set; }
-    public long subLocID { get; set; }
-    public string subLocationDescription { get; set; }
-    public long officeTypeId { get; set; }
-    public string officeTypeDescription { get; set; }
-}
-
-public class OfficeTypeList
-{
-    public long officeTypeID { get; set; }
-    public string officeTypeDescription { get; set; }
-}
-
-public class AccountsCatList
-{
-    public int accountsCatID { get; set; }
-    public string accountsCatagory { get; set; }
-}
-
-public class AssetCatList
-{
-    public long accountsCatID { get; set; }
-    public long assetCatID { get; set; }
-    public string assetCatDescription { get; set; }
 }

@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 
 namespace FarApi.Controllers
 {
-    public class RoadController : ControllerBase
+    public class BuildingController : ControllerBase
     {
 
         /*** DB Connection ***/
@@ -32,29 +32,29 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
-        [Route("api/getRoadDetail")]
+        [Route("api/getBuildingDetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<roadDetail> getRoadDetail()
+        public IEnumerable<buildDetail> getBuildingDetail()
         {
-            List<roadDetail> rows = new List<roadDetail>();
+            List<buildDetail> rows = new List<buildDetail>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<roadDetail>("select * from View_RFHLData1").ToList();
+                rows = con.Query<buildDetail>("select * from View_BuildingData1").ToList();
 
             }
 
             return rows;
         }
 
-        [Route("api/sudRoad")]
+        [Route("api/sudBuilding")]
         [HttpPost]
         [EnableCors("CorePolicy")]
-        public IActionResult sudRoad([FromBody] sudRoad obj)
+        public IActionResult sudBuilding([FromBody] sudRoad obj)
         {
             //
             //***** Try Block
@@ -75,9 +75,9 @@ namespace FarApi.Controllers
                     parameters.Add("@AccountsCatID", obj.AccountsCatID);
                     parameters.Add("@OfficeSecID", obj.OfficeSecID);
                     parameters.Add("@ProjectID", obj.ProjectID);
-                    parameters.Add("@RoadId", obj.RoadId);
-                    parameters.Add("@BuildingID", null);
-                    parameters.Add("@PackageName", obj.PackageName);
+                    parameters.Add("@RoadId", null);
+                    parameters.Add("@BuildingID", obj.BuildingID);
+                    parameters.Add("@PackageName", null);
                     parameters.Add("@DateofNationalization", obj.DateofNationalization);
                     parameters.Add("@PurposeofPurchase", null);
                     parameters.Add("@PresentUse", null);
