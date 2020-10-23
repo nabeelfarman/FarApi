@@ -322,5 +322,37 @@ namespace FarApi.Controllers
             }
         }
 
+        /*** Asset Category Summary Report ***/
+        [Route("api/getAssetCatSumRpt")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCatSum> getAssetCatSumRpt(int mainLocId, int subLocId)
+        {
+            List<assetCatSum> rows = new List<assetCatSum>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (mainLocId != 0)
+                {
+                    rows = con.Query<assetCatSum>("select * from view_AssetCategorySummaryRpt where MainLocId = " + mainLocId + " order by MainLocId, subLocId").ToList();
+                }
+                else if (subLocId != 0)
+                {
+                    rows = con.Query<assetCatSum>("select * from view_AssetCategorySummaryRpt where subLocId = " + subLocId + " order by MainLocId, subLocId").ToList();
+                }
+                else if (mainLocId != 0 && subLocId != 0)
+                {
+                    rows = con.Query<assetCatSum>("select * from view_AssetCategorySummaryRpt where MainLocId = " + mainLocId + " and subLocId = " + subLocId + " order by MainLocId, subLocId").ToList();
+                }
+                else
+                {
+                    rows = con.Query<assetCatSum>("select * from view_AssetCategorySummaryRpt order by MainLocId, subLocId").ToList();
+                }
+            }
+            return rows;
+        }
     }
 }

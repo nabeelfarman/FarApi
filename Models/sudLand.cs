@@ -24,10 +24,6 @@
     public long FixedAssetID { get; set; }
     public long UserId { get; set; }
     public string SpType { get; set; }
-
-
-
-
     public string AccountsCatagory { get; set; }
     public string RoadShortName { get; set; }
     public long RoadLength { get; set; }
@@ -52,7 +48,5 @@
     public double historicalCost { get; set; }
     public double Revaluation { get; set; }
     public double AdditioninRevaluation { get; set; }
-
-
     public string RoadName { get; set; }
 }

@@ -3344,10 +3344,6 @@ namespace FarApi.Controllers
             }
         }
 
-
-
-
-
         [Route("api/getbridgedata")]
         [HttpGet]
         [EnableCors("CorePolicy")]
