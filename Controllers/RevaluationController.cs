@@ -54,16 +54,16 @@ namespace FarApi.Controllers
         [Route("api/getAccountsCatagoriesforRevaluator")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocReval> getAccountsCatagoriesforRevaluator()
+        public IEnumerable<accCatRevaluation> getAccountsCatagoriesforRevaluator(int subLocID)
         {
-            List<subLocReval> rows = new List<subLocReval>();
+            List<accCatRevaluation> rows = new List<accCatRevaluation>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocReval>("select * from View_accountscatagories").ToList();
+                rows = con.Query<accCatRevaluation>("select * from View_AccountsCatagoriesforRevaluator where subLocID = " + subLocID + " order by accountsCatagory").ToList();
 
             }
 

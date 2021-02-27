@@ -1,0 +1,7 @@
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\appsettings.Development.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\appsettings.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\FarApi.dll
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\FarApi.runtimeconfig.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\Dapper.dll
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\publish\FarApi.deps.json

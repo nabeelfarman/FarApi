@@ -35,30 +35,53 @@ namespace FarApi.Controllers
         [Route("api/getMoveableAssetDetailRpt")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getMoveableAssetDetailBooks(long UserId, long mainLocID, long subLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID, string type)
+        public IEnumerable<assetDetail> getMoveableAssetDetailRpt(long UserId, long mainLocID, long subLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID, string type, string status)
         {
             // where clause for the query
             string whereClause = "";
 
+            // status where clause i.e. useable, serviceable etc.
+            if (status == "useable")
+            {
+                whereClause += " and IsUseable = 1";
+            }
+            else if (status == "serviceable")
+            {
+                whereClause += " and IsServiceAble = 1";
+            }
+            else if (status == "surplus")
+            {
+                whereClause += " and IsSurplus = 1";
+            }
+            else if (status == "condemned")
+            {
+                whereClause += " and IsCondemned = 1";
+            }
+            else if (status == "missing")
+            {
+                whereClause += " and IsMissing = 1";
+            }
+
+            // location filters
             if (mainLocID != 0)
             {
-                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+                whereClause += " and mainLocID = " + mainLocID;
             }
-            else if (officeTypeID != 0)
+            if (officeTypeID != 0)
             {
-                whereClause = " officeTypeID= " + officeTypeID + " and subLocID = " + subLocID + " order by AssetID desc";
+                whereClause += " and officeTypeID= " + officeTypeID + " and subLocID = " + subLocID;
             }
-            else if (projectID != 0)
+            if (projectID != 0)
             {
-                whereClause = " projectID = " + projectID + " order by AssetID desc";
+                whereClause += " and projectID = " + projectID;
             }
-            else if (accountsCatID != 0)
+            if (accountsCatID != 0)
             {
-                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+                whereClause += " and accountsCatID = " + accountsCatID;
             }
-            else if (assetCatID != 0)
+            if (assetCatID != 0)
             {
-                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+                whereClause += " and assetCatID = " + assetCatID;
             }
 
             List<assetDetail> rows = new List<assetDetail>();
@@ -70,19 +93,23 @@ namespace FarApi.Controllers
 
                 if (type == "book")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5 AND " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5  " + whereClause + " order by AssetID desc").ToList();
                 }
                 else if (type == "computer")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1 AND " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1  " + whereClause + " order by AssetID desc").ToList();
                 }
                 else if (type == "vehicle")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 and " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9  " + whereClause + " order by AssetID desc").ToList();
                 }
                 else if (type == "general")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  and " + whereClause).ToList();
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  " + whereClause + " order by AssetID desc").ToList();
+                }
+                else if (type == null)
+                {
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + "  " + whereClause + " order by AssetID desc").ToList();
                 }
             }
 
@@ -147,23 +174,23 @@ namespace FarApi.Controllers
 
             if (mainLocID != 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
             {
-                whereClause = " mainLocID = " + mainLocID + " order by AssetID desc";
+                whereClause = " and mainLocID = " + mainLocID + " order by AssetID desc";
             }
             else if (mainLocID == 0 && officeTypeID != 0 && projectID == 0 && accountsCatID == 0 && assetCatID == 0)
             {
-                whereClause = " officeTypeID= " + officeTypeID + " order by AssetID desc";
+                whereClause = " and officeTypeID= " + officeTypeID + " order by AssetID desc";
             }
             else if (mainLocID == 0 && officeTypeID == 0 && projectID != 0 && accountsCatID == 0 && assetCatID == 0)
             {
-                whereClause = " projectID = " + projectID + " order by AssetID desc";
+                whereClause = " and projectID = " + projectID + " order by AssetID desc";
             }
             else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID != 0 && assetCatID == 0)
             {
-                whereClause = " accountsCatID = " + accountsCatID + " order by AssetID desc";
+                whereClause = " and accountsCatID = " + accountsCatID + " order by AssetID desc";
             }
             else if (mainLocID == 0 && officeTypeID == 0 && projectID == 0 && accountsCatID == 0 && assetCatID != 0)
             {
-                whereClause = " assetCatID = " + assetCatID + " order by AssetID desc";
+                whereClause = " and assetCatID = " + assetCatID + " order by AssetID desc";
             }
 
             List<assetDetail> rows = new List<assetDetail>();
@@ -174,7 +201,7 @@ namespace FarApi.Controllers
                     con.Open();
 
 
-                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 and " + whereClause).ToList();
+                rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9 " + whereClause).ToList();
 
             }
 
@@ -350,6 +377,56 @@ namespace FarApi.Controllers
                 else
                 {
                     rows = con.Query<assetCatSum>("select * from view_AssetCategorySummaryRpt order by MainLocId, subLocId").ToList();
+                }
+            }
+            return rows;
+        }
+
+        /*** Form 47 without vehicle report Report ***/
+        [Route("api/getForm47WithoutVehicle")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<oe_ff_com_egi_47> getForm47WithoutVehicle(long mainLocId, int accountCatID)
+        {
+            List<oe_ff_com_egi_47> rows = new List<oe_ff_com_egi_47>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (mainLocId != 0)
+                {
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where MainLocId = " + mainLocId + " and accountsCatID = " + accountCatID + " order by MainLocId").ToList();
+                }
+                else
+                {
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where accountsCatID = " + accountCatID + " order by MainLocId, subLocId").ToList();
+                }
+            }
+            return rows;
+        }
+
+        /*** Form 47 vehicle report Report ***/
+        [Route("api/getForm47Vehicle")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<vehicle_47> getForm47Vehicle(long mainLocId)
+        {
+            List<vehicle_47> rows = new List<vehicle_47>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (mainLocId != 0)
+                {
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " order by MainLocId").ToList();
+                }
+                else
+                {
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 order by MainLocId, subLocId").ToList();
                 }
             }
             return rows;

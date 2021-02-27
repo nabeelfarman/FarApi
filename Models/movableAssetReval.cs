@@ -69,5 +69,6 @@ public class movableAssetReval
     public int? userID { get; set; }
     public string spType { get; set; }
     public string assetDetailID { get; set; }
+    public bool editMode { get; set; }
 
 }

@@ -40,3 +40,20 @@ D:\Flutter App\FarApi\obj\Release\netcoreapp2.2\FarApi.AssemblyInfo.cs
 D:\Flutter App\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 D:\Flutter App\FarApi\obj\Release\netcoreapp2.2\FarApi.dll
 D:\Flutter App\FarApi\obj\Release\netcoreapp2.2\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\appsettings.Development.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\appsettings.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\FarApi.deps.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.dev.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\FarApi.dll
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Release\netcoreapp2.2\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.csprojAssemblyReference.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.AssemblyInfo.cs
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.csproj.CoreCompileInputs.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorAssemblyInfo.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorAssemblyInfo.cs
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.dll
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Release\netcoreapp2.2\FarApi.genruntimeconfig.cache

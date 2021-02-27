@@ -54,17 +54,20 @@ I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Debug\netcoreapp2.2\FarApi.Asse
 I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Debug\netcoreapp2.2\FarApi.dll
 I:\VU Projects\ERP_APIs\FA_API_Github\FarApi\obj\Debug\netcoreapp2.2\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\appsettings.Development.json
+G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\appsettings.json
 G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\FarApi.deps.json
 G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.json
 G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\FarApi.runtimeconfig.dev.json
 G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\FarApi.dll
 G:\Logix\Fixed Asset Module\Web Services\FarApi\bin\Debug\netcoreapp2.2\FarApi.pdb
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.csprojAssemblyReference.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfo.cs
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.csproj.CoreCompileInputs.cache
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cache
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorAssemblyInfo.cs
-G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfoInputs.cache
-G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.AssemblyInfo.cs
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.RazorTargetAssemblyInfo.cache
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.dll
 G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.pdb
+G:\Logix\Fixed Asset Module\Web Services\FarApi\obj\Debug\netcoreapp2.2\FarApi.genruntimeconfig.cache
