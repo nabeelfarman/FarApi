@@ -68,4 +68,9 @@
     public string volume { get; set; }
     public string edition { get; set; }
     public string pics { get; set; }
+    public string voucherno { get; set; }
+    public string memoNo { get; set; }
+    public string memoDate { get; set; }
+    public string supplier { get; set; }
+    public string supplierInvNo { get; set; }
 }

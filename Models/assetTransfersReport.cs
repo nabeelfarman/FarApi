@@ -16,4 +16,5 @@ public class assetTransfersReport
     public int projectID { get; set; }
     public string projectName { get; set; }
     public int iPCRef { get; set; }
+    public string transferType { get; set; }
 }

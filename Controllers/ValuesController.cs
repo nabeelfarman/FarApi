@@ -538,9 +538,6 @@ namespace FarApi.Controllers
         }
 
 
-
-
-
         /***** Getting Sub Locations *****/
         [Route("api/getsubloc")]
         [HttpGet]
@@ -1481,7 +1478,7 @@ namespace FarApi.Controllers
         [Route("api/gettagssummary")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsSummary> getDashboardTagsSummary()
+        public IEnumerable<tagsSummary> getDashboardTagsSummary(int userID)
         {
             List<tagsSummary> rows = new List<tagsSummary>();
 
@@ -1490,7 +1487,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsSummary>("select * from View_LocationsSummaryTagsDASHBOARD").ToList();
+                rows = con.Query<tagsSummary>("select * from View_LocationsSummaryTagsDASHBOARD_UserLocationWise where UserID = "+ userID +";").ToList();
 
             }
 
@@ -1506,7 +1503,7 @@ namespace FarApi.Controllers
         [Route("api/getlocdetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getAllLocationsDetail()
+        public IEnumerable<subLocationsDetail> getAllLocationsDetail(int userID)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -1515,7 +1512,13 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<subLocationsDetail>("dbo.sp_View_noofTags_LocationWise_DashBoard", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                // rows = con.Query<subLocationsDetail>("select * from VIEW_AllLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
 
             }
 
@@ -1531,7 +1534,7 @@ namespace FarApi.Controllers
         [Route("api/getcomplocdetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getCompLocDetail()
+        public IEnumerable<subLocationsDetail> getCompLocDetail(int userID)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -1539,8 +1542,13 @@ namespace FarApi.Controllers
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
 
-                rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
+                rows = con.Query<subLocationsDetail>("dbo.sp_View_NoofTags_DateWise_LocationWise_OffTypeWise_DASHBOARD", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                // rows = con.Query<subLocationsDetail>("select * from View_CompletedLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc").ToList();
 
             }
 
@@ -1556,7 +1564,7 @@ namespace FarApi.Controllers
         [Route("api/getincomplocdetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getInCompLocDetail()
+        public IEnumerable<subLocationsDetail> getInCompLocDetail(int userID)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -1565,7 +1573,12 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
+                // rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<subLocationsDetail>("dbo.sp_view_incompleteLocationsdetail", parameters, commandType: CommandType.StoredProcedure).ToList();
 
             }
 
@@ -1581,7 +1594,7 @@ namespace FarApi.Controllers
         [Route("api/gettagsdetaildb")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<subLocationsDetail> getTagsDetailBashboard()
+        public IEnumerable<subLocationsDetail> getTagsDetailBashboard(int userID)
         {
             List<subLocationsDetail> rows = new List<subLocationsDetail>();
 
@@ -1590,7 +1603,12 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
+                // rows = con.Query<subLocationsDetail>("select * from VIEW_NoofTags_LocationWise_DASHBOARD order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<subLocationsDetail>("dbo.sp_View_noofTags_LocationWise_DashBoard", parameters, commandType: CommandType.StoredProcedure).ToList();
 
             }
 
@@ -1606,16 +1624,27 @@ namespace FarApi.Controllers
         [Route("api/getalltagsdetaildatewise")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsDetail> getAllTagsDetailDateWise()
+        // public IEnumerable<tagsDetail> getAllTagsDetailDateWise(int userID)
+        public IEnumerable<tagsDetailDatewise> getAllTagsDetailDateWise(int userID)
         {
-            List<tagsDetail> rows = new List<tagsDetail>();
+            // List<tagsDetail> rows = new List<tagsDetail>();
+            List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetail>("select * from View_NoofTagsALL_DateWise_DASHBOARD order by createdDate desc").ToList();
+                // rows = con.Query<tagsDetail>("select * from View_NoofTagsALL_DateWise_DASHBOARD order by createdDate desc").ToList();
+
+
+
+                // rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' order by createdDate desc ").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<tagsDetailDatewise>("dbo.sp_View_NoofTags_DateWise_LocationWise_OffTypeWise_DASHBOARD", parameters, commandType: CommandType.StoredProcedure).ToList();
 
             }
 
@@ -1630,7 +1659,7 @@ namespace FarApi.Controllers
         [Route("api/gettagsdetaillocwise")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsDetailDatewise> getTagsDetailDateWise(long LocationID)
+        public IEnumerable<tagsDetailDatewise> getTagsDetailDateWise(long LocationID, int userID)
         {
             List<tagsDetailDatewise> rows = new List<tagsDetailDatewise>();
 
@@ -1639,7 +1668,12 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' order by createdDate desc ").ToList();
+                // rows = con.Query<tagsDetailDatewise>("select * from View_NoofTags_DateWise_LocationWise_DASHBOARD WHERE SubLocID = '" + LocationID + " ' order by createdDate desc ").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<tagsDetailDatewise>("dbo.sp_View_NoofTags_DateWise_LocationWise_OffTypeWise_DASHBOARD", parameters, commandType: CommandType.StoredProcedure).ToList();
 
             }
 
@@ -1687,7 +1721,7 @@ namespace FarApi.Controllers
         [Route("api/getallassetdashboard")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetCatDashboard> getAllAssetDashboard()
+        public IEnumerable<assetCatDashboard> getAllAssetDashboard(int userID)
         {
             List<assetCatDashboard> rows = new List<assetCatDashboard>();
 
@@ -1696,7 +1730,15 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<assetCatDashboard>("select * from View_NoofTagsALL_AccountsCatagory_PIVOTDASHBOARD").ToList();
+                // rows = con.Query<assetCatDashboard>("select * from View_NoofTagsALL_AccountsCatagory_PIVOTDASHBOARD").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+
+                rows = con.Query<assetCatDashboard>("dbo.sp_View_NoofTagsALL_AccountsCatagory_PIVOTDASHBOARD", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                // rowAffected = con.Execute("dbo.sp_View_NoofTagsALL_AccountsCatagory_PIVOTDASHBOARD", parameters, commandType: CommandType.StoredProcedure);
+
+                // sqlResponse = parameters.Get<string>("@ResponseMessage");
 
             }
 
@@ -2129,7 +2171,7 @@ namespace FarApi.Controllers
         [Route("api/gettagsnumberwise")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<tagsUserWise> getTagsNumberWise()
+        public IEnumerable<tagsUserWise> getTagsNumberWise(int userID)
         {
             List<tagsUserWise> rows = new List<tagsUserWise>();
 
@@ -2138,7 +2180,7 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsbyLoginName order by Name").ToList();
+                rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsbyLoginName where Userid = " + userID + " order by Name").ToList();
 
             }
 
@@ -2188,14 +2230,20 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                if (UserId == 0)
-                {
-                    rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where CreatedDate = '" + reqDate + "' ").ToList();
-                }
-                else
-                {
-                    rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where UserId = " + UserId + " AND CreatedDate = '" + reqDate + "' ").ToList();
-                }
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@UserID", UserId);
+                parameters.Add("@CreatedDate", reqDate);
+
+                rows = con.Query<tagsUserWise>("dbo.sp_NoofTags_DateWise_LocationWise_Dashboard", parameters, commandType: CommandType.StoredProcedure).ToList();
+
+                // if (UserId == 0)
+                // {
+                //     rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where CreatedDate = '" + reqDate + "' ").ToList();
+                // }
+                // else
+                // {
+                //     rows = con.Query<tagsUserWise>("select * FROM View_NoofTagsByLoginName_DateWise_LocationWise Where UserId = " + UserId + " AND CreatedDate = '" + reqDate + "' ").ToList();
+                // }
 
 
             }
@@ -2534,7 +2582,7 @@ namespace FarApi.Controllers
         [Route("api/getAssetTransfersReport")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, string subLocation, string officeType, int projectID)
+        public IEnumerable<assetTransfersReport> getAssetTransfersReport(int rptMode, int subLocID, int officeTypeID, int projectID)
         {
             List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
@@ -2549,12 +2597,12 @@ namespace FarApi.Controllers
                 {
                     if (projectID == 0)
                     {
-                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where subLocID = '" + subLocID + "' and OfficeTYpeID = '" + officeTypeID + "' and projectID is Null order by assetID").ToList();
 
                     }
                     else
                     {
-                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where TSubLocationDescription = '" + subLocation + "' and TOfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where subLocID = '" + subLocID + "' and officeTypeID = '" + officeTypeID + "' and projectID = '" + projectID + "' order by assetID").ToList();
 
                     }
                 }
@@ -2562,12 +2610,12 @@ namespace FarApi.Controllers
                 {
                     if (projectID == 0)
                     {
-                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID is Null order by assetID").ToList();
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where subLocID = '" + subLocID + "' and officeTypeID = '" + officeTypeID + "' and projectID is Null order by assetID").ToList();
 
                     }
                     else
                     {
-                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where RSubLocationDescription = '" + subLocation + "' and ROfficeTypeDescription = '" + officeType + "' and projectID = '" + projectID + "' order by assetID").ToList();
+                        rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where subLocID = '" + subLocID + "' and ROfficeTypeDescription = '" + officeTypeID + "' and projectID = '" + projectID + "' order by assetID").ToList();
 
                     }
                 }
@@ -2577,7 +2625,28 @@ namespace FarApi.Controllers
             return rows;
         }
 
+        // external transfer report
+        [Route("api/getExternalAssetTransfersReport")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetTransfersReport> getExternalAssetTransfersReport(string fromDate, string toDate)
+        {
+            List<assetTransfersReport> rows = new List<assetTransfersReport>();
 
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                // if sender report required
+
+                rows = con.Query<assetTransfersReport>("select * FROM View_assetTransfersReport where transferType = 'External' AND DateofTransfer between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by assetID").ToList();
+
+            }
+
+            return rows;
+        }
 
 
         [Route("api/getaccountcat")]
@@ -2946,7 +3015,7 @@ namespace FarApi.Controllers
         [Route("api/getlanddata")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<sudLand> getLandData()
+        public IEnumerable<sudLand> getLandData(string fromDate, string toDate)
         {
             List<sudLand> rows = new List<sudLand>();
 
@@ -2955,7 +3024,11 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<sudLand>("select * from View_FHLData").ToList();
+                // if(fromDate == ''){
+                //     rows = con.Query<sudLand>("select * from View_FHLData").ToList();
+                // }else{
+                    rows = con.Query<sudLand>("select * from View_FHLData where DateofNationalization between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101)").ToList();
+                // }
 
             }
 
@@ -3562,6 +3635,129 @@ namespace FarApi.Controllers
 
 
 
+/************************** Asset To Be Created Functions *****************************/
+/*************************************************************************************/
+/************************************************************************************/
 
+
+        [Route("api/getPackage")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<package> getPackage()
+        {
+            List<package> rows = new List<package>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                    rows = con.Query<package>("select * from view_Assetstobecreated_PackageNames").ToList();
+            }
+
+            return rows;
+        }
+
+        [Route("api/getipcCreateAsset")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCreateIpc> getipcCreateAsset(int packageID)
+        {
+            List<assetCreateIpc> rows = new List<assetCreateIpc>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                    rows = con.Query<assetCreateIpc>("select * from view_Assetstobecreated_PaymentNos where Package_Id = " + packageID + ";").ToList();
+            }
+
+            return rows;
+        }
+
+        [Route("api/getassetcreate")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetCreate> getassetcreate(int packageID, int ipc)
+        {
+            List<assetCreate> rows = new List<assetCreate>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if(ipc == 0){
+                    rows = con.Query<assetCreate>("select * from view_Assetstobecreated_List where Package_Id = " + packageID + ";").ToList();
+                }else{
+                    rows = con.Query<assetCreate>("select * from view_Assetstobecreated_List where Package_Id = " + packageID + " AND Payment_No = " + ipc + ";").ToList();
+                }
+            }
+
+            return rows;
+        }
+
+
+
+        /***** Getting assets detail *****/
+        [Route("api/getsearchasset")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<assetDetail> getsearchasset(long locID, long ofcTypID, long secID, long custodyID, long assetCatID)
+        {
+            // where clause for the query
+            string whereClause = "";
+
+            // location filters
+            if (locID != 0)
+            {
+                whereClause += " subLocID = " + locID;
+            }
+            if (ofcTypID != 0)
+            {
+                if(whereClause == ""){
+                    whereClause += "officeTypeID= " + ofcTypID;
+                }else{
+                    whereClause += " and officeTypeID= " + ofcTypID;
+                }
+            }
+            if (secID != 0)
+            {
+                if(whereClause == ""){
+                    whereClause += " officeSecID = " + secID;
+                }else{
+                    whereClause += " and officeSecID = " + secID;
+                }
+            }
+            if (custodyID != 0)
+            {
+                if(whereClause == ""){
+                    whereClause += " postID = " + custodyID;
+                }else{
+                    whereClause += " and postID = " + custodyID;
+                }
+            }
+            if (assetCatID != 0)
+            {
+                if(whereClause == ""){
+                    whereClause += " assetCatID = " + assetCatID;
+                }else{
+                whereClause += " and assetCatID = " + assetCatID;
+                }
+            }
+
+            List<assetDetail> rows = new List<assetDetail>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE  " + whereClause + ";").ToList();
+            }
+
+            return rows;
+        }
     }
 }

@@ -42,7 +42,10 @@ public class purchaseAssetList
     public string otherIdentification { get; set; }
     public string assetCondition { get; set; }
     public string remarks { get; set; }
+    public string identification { get; set; }
+    public string serialNo { get; set; }
     public string tag { get; set; }
+    public int qty { get; set; }
     public int isDeleted { get; set; }
     public string isModified { get; set; }
 

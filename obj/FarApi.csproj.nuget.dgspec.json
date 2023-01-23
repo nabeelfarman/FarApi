@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj": {}
+    "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj": {}
   },
   "projects": {
-    "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj": {
+    "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj",
+        "projectUniqueName": "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj",
         "projectName": "FarApi",
-        "projectPath": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\FarApi.csproj",
-        "packagesPath": "C:\\Users\\hp\\.nuget\\packages\\",
-        "outputPath": "G:\\Logix\\Fixed Asset Module\\Web Services\\FarApi\\obj\\",
+        "projectPath": "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj",
+        "packagesPath": "C:\\Users\\PC1\\.nuget\\packages\\",
+        "outputPath": "D:\\Flutter App\\FAR\\FarApi\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\hp\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\PC1\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -79,7 +77,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

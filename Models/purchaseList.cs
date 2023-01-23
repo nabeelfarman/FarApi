@@ -3,7 +3,7 @@ public class purchaseList
     public long subLocID { get; set; }
     public long officeSecID { get; set; }
     public long projectID { get; set; }
-    public long iPcRef { get; set; }
+    public long? iPcRef { get; set; }
     public string purchaseDate { get; set; }
     public float totalAmount { get; set; }
     public string description { get; set; }
@@ -29,5 +29,6 @@ public class purchaseList
     public string projectShortName { get; set; }
     public string iPCRefDescription { get; set; }
     public string modeofAcq { get; set; }
+    public string voucherNo { get; set; }
 
 }

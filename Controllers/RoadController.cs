@@ -35,7 +35,7 @@ namespace FarApi.Controllers
         [Route("api/getRoadDetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<roadDetail> getRoadDetail()
+        public IEnumerable<roadDetail> getRoadDetail(string fromDate, string toDate)
         {
             List<roadDetail> rows = new List<roadDetail>();
 
@@ -44,7 +44,11 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<roadDetail>("select * from View_RFHLData1").ToList();
+                // if(fromDate == ''){
+                //     rows = con.Query<roadDetail>("select * from View_RFHLData1").ToList();
+                // }else{
+                    rows = con.Query<roadDetail>("select * from View_RFHLData1 where DateofNationalization between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101)").ToList();
+                // }
 
             }
 

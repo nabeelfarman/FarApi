@@ -1,0 +1,42 @@
+public class assetForWriteOff
+{
+    public long AssetID { get; set; }
+    public long SubLocID { get; set; }
+    public long AssetCatID { get; set; }
+    public long AccountsCatID { get; set; }
+    public string AssetLocation { get; set; }
+    public string AssetDescription { get; set; }
+    public string Tag { get; set; }
+    public long VehicleID { get; set; }
+    public long VehID { get; set; }
+    public string VehMake { get; set; }
+    public string VehType { get; set; }
+    public string VehModel { get; set; }
+    public string Make { get; set; }
+    public string Model { get; set; }
+    public string Size { get; set; }
+    public string Generation { get; set; }
+    public string Processor { get; set; }
+    public string RAM { get; set; }
+    public string DrieType1 { get; set; }
+    public string HD1 { get; set; }
+    public string DriveType2 { get; set; }
+    public string HD2 { get; set; }
+    public string Edition { get; set; }
+    public string Volumn { get; set; }
+    public string Publisher { get; set; }
+    public string Author { get; set; }
+    public string OtherIdentification { get; set; }
+    public string SerialNo { get; set; }
+    public long ProjectID { get; set; }
+    public string Edoc { get; set; }
+    public string Edoc2 { get; set; }
+    public string Edoc3 { get; set; }
+    public float IsWriteOff { get; set; }
+    public float IsDisposed { get; set; }
+    public float CostAmount { get; set; }
+    public float NetBookAmount { get; set; }
+    public long RevaluedAmount { get; set; }
+    public long AccDepreciationCost { get; set; }
+    public long AccDepreciationonRevalued { get; set; }
+}

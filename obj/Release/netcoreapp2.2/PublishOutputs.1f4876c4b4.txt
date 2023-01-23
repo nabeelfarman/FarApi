@@ -1,0 +1,7 @@
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\appsettings.Development.json
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\appsettings.json
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\FarApi.dll
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\FarApi.runtimeconfig.json
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\FarApi.pdb
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\Dapper.dll
+D:\Flutter App\FAR\FarApi\bin\Release\netcoreapp2.2\publish\FarApi.deps.json

@@ -35,7 +35,7 @@ namespace FarApi.Controllers
         [Route("api/getMoveableAssetDetailRpt")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<assetDetail> getMoveableAssetDetailRpt(long UserId, long mainLocID, long subLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID, string type, string status)
+        public IEnumerable<assetDetail> getMoveableAssetDetailRpt(long UserId, long mainLocID, long subLocID, long officeTypeID, long projectID, long accountsCatID, long assetCatID, string type, string status, string fromDate, string toDate)
         {
             // where clause for the query
             string whereClause = "";
@@ -93,23 +93,43 @@ namespace FarApi.Controllers
 
                 if (type == "book")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5  " + whereClause + " order by AssetID desc").ToList();
+                    if(fromDate == "null"){
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5  " + whereClause + " order by AssetID desc").ToList();
+                    }else{
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID= 5  " + whereClause + " AND RevaluationDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by AssetID desc").ToList();
+                    }
                 }
                 else if (type == "computer")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1  " + whereClause + " order by AssetID desc").ToList();
+                    if(fromDate == "null"){
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1  " + whereClause + " order by AssetID desc").ToList();
+                    }else{
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " AND accountsCatID = 1  " + whereClause + " AND RevaluationDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by AssetID desc").ToList();
+                    }
                 }
                 else if (type == "vehicle")
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9  " + whereClause + " order by AssetID desc").ToList();
+                    if(fromDate == "null"){
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9  " + whereClause + " order by AssetID desc").ToList();
+                    }else{
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and accountsCatID= 9  " + whereClause + " AND RevaluationDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by AssetID desc").ToList();
+                    }
                 }
                 else if (type == "general")
-                {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  " + whereClause + " order by AssetID desc").ToList();
+                {    
+                    if(fromDate == "null"){
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  " + whereClause + " order by AssetID desc").ToList();
+                    }else{
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + " and (accountsCatID = 2 or accountsCatID = 3 or accountsCatID = 4 or accountsCatID = 6 or accountsCatID = 7 or accountsCatID = 8 )  " + whereClause + " AND RevaluationDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by AssetID desc").ToList();
+                    }
                 }
                 else if (type == null)
                 {
-                    rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + "  " + whereClause + " order by AssetID desc").ToList();
+                    if(fromDate == "null"){
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + "  " + whereClause + " order by AssetID desc").ToList();
+                    }else{
+                        rows = con.Query<assetDetail>("select * from View_MoveableAssetsListforTagForm WHERE Userid= " + UserId + "  " + whereClause + " AND RevaluationDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by AssetID desc").ToList();
+                    }
                 }
             }
 
@@ -386,7 +406,7 @@ namespace FarApi.Controllers
         [Route("api/getForm47WithoutVehicle")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<oe_ff_com_egi_47> getForm47WithoutVehicle(long mainLocId, int accountCatID)
+        public IEnumerable<oe_ff_com_egi_47> getForm47WithoutVehicle(long mainLocId, int accountCatID, string fromDate, string toDate)
         {
             List<oe_ff_com_egi_47> rows = new List<oe_ff_com_egi_47>();
 
@@ -397,11 +417,11 @@ namespace FarApi.Controllers
 
                 if (mainLocId != 0)
                 {
-                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where MainLocId = " + mainLocId + " and accountsCatID = " + accountCatID + " order by MainLocId").ToList();
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where MainLocId = " + mainLocId + " and accountsCatID = " + accountCatID + " AND DateofPurchase between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
                 }
                 else
                 {
-                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where accountsCatID = " + accountCatID + " order by MainLocId, subLocId").ToList();
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where accountsCatID = " + accountCatID + " AND DateofPurchase between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
                 }
             }
             return rows;
@@ -411,7 +431,7 @@ namespace FarApi.Controllers
         [Route("api/getForm47Vehicle")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<vehicle_47> getForm47Vehicle(long mainLocId)
+        public IEnumerable<vehicle_47> getForm47Vehicle(long mainLocId, string fromDate, string toDate)
         {
             List<vehicle_47> rows = new List<vehicle_47>();
 
@@ -422,14 +442,47 @@ namespace FarApi.Controllers
 
                 if (mainLocId != 0)
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " order by MainLocId").ToList();
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
                 }
                 else
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 order by MainLocId, subLocId").ToList();
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
                 }
             }
             return rows;
         }
+		
+		/** Form 8B record of Disposed assets Report **/
+        [Route("api/getDisposedAssetRpt")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<disposalOfAssets8BRpt> getDisposedAssetRpt(long mainLocId, long subLocId, string fromDate, string toDate)
+        {
+            List<disposalOfAssets8BRpt> rows = new List<disposalOfAssets8BRpt>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                if (mainLocId != 0 && subLocId == 0)
+                {
+                    rows = con.Query<disposalOfAssets8BRpt>("select * from View_DisposalOfAssets_8B where MainLocId = " + mainLocId + " AND PurchaseDate CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
+                }
+                else if (mainLocId != 0 && subLocId != 0)
+                {
+                    rows = con.Query<disposalOfAssets8BRpt>("select * from View_DisposalOfAssets_8B where MainLocId = " + mainLocId + " and SubLocId = " + subLocId + " AND PurchaseDate CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
+                }
+                else
+                {
+                    rows = con.Query<disposalOfAssets8BRpt>("select * from View_DisposalOfAssets_8B where PurchaseDate CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
+                }
+            }
+            return rows;
+        }
+
+        
     }
+
+    
 }

@@ -35,7 +35,7 @@ namespace FarApi.Controllers
         [Route("api/getBuildingDetail")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<buildDetail> getBuildingDetail()
+        public IEnumerable<buildDetail> getBuildingDetail(string fromDate, string toDate)
         {
             List<buildDetail> rows = new List<buildDetail>();
 
@@ -44,7 +44,11 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<buildDetail>("select * from View_BuildingData1").ToList();
+                // if(fromDate == ''){
+                //     rows = con.Query<buildDetail>("select * from View_BuildingData1").ToList();
+                // }else{
+                    rows = con.Query<buildDetail>("select * from View_BuildingData1 where DateofNationalization between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101)").ToList();
+                // }
 
             }
 

@@ -35,16 +35,29 @@ namespace FarApi.Controllers
         [Route("api/getPurchase")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<purchaseList> getPurchase()
+        public IEnumerable<purchaseList> getPurchase(int userID)
         {
             List<purchaseList> rows = new List<purchaseList>();
+
+
+            //     if(fromDate == null){
+            //         rows = con.Query<purchaseList>("select * from View_Purchases order by purchaseID desc").ToList();
+            //     }else{
+            //         rows = con.Query<purchaseList>("select * from View_Purchases where PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by purchaseID desc").ToList();
+                
+
 
             using (IDbConnection con = new SqlConnection(db.dbCon))
             {
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-                rows = con.Query<purchaseList>("select * from View_Purchases order by purchaseID desc").ToList();
+                // rows = con.Query<subLocationsDetail>("select * from View_INCompleteLocationsDetail order by provinceName, MainLocationDescription, subLocationDescription desc ").ToList();
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@Userid", userID);
+                // parameters.Add("@SubLOcId", LocationID);
+
+                rows = con.Query<purchaseList>("dbo.sp_view_Purchases", parameters, commandType: CommandType.StoredProcedure).ToList();
 
             }
 
@@ -109,6 +122,7 @@ namespace FarApi.Controllers
                     parameters.Add("@SupplierInvEDoc", obj.supplierInvEDoc);
                     parameters.Add("@SupplierEDocExtension", obj.supplierEDocExtension);
                     parameters.Add("@ModeofAcq", obj.modeofAcq);
+                    parameters.Add("@VoucherNo", obj.voucherNo);
                     parameters.Add("@SpType", obj.spType);
                     parameters.Add("@Userid", obj.userid);
                     parameters.Add("@PurchaseID", obj.purchaseID);
@@ -247,8 +261,11 @@ namespace FarApi.Controllers
                     parameters.Add("@Publisher", obj.publisher);
                     parameters.Add("@Edition", obj.edition);
                     parameters.Add("@Volume", obj.volume);
+                    parameters.Add("@otherIdentification", obj.identification);
+                    parameters.Add("@SerialNo", obj.serialNo);
                     parameters.Add("@SpType", obj.spType);
                     parameters.Add("@Userid", obj.userid);
+                    parameters.Add("@Qty", obj.qty);
                     parameters.Add("@AssetID", obj.assetID);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
                     parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
