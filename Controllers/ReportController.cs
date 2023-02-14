@@ -442,11 +442,11 @@ namespace FarApi.Controllers
 
                 if (mainLocId != 0)
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " and PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
                 }
                 else
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
                 }
             }
             return rows;

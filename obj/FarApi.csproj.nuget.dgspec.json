@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj": {}
+    "E:\\projects\\nhaProjects\\FarApi\\FarApi.csproj": {}
   },
   "projects": {
-    "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj": {
+    "E:\\projects\\nhaProjects\\FarApi\\FarApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj",
+        "projectUniqueName": "E:\\projects\\nhaProjects\\FarApi\\FarApi.csproj",
         "projectName": "FarApi",
-        "projectPath": "D:\\Flutter App\\FAR\\FarApi\\FarApi.csproj",
-        "packagesPath": "C:\\Users\\PC1\\.nuget\\packages\\",
-        "outputPath": "D:\\Flutter App\\FAR\\FarApi\\obj\\",
+        "projectPath": "E:\\projects\\nhaProjects\\FarApi\\FarApi.csproj",
+        "packagesPath": "C:\\Users\\sys\\.nuget\\packages\\",
+        "outputPath": "E:\\projects\\nhaProjects\\FarApi\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\PC1\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\sys\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
