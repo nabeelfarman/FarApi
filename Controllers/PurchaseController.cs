@@ -267,6 +267,7 @@ namespace FarApi.Controllers
                     parameters.Add("@Userid", obj.userid);
                     parameters.Add("@Qty", obj.qty);
                     parameters.Add("@AssetID", obj.assetID);
+                    parameters.Add("@Remarks", obj.remarks);
                     parameters.Add("@ResponseMessage", dbType: DbType.String, direction: ParameterDirection.Output, size: 5215585);
                     parameters.Add("@SeqId", dbType: DbType.Int32, direction: ParameterDirection.Output, size: 5215585);
 

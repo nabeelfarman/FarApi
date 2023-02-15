@@ -73,4 +73,5 @@
     public string memoDate { get; set; }
     public string supplier { get; set; }
     public string supplierInvNo { get; set; }
+    public float revaluedAmount {get; set; }
 }

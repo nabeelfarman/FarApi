@@ -11,6 +11,10 @@ public class vehicle_47
     public string remarks { get; set; }
     public string assetCatDescription { get; set; }
     public string accountsCatagory { get; set; }
+    public string chasis { get; set; }
+    public string engine { get; set; }
+    public string model { get; set; }
+    public string type { get; set; }
     public long accountsCatID { get; set; }
     public long subLocID { get; set; }
     public long officeTypeID { get; set; }

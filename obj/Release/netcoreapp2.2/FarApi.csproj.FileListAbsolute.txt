@@ -76,14 +76,6 @@ D:\Flutter App\FAR\FarApi\obj\Release\netcoreapp2.2\FarApi.pdb
 D:\Flutter App\FAR\FarApi\obj\Release\netcoreapp2.2\FarApi.genruntimeconfig.cache
 E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\appsettings.Development.json
 E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\appsettings.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\angular.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\e2e\tsconfig.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\package-lock.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\package.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\tsconfig.app.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\tsconfig.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\tsconfig.spec.json
-E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FixedAssets\tslint.json
 E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FarApi.deps.json
 E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.json
 E:\projects\nhaProjects\FarApi\bin\Release\netcoreapp2.2\FarApi.runtimeconfig.dev.json
