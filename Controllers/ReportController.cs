@@ -406,7 +406,7 @@ namespace FarApi.Controllers
         [Route("api/getForm47WithoutVehicle")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<oe_ff_com_egi_47> getForm47WithoutVehicle(long mainLocId, int accountCatID, string fromDate, string toDate, string model, string engine, string chasis, string make)
+        public IEnumerable<oe_ff_com_egi_47> getForm47WithoutVehicle(long mainLocId, int accountCatID, string fromDate, string toDate)
         {
             List<oe_ff_com_egi_47> rows = new List<oe_ff_com_egi_47>();
 
@@ -415,101 +415,22 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
 
-
-            // where clause for the query
-            string whereClause = null;
-
-            if (mainLocId != 0 )
-            {
-                if(whereClause == null)
+                if (mainLocId != 0)
                 {
-                    whereClause = " where MainLocId = " + mainLocId + " order by MainLocId";
-                }else{
-                    whereClause += " and MainLocId = " + mainLocId + " order by MainLocId";
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where MainLocId = " + mainLocId + " and accountsCatID = " + accountCatID + " AND DateofPurchase between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
                 }
-            }
-            
-            if (accountCatID != 0)
-            {
-                if(whereClause == null)
+                else
                 {
-                    whereClause = " where accountsCatID= " + accountCatID + " order by MainLocId";
-                }else{
-                    whereClause += " and accountsCatID= " + accountCatID + " order by MainLocId";
+                    rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 where accountsCatID = " + accountCatID + " AND DateofPurchase between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
                 }
-            }
-            if (fromDate != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where DateofPurchase >= CONVERT(varchar(10), '" + fromDate + "', 101) order by MainLocId";
-                }else{
-                    whereClause += " and DateofPurchase >= CONVERT(varchar(10), '" + fromDate + "', 101) order by MainLocId";
-                }
-            }
-            if (toDate != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where DateofPurchase <= CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId";
-                }else{
-                    whereClause += " and DateofPurchase <= CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId";
-                }
-            }
-            if (make != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where assetCatID  LIKE '%" + make + "%' order by AssetID desc";
-                }else{
-                    whereClause += " and assetCatID  LIKE '%" + make + "%' order by AssetID desc";
-                }
-            }
-            if(engine != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where engine LIKE '%" + engine + "%' order by AssetID desc";
-                }else{
-                    whereClause += " and engine LIKE '%" + engine + "%' order by AssetID desc";
-                }
-            }
-            if(chasis != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where chasis LIKE '%" + chasis + "%' order by AssetID desc";
-                }else{
-                    whereClause += " and chasis LIKE '%" + chasis + "%' order by AssetID desc";
-                }
-            }
-            if(model != null)
-            {
-                if(whereClause == null)
-                {
-                    whereClause = " where Model LIKE '%" + model + "%' order by AssetID desc";
-                }else{
-                    whereClause += " and Model LIKE '%" + model + "%' order by AssetID desc";
-                }
-            }
-
-            if (whereClause == null)
-            {
-                rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 order by MainLocId").ToList();
-            }
-            else
-            {
-                rows = con.Query<oe_ff_com_egi_47>("select * from View_OE_FF_COM_EGI_47 " + whereClause + " order by MainLocId, subLocId").ToList();
-            }
             }
             return rows;
         }
-
         /*** Form 47 vehicle report Report ***/
         [Route("api/getForm47Vehicle")]
         [HttpGet]
         [EnableCors("CorePolicy")]
-        public IEnumerable<vehicle_47> getForm47Vehicle(long mainLocId, string fromDate, string toDate)
+        public IEnumerable<vehicle_47> getForm47Vehicle(long mainLocId, int accountCatID, string fromDate, string toDate, string model, string engine, string chasis, string make)
         {
             List<vehicle_47> rows = new List<vehicle_47>();
 
@@ -518,14 +439,90 @@ namespace FarApi.Controllers
                 if (con.State == ConnectionState.Closed)
                     con.Open();
                 
-                // WHERE officedescription LIKE '%accounts%'
-                if (mainLocId != 0)
+                // where clause for the query
+                string whereClause = null;
+
+                if (mainLocId != 0 )
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where MainLocId = " + mainLocId + " and PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId").ToList();
+                    if(whereClause == null)
+                    {
+                        whereClause = " where MainLocId = " + mainLocId + " order by MainLocId";
+                    }else{
+                        whereClause += " and MainLocId = " + mainLocId + " order by MainLocId";
+                    }
+                }
+                
+                if (accountCatID != 0)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where accountsCatID= " + accountCatID + " order by MainLocId";
+                    }else{
+                        whereClause += " and accountsCatID= " + accountCatID + " order by MainLocId";
+                    }
+                }
+                if (fromDate != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where DateofPurchase >= CONVERT(varchar(10), '" + fromDate + "', 101) order by MainLocId";
+                    }else{
+                        whereClause += " and DateofPurchase >= CONVERT(varchar(10), '" + fromDate + "', 101) order by MainLocId";
+                    }
+                }
+                if (toDate != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where DateofPurchase <= CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId";
+                    }else{
+                        whereClause += " and DateofPurchase <= CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId";
+                    }
+                }
+                if (make != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where assetCatID  LIKE '%" + make + "%' order by AssetID desc";
+                    }else{
+                        whereClause += " and assetCatID  LIKE '%" + make + "%' order by AssetID desc";
+                    }
+                }
+                if(engine != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where engine LIKE '%" + engine + "%' order by AssetID desc";
+                    }else{
+                        whereClause += " and engine LIKE '%" + engine + "%' order by AssetID desc";
+                    }
+                }
+                if(chasis != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where chasis LIKE '%" + chasis + "%' order by AssetID desc";
+                    }else{
+                        whereClause += " and chasis LIKE '%" + chasis + "%' order by AssetID desc";
+                    }
+                }
+                if(model != null)
+                {
+                    if(whereClause == null)
+                    {
+                        whereClause = " where Model LIKE '%" + model + "%' order by AssetID desc";
+                    }else{
+                        whereClause += " and Model LIKE '%" + model + "%' order by AssetID desc";
+                    }
+                }
+
+                if (whereClause == null)
+                {
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 order by MainLocId").ToList();
                 }
                 else
                 {
-                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 where PurchaseDate between CONVERT(varchar(10), '" + fromDate + "', 101) AND CONVERT(varchar(10), '" + toDate + "', 101) order by MainLocId, subLocId").ToList();
+                    rows = con.Query<vehicle_47>("select * from View_Vehicles_47 " + whereClause + " order by MainLocId, subLocId").ToList();
                 }
             }
             return rows;
