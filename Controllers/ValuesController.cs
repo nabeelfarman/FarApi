@@ -45,7 +45,6 @@ namespace FarApi.Controllers
 
         dbConfig db = new dbConfig();
 
-
         [Route("api/changepw")]
         [HttpPost]
         [EnableCors("CorePolicy")]
@@ -535,6 +534,29 @@ namespace FarApi.Controllers
             {
                 return Ok(new { msg = ex.Message });
             }
+        }
+
+        
+
+        /***** Getting Sub Locations *****/
+        [Route("api/getFinYear")]
+        [HttpGet]
+        [EnableCors("CorePolicy")]
+        public IEnumerable<finYear> getFinYear()
+        {
+            List<finYear> rows = new List<finYear>();
+
+            using (IDbConnection con = new SqlConnection(db.dbCon))
+            {
+                if (con.State == ConnectionState.Closed)
+                    con.Open();
+
+                    rows = con.Query<finYear>(@"SELECT distinct CONCAT(YEAR([PurchaseDate]), '-', YEAR([PurchaseDate]) + 1) AS financialYear
+                                                FROM assets where [purchaseDate] is not null order by financialYear asc;").ToList();
+
+            }
+
+            return rows;
         }
 
 
