@@ -31,11 +31,11 @@ namespace FarApi.Controllers
                     con.Open();
                 if (projectID == 0)
                 {
-                    rows = con.Query<DepreciationCharged>("select * from view_DepreciationCharged_ProjectWiseSummary_2000 where FinYear = " + finYear + " ").ToList();
+                    rows = con.Query<DepreciationCharged>("select * from view_DepreciationCharged_ProjectWiseSummary_2000 where FinYear = '" + finYear + "' ").ToList();
                 }
                 else
                 {
-                    rows = con.Query<DepreciationCharged>("select * from view_DepreciationCharged_ProjectWiseSummary_2000 where FinYear = " + finYear + " and ProjectId = " + projectID + " ").ToList();
+                    rows = con.Query<DepreciationCharged>("select * from view_DepreciationCharged_ProjectWiseSummary_2000 where FinYear = '" + finYear + "' and ProjectId = " + projectID + " ").ToList();
                 }
                 
 
@@ -58,7 +58,7 @@ namespace FarApi.Controllers
                     con.Open();
                 
                 
-                rows = con.Query<DepreciationChargedDetail>("select * from view_depreciationCharged_ProjectWisedetail_2001 where FinYear = " + finYear + " and ProjectId = " + projectID + " and AccountsCatId = " + AccountsCatId + " ").ToList();
+                rows = con.Query<DepreciationChargedDetail>("select * from view_depreciationCharged_ProjectWisedetail_2001 where FinYear = '" + finYear + "' and ProjectId = " + projectID + " and AccountsCatId = " + AccountsCatId + " ").ToList();
                 
                 
 
